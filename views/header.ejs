@@ -1,0 +1,38 @@
+<body>
+<!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+    <div class="container">
+        <a class="navbar-brand  mr-0" href="#" target="_blank">Alibazon</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse  navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto my-2">
+                <% categories.forEach(function (item, index) {
+                if (item===pressed) { %>
+                <a class="btn btn-sm btn-outline-secondary text-white rounded-circle mr-1 active" href="#" role="button" ><%=item%></a>
+                <% }
+                else {%>
+                <a class="btn btn-sm btn-outline-secondary text-white rounded-circle mr-1" href="/home/<%=item%>" role="button" ><%=item%></a>
+                <%}
+                });%>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- /navbar -->
+
+<!-- breadcrumbs-->
+<div class="container-fluid"  style="margin-top: 60px; padding: 0px;">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <% let path='/';
+            breadcrumbs.forEach(function (item, index) {
+                path.concat('/',item); %>
+            <li class="breadcrumb-item"><a href="<%=path%>"><%=item%></a></li>
+            <%  });%>
+            <li class="breadcrumb-item active" aria-current="page"><%=activeCategory%></li>
+        </ol>
+    </nav>
+</div>
+<!-- /breadcrumbs-->

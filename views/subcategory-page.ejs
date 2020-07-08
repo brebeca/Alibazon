@@ -1,0 +1,47 @@
+
+<div class="container">
+    <% subcategories.forEach(function (item, index) {
+        if(index%2===0&&index!==0){%>
+       </div><div class="row" >
+        <%}
+        else if(index%2===0&&index==0){%>
+        <div class="row" >
+            <%}%>
+        <div class="col-sm">
+            <h4><%=item.title%></h4>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <img src="/images/products/medium/<%= item.image %>" class="img-fluid" alt="Responsive image">
+                    </div>
+                    <div class="col-sm">
+                        <div class="container">
+                            <div class="row">
+                                <p><%= item.description %></p>
+                            </div>
+                            <div class="row">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            Price : $ <%= item.price %>
+                                        </div>
+                                        <div class="col-sm">
+                                            <a class="btn btn-primary text-white" href="/subcategory/<%= item.title %>/<%= item.id %>" role="button" >More details</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    <% });
+    if((subcategories.length-1)%2===0){%>
+        </div>
+    <%}%>
+</div>
+

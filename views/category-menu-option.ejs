@@ -1,0 +1,36 @@
+<!--title + description-->
+<div class="container">
+    <h1 class="text-center"><%=activeCategory%></h1>
+    <p>
+        <%=description%>
+    </p>
+</div>
+<!--/title-->
+
+<!--subcategories-->
+<% subcategories.forEach(function (item, index) { %>
+<div class="container">
+    <div class="row" style="border-top-style: solid;">
+        <div class="container">
+            <div class="row p-2">
+                <h3 class="text-center"><%=item.title%></h3>
+            </div>
+            <div class="row p-2">
+                <img src="/images/categories/womens-clothing-bottoms.jpg" class="img-fluid" alt="Responsive image">
+            </div>
+            <div class="row p-2">
+                <p>
+                    <%=item.description%>
+                </p>
+            </div>
+            <div class="row p-2">
+                <a class="btn btn-primary text-white rounded-circle" href="/subcategory/<%=item.title%>" role="button" >View products</a>
+            </div>
+            <div class="row p-3">
+                <span class="border-top-0 border-dark"></span>
+            </div>
+        </div>
+    </div>
+</div>
+<% }); %>
+<!--/subcategories-->
