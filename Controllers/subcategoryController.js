@@ -43,20 +43,8 @@ const subcat=[
         image:'70284588_100_0.jpg',
         price:100
     }
-]
+];
 
-
-/* GET users listing. */
-router.get('/:subcategory', function(req, res, next) {
-    try{
-        let active=req.params.subcategory;
-        res.render('index',{page:page, categories: cat, pressed:'', breadcrumbs:path, activeCategory:active, description:'description', subcategories:subcat});
-    }
-    catch (e) {
-        res.render('')
-    }
-
-});
 const product={
     title:'subcat2',
     description:'Lorem ipsum dolor sit amet,\n' +
@@ -69,12 +57,26 @@ const product={
     id:2,
     image:'70284588_100_0.jpg',
     price:100
-}
-router.get('/:subcategory/:id', function(req, res, next) {
+};
+
+
+
+exports.subcategoryProductsPage =  function(req, res, next) {
+    try{
+        let active=req.params.subcategory;
+        res.render('index',{page:page, categories: cat, pressed:'', breadcrumbs:path, activeCategory:active, description:'description', subcategories:subcat});
+    }
+    catch (e) {
+        res.render('')
+    }
+
+};
+
+exports.productDetailsPage= function(req, res, next) {
     let active=req.params.subcategory;
     path.push(req.params.subcategory);
     path.push(product.title);
     res.render('index', { page:'product-page', categories: cat, pressed:'', breadcrumbs:path, activeCategory:active, description:'description', subcategories:subcat, product:product});
-});
+};
 
-module.exports = router;
+//module.exports = router;

@@ -20,15 +20,13 @@ const subcat=[
     id:3
   }
 ]
-
-router.get('/', function(req, res, next) {
+exports.home = function(req, res) {
   let active="cat1";
   res.render('index',{page:page,categories: cat, pressed:"cat1", breadcrumbs:path, activeCategory:active, description:'description', subcategories:subcat});
-});
+};
 
-router.get('/home/:category', function(req, res, next) {
+exports.subcategory= function(req, res) {
   let active=req.params.category;
   res.render('index',{page:page,categories: cat, pressed:req.params.category, breadcrumbs:path, activeCategory:active, description:'description', subcategories:subcat});
-});
+};
 
-module.exports = router;
