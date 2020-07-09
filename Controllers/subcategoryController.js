@@ -1,8 +1,6 @@
-var express = require('express');
-var router = express.Router();
+
 const page='subcategory-page';
 const cat =["cat1","cat2","cat3"];
-const path=["home"];
 const subcat=[
     {
         title:'subcat1',
@@ -46,7 +44,7 @@ const subcat=[
 ];
 
 const product={
-    title:'subcat2',
+    title:'product title',
     description:'Lorem ipsum dolor sit amet,\n' +
         'maiores ornare ac fermentum,\n' +
         'imperdiet ut vivamus a, nam\n' +
@@ -62,21 +60,35 @@ const product={
 
 
 exports.subcategoryProductsPage =  function(req, res, next) {
+    //TO DO : add validation of the subcategory ( maybe another middleware )
+    const breadcrumbs=[
+        {
+            title:"home",
+            link :"/"
+        }
+    ];
+    let active=req.params.subcategory;
     try{
-        let active=req.params.subcategory;
-        res.render('index',{page:page, categories: cat, pressed:'', breadcrumbs:path, activeCategory:active, description:'description', subcategories:subcat});
+        res.render('index',{page:page, categories: cat, pressed:'', breadcrumbs:breadcrumbs, activeCategory:active, description:'description', subcategories:subcat});
     }
     catch (e) {
         res.render('')
     }
-
 };
 
 exports.productDetailsPage= function(req, res, next) {
-    let active=req.params.subcategory;
-    path.push(req.params.subcategory);
-    path.push(product.title);
-    res.render('index', { page:'product-page', categories: cat, pressed:'', breadcrumbs:path, activeCategory:active, description:'description', subcategories:subcat, product:product});
+    //TO DO : add validation of the subcategory + product id ( maybe another middleware )
+    const breadcrumbs=[
+        {
+            title:"home",
+            link :"/"
+        },
+        {
+            title:req.params.subcategory,
+            link:"/subcategory/"+req.params.subcategory
+        }
+        ];
+    let active=product.title;
+   // path.push(req.params.subcategory);
+    res.render('index', { page:'product-page', categories: cat, pressed:'', breadcrumbs:breadcrumbs, activeCategory:active, description:'description', subcategories:subcat, product:product});
 };
-
-//module.exports = router;

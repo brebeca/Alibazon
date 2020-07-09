@@ -22,11 +22,23 @@ const subcat=[
 ]
 exports.home = function(req, res) {
   let active="cat1";
-  res.render('index',{page:page,categories: cat, pressed:"cat1", breadcrumbs:path, activeCategory:active, description:'description', subcategories:subcat});
+  const breadcrumbs=[
+    {
+      title:"home",
+      link :"/"
+    }
+  ];
+  res.render('index',{page:page,categories: cat, pressed:"cat1", breadcrumbs:breadcrumbs, activeCategory:active, description:'description', subcategories:subcat});
 };
 
 exports.subcategory= function(req, res) {
   let active=req.params.category;
-  res.render('index',{page:page,categories: cat, pressed:req.params.category, breadcrumbs:path, activeCategory:active, description:'description', subcategories:subcat});
+  const breadcrumbs=[
+    {
+      title:"home",
+      link :"/"
+    }
+  ];
+  res.render('index',{page:page,categories: cat, pressed:req.params.category, breadcrumbs:breadcrumbs, activeCategory:active, description:'description', subcategories:subcat});
 };
 
