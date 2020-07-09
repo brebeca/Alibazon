@@ -1,0 +1,40 @@
+module.exports = {
+    breadcrumbsHome: (category) => {
+        return {
+            path: [
+                {
+                    title: 'home',
+                    link: '/'
+                }
+                ],
+            active:category
+        }
+    },
+    breadcrumbsSubcategoryProducts: (subcategory) => {
+        return {
+            path: [
+                {
+                    title: 'home',
+                    link: '/'
+                }
+            ],
+            active:subcategory
+        }
+    },
+    breadcrumbsProductDetails: (subcategory, productTitle) => {
+        return {
+            path: [
+                {
+                    title: 'home',
+                    link: '/'
+                },
+                {
+                    title:subcategory,
+                    link: '/subcategory/'+subcategory
+                }
+                ]
+            ,
+            active:productTitle
+        }
+    }
+}

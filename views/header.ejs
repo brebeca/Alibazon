@@ -27,10 +27,10 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <%
-            breadcrumbs.forEach(function (item, index) { %>
+            breadcrumbs.path.forEach(function (item, index) { %>
             <li class="breadcrumb-item"><a href="<%= item.link %>"><%= item.title%></a></li>
             <%  });%>
-            <li class="breadcrumb-item active" aria-current="page"><%=activeCategory%></li>
+            <li class="breadcrumb-item active" aria-current="page"><%=breadcrumbs.active%></li>
         </ol>
     </nav>
 </div>

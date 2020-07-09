@@ -1,8 +1,7 @@
 var express = require('express');
-var router = express.Router();
+const breadcrumb=require('../utils/breadcrumbs_functions');
 const page='category-menu-option';
 const cat =["cat1","cat2","cat3"];
-const path=["home"];
 const subcat=[
     {
       title:'subcat1',
@@ -20,25 +19,16 @@ const subcat=[
     id:3
   }
 ]
+
 exports.home = function(req, res) {
-  let active="cat1";
-  const breadcrumbs=[
-    {
-      title:"home",
-      link :"/"
-    }
-  ];
-  res.render('index',{page:page,categories: cat, pressed:"cat1", breadcrumbs:breadcrumbs, activeCategory:active, description:'description', subcategories:subcat});
+  const breadcrumbs=breadcrumb.breadcrumbsHome("cat1");
+  res.render('index',{page:page,categories: cat, pressed:"cat1", breadcrumbs:breadcrumbs,
+                       description:'description', subcategories:subcat});
 };
 
 exports.subcategory= function(req, res) {
-  let active=req.params.category;
-  const breadcrumbs=[
-    {
-      title:"home",
-      link :"/"
-    }
-  ];
-  res.render('index',{page:page,categories: cat, pressed:req.params.category, breadcrumbs:breadcrumbs, activeCategory:active, description:'description', subcategories:subcat});
+  const breadcrumbs=breadcrumb.breadcrumbsHome(req.params.category);
+  res.render('index',{page:page,categories: cat, pressed:req.params.category, breadcrumbs:breadcrumbs,
+                      description:'description', subcategories:subcat});
 };
 

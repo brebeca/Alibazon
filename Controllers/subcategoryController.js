@@ -1,4 +1,4 @@
-
+const breadcrumb=require('../utils/breadcrumbs_functions');
 const page='subcategory-page';
 const cat =["cat1","cat2","cat3"];
 const subcat=[
@@ -61,15 +61,9 @@ const product={
 
 exports.subcategoryProductsPage =  function(req, res, next) {
     //TO DO : add validation of the subcategory ( maybe another middleware )
-    const breadcrumbs=[
-        {
-            title:"home",
-            link :"/"
-        }
-    ];
-    let active=req.params.subcategory;
+    const breadcrumbs=breadcrumb.breadcrumbsSubcategoryProducts(req.params.subcategory);
     try{
-        res.render('index',{page:page, categories: cat, pressed:'', breadcrumbs:breadcrumbs, activeCategory:active, description:'description', subcategories:subcat});
+        res.render('index',{page:page, categories: cat, pressed:'', breadcrumbs:breadcrumbs, description:'description', subcategories:subcat});
     }
     catch (e) {
         res.render('')
@@ -78,17 +72,6 @@ exports.subcategoryProductsPage =  function(req, res, next) {
 
 exports.productDetailsPage= function(req, res, next) {
     //TO DO : add validation of the subcategory + product id ( maybe another middleware )
-    const breadcrumbs=[
-        {
-            title:"home",
-            link :"/"
-        },
-        {
-            title:req.params.subcategory,
-            link:"/subcategory/"+req.params.subcategory
-        }
-        ];
-    let active=product.title;
-   // path.push(req.params.subcategory);
-    res.render('index', { page:'product-page', categories: cat, pressed:'', breadcrumbs:breadcrumbs, activeCategory:active, description:'description', subcategories:subcat, product:product});
+    const breadcrumbs=breadcrumb.breadcrumbsProductDetails(req.params.subcategory, product.title);
+    res.render('index', { page:'product-page', categories: cat, pressed:'', breadcrumbs:breadcrumbs, description:'description', subcategories:subcat, product:product});
 };
