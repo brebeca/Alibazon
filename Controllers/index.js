@@ -1,34 +1,50 @@
-var express = require('express');
+
 const breadcrumb=require('../utils/breadcrumbs_functions');
+const category=require('../data/get-categories');
+const subcategory=require('../data/subcategories');
 const page='category-menu-option';
-const cat =["cat1","cat2","cat3"];
-const subcat=[
-    {
-      title:'subcat1',
-      description:'description1',
-      id:1
-    },
-  {
-    title:'subcat2',
-    description:'description2',
-    id:2
-  },
-  {
-    title:'subcat3',
-    description:'description1',
-    id:3
+const defaultCategory='womens-jewelry';
+
+
+exports.home = async function(req, res) {
+  try{
+    const breadcrumbs= breadcrumb.breadcrumbsHome();
+    let subcategories= await subcategory.getSubcategories(defaultCategory);
+    let allCategories= await category.getAllCategories();
+    let currentCategory=category.getCurrentCategory(allCategories,defaultCategory);
+    res.render('index',{
+      page:page,
+      categories: allCategories,
+      pressed: currentCategory,
+      breadcrumbs:breadcrumbs,
+      description:'description',
+      subcategories:subcategories
+    });
+  }catch (e) {
+    res.status(e.status || 500);
+    res.render('error2');
   }
-]
 
-exports.home = function(req, res) {
-  const breadcrumbs=breadcrumb.breadcrumbsHome("cat1");
-  res.render('index',{page:page,categories: cat, pressed:"cat1", breadcrumbs:breadcrumbs,
-                       description:'description', subcategories:subcat});
 };
 
-exports.subcategory= function(req, res) {
-  const breadcrumbs=breadcrumb.breadcrumbsHome(req.params.category);
-  res.render('index',{page:page,categories: cat, pressed:req.params.category, breadcrumbs:breadcrumbs,
-                      description:'description', subcategories:subcat});
-};
+exports.category= async function(req, res) {
+  try{
+    const breadcrumbs=breadcrumb.breadcrumbsHome(req.params.category);
+    let subcategories= await subcategory.getSubcategories(req.params.category);
+    let allCategories= await category.getAllCategories();
+    let currentCategory=category.getCurrentCategory(allCategories, req.params.category);
+    res.render('index',{
+      page:page,
+      categories:allCategories,
+      pressed:currentCategory,
+      breadcrumbs:breadcrumbs,
+      description:'description',
+      subcategories:subcategories
+    });
+    //res.send('ceva');
+  }catch (e) {
+    res.status(e.status || 500);
+    res.render('error2');
+  }
+  };
 

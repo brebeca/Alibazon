@@ -1,0 +1,67 @@
+const request   = require('request');
+
+exports.getProductsForSubcategory=  (subcategoryID) =>{
+    return new Promise((resolve, reject)=> {
+        request({
+                url: 'https://osf-digital-backend-academy.herokuapp.com/api/products/product_search?primary_category_id='+subcategoryID+'&secretKey=$2a$08$6Hk6nD18tXEy3n8Pmre6/u55BSnCpQ8PWRkx9uci7I49XeOPIjSfW',
+                method: 'GET'
+            },
+            function (error, response) {
+                if (error) {
+                    //TO DO
+                    reject({error:error});
+                } else {
+                    let products=JSON.parse(response.body);
+                    if(products.error!==undefined){
+                        reject({error:products.error});
+                    }
+                    else {
+                        //TO DO : check if response in empty array <=> no such parent category
+                        if (isIterable(products))
+                            products.forEach(function (item, index) {
+                                item.img_path = getMediumImg(item, index,'medium');
+                            });
+                        resolve(products);
+                    }
+                }
+            });
+    });
+
+}
+exports.getProductByID =  (ID) =>{
+    return new Promise((resolve, reject)=> {
+        request({
+                url: 'https://osf-digital-backend-academy.herokuapp.com/api/products/product_search?id='+ID+'&secretKey=$2a$08$6Hk6nD18tXEy3n8Pmre6/u55BSnCpQ8PWRkx9uci7I49XeOPIjSfW',
+                method: 'GET'
+            },
+            function (error, response) {
+                if (error) {
+                    //TO DO
+                    reject({error:error});
+                } else {
+                    let product=JSON.parse(response.body);
+                    if(product.error!==undefined){
+                        reject({error:product.error});
+                    }
+                    else {
+                        //TO DO : check if response in empty array <=> no such parent category
+                        product[0].img_path = getMediumImg(product[0], 0,'large');
+                       // console.log(product);
+                        resolve(product[0]);
+                    }
+                }
+            });
+    });
+}
+function getMediumImg(item , index, size){
+    return item.image_groups.filter(function (item2) {
+        return item2.view_type===size;
+    })[0].images[0].link;
+}
+function isIterable(obj) {
+    // checks for null and undefined
+    if (obj == null) {
+        return false;
+    }
+    return typeof obj[Symbol.iterator] === 'function';
+}

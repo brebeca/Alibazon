@@ -1,77 +1,52 @@
 const breadcrumb=require('../utils/breadcrumbs_functions');
+const category=require('../data/get-categories');
+const subcategory=require('../data/subcategories');
+const product=require('../data/products');
 const page='subcategory-page';
-const cat =["cat1","cat2","cat3"];
-const subcat=[
-    {
-        title:'subcat1',
-        description:'Lorem ipsum dolor sit amet,\n' +
-            'maiores ornare ac fermentum,\n' +
-            'imperdiet ut vivamus a, nam\n' +
-            'lectus at nunc. Quam euismod\n' +
-            'sem, semper ut potenti\n' +
-            'pellentesque quisque. In eget\n' +
-            'sapien sed, sit duis vestibulum\n',
-        id:1,
-        image:'70284588_100_0.jpg',
-        price:100
-    },
-    {
-        title:'subcat2',
-        description:'Lorem ipsum dolor sit amet,\n' +
-            'maiores ornare ac fermentum,\n' +
-            'imperdiet ut vivamus a, nam\n' +
-            'lectus at nunc. Quam euismod\n' +
-            'sem, semper ut potenti\n' +
-            'pellentesque quisque. In eget\n' +
-            'sapien sed, sit duis vestibulum\n',
-        id:2,
-        image:'70284588_100_0.jpg',
-        price:100
-    },
-    {
-        title:'subcat3',
-        description:'Lorem ipsum dolor sit amet,\n' +
-            'maiores ornare ac fermentum,\n' +
-            'imperdiet ut vivamus a, nam\n' +
-            'lectus at nunc. Quam euismod\n' +
-            'sem, semper ut potenti\n' +
-            'pellentesque quisque. In eget\n' +
-            'sapien sed, sit duis vestibulum\n',
-        id:3,
-        image:'70284588_100_0.jpg',
-        price:100
-    }
-];
 
-const product={
-    title:'product title',
-    description:'Lorem ipsum dolor sit amet,\n' +
-        'maiores ornare ac fermentum,\n' +
-        'imperdiet ut vivamus a, nam\n' +
-        'lectus at nunc. Quam euismod\n' +
-        'sem, semper ut potenti\n' +
-        'pellentesque quisque. In eget\n' +
-        'sapien sed, sit duis vestibulum\n',
-    id:2,
-    image:'70284588_100_0.jpg',
-    price:100
-};
-
-
-
-exports.subcategoryProductsPage =  function(req, res, next) {
+exports.subcategoryProductsPage =  async function(req, res, next) {
     //TO DO : add validation of the subcategory ( maybe another middleware )
-    const breadcrumbs=breadcrumb.breadcrumbsSubcategoryProducts(req.params.subcategory);
     try{
-        res.render('index',{page:page, categories: cat, pressed:'', breadcrumbs:breadcrumbs, description:'description', subcategories:subcat});
+        const breadcrumbs=breadcrumb.breadcrumbsSubcategoryProducts(req.params.subcategory);
+        let allCategories= await category.getAllCategories();
+        let currentCategory={};
+        currentCategory.id= await subcategory.getCurrentCategoryParent( req.params.subcategory);
+        let products= await product.getProductsForSubcategory(req.params.subcategory);
+
+        res.render('index',{
+            page:page,
+            categories: allCategories,
+            pressed: currentCategory,
+            breadcrumbs:breadcrumbs,
+            description:'description',
+            products:products
+        });
     }
     catch (e) {
-        res.render('')
+        res.status(e.status || 500);
+        res.render('error2');
     }
 };
 
-exports.productDetailsPage= function(req, res, next) {
+exports.productDetailsPage= async function(req, res, next) {
     //TO DO : add validation of the subcategory + product id ( maybe another middleware )
-    const breadcrumbs=breadcrumb.breadcrumbsProductDetails(req.params.subcategory, product.title);
-    res.render('index', { page:'product-page', categories: cat, pressed:'', breadcrumbs:breadcrumbs, description:'description', subcategories:subcat, product:product});
-};
+    try {
+        let allCategories= await category.getAllCategories();
+        let currentCategory={};
+        currentCategory.id= await subcategory.getCurrentCategoryParent( req.params.subcategory);
+        let selectedProduct= await product.getProductByID(req.params.id);
+        const breadcrumbs=breadcrumb.breadcrumbsProductDetails(req.params.subcategory, selectedProduct.name);
+        res.render('index', {
+            page:'product-page',
+            categories: allCategories,
+            pressed:currentCategory,
+            breadcrumbs:breadcrumbs,
+            description:'description',
+            product:selectedProduct
+        });
+    }catch (e) {
+        console.log(e);
+        res.status(e.status || 500);
+        res.render('error2');
+    }
+    };

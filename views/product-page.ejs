@@ -2,15 +2,15 @@
 <div class="container">
     <div class="row">
         <div class="col-sm">
-            <img src="/images/products/medium/<%= product.image %>" class="img-fluid" alt="Responsive image">
+            <img src="/images/<%= product.img_path %>" class="img-fluid" alt="Responsive image">
         </div>
         <div class="col-sm">
             <div class="container">
                 <div class="row">
-                    <h4><%= product.title%></h4>
+                    <h4><%= product.name %></h4>
                 </div>
                 <div class="row">
-                    <p><%= product.description %></p>
+                    <p><%= product.long_description %></p>
                 </div>
                 <div class="row">
                     <div class="container">

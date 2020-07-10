@@ -9,11 +9,11 @@
         <div class="collapse  navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ml-auto my-2">
                 <% categories.forEach(function (item, index) {
-                if (item===pressed) { %>
-                <a class="btn btn-sm btn-outline-secondary text-white rounded-circle mr-1 active" href="#" role="button" ><%=item%></a>
+                if (item.id===pressed.id) { %>
+                <a class="btn btn-sm btn-outline-secondary text-white rounded-circle mr-1 active" href="#" role="button" ><%=item.name%></a>
                 <% }
                 else {%>
-                <a class="btn btn-sm btn-outline-secondary text-white rounded-circle mr-1" href="/home/<%=item%>" role="button" ><%=item%></a>
+                <a class="btn btn-sm btn-outline-secondary text-white rounded-circle mr-1" href="/home/<%=item.id%>" role="button" ><%=item.name%></a>
                 <%}
                 });%>
             </div>

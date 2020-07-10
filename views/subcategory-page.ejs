@@ -1,6 +1,8 @@
 
 <div class="container">
-    <% subcategories.forEach(function (item, index) {
+    <% products.forEach(function (item, index) {
+        if(item.primary_category_id===undefined)
+             item.id=item.master.master_id;
         if(index%2===0&&index!==0){%>
        </div><div class="row" >
         <%}
@@ -8,16 +10,16 @@
         <div class="row" >
             <%}%>
         <div class="col-sm">
-            <h4><%=item.title%></h4>
+            <h4><%=item.name%></h4>
             <div class="container">
                 <div class="row">
                     <div class="col-sm">
-                        <img src="/images/products/medium/<%= item.image %>" class="img-fluid" alt="Responsive image">
+                        <img src="/images/<%= item.img_path %>" class="img-fluid" alt="Responsive image">
                     </div>
                     <div class="col-sm">
                         <div class="container">
                             <div class="row">
-                                <p><%= item.description %></p>
+                                <p><%= item.short_description %></p>
                             </div>
                             <div class="row">
                                 <div class="container">
@@ -26,7 +28,7 @@
                                             Price : $ <%= item.price %>
                                         </div>
                                         <div class="col-sm">
-                                            <a class="btn btn-primary text-white" href="/subcategory/<%= item.title %>/<%= item.id %>" role="button" >More details</a>
+                                            <a class="btn btn-primary text-white" href="/subcategory/<%= item.primary_category_id %>/<%= item.id %>" role="button" >More details</a>
 
                                         </div>
                                     </div>
@@ -40,7 +42,7 @@
             </div>
         </div>
     <% });
-    if((subcategories.length-1)%2===0){%>
+    if((products.length-1)%2===0){%>
         </div>
     <%}%>
 </div>

@@ -1,8 +1,8 @@
 <!--title + description-->
 <div class="container">
-    <h1 class="text-center"><%=breadcrumbs.active%></h1>
+    <h1 class="text-center"><%=pressed.name%></h1>
     <p>
-        <%=description%>
+        <%=pressed.page_description%>
     </p>
 </div>
 <!--/title-->
@@ -13,18 +13,18 @@
     <div class="row" style="border-top-style: solid;">
         <div class="container">
             <div class="row p-2">
-                <h3 class="text-center"><%=item.title%></h3>
+                <h3 class="text-center"><%=item.name%></h3>
             </div>
             <div class="row p-2">
-                <img src="/images/categories/womens-clothing-bottoms.jpg" class="img-fluid" alt="Responsive image">
+                <img src="/images/<%=item.image %>" class="img-fluid" alt="Responsive image">
             </div>
             <div class="row p-2">
                 <p>
-                    <%=item.description%>
+                    <%=item.page_description%>
                 </p>
             </div>
             <div class="row p-2">
-                <a class="btn btn-primary text-white rounded-circle" href="/subcategory/<%=item.title%>" role="button" >View products</a>
+                <a class="btn btn-primary text-white rounded-circle" href="/subcategory/<%=item.id%>" role="button" >View products</a>
             </div>
             <div class="row p-3">
                 <span class="border-top-0 border-dark"></span>
