@@ -1,9 +1,10 @@
 const request   = require('request');
+const config= require('../config');
 
 exports.getProductsForSubcategory=  (subcategoryID) =>{
     return new Promise((resolve, reject)=> {
         request({
-                url: 'https://osf-digital-backend-academy.herokuapp.com/api/products/product_search?primary_category_id='+subcategoryID+'&secretKey=$2a$08$6Hk6nD18tXEy3n8Pmre6/u55BSnCpQ8PWRkx9uci7I49XeOPIjSfW',
+                url: config.baseURL+'products/product_search?primary_category_id='+subcategoryID+'&secretKey='+config.secretKEY,
                 method: 'GET'
             },
             function (error, response) {
@@ -31,7 +32,7 @@ exports.getProductsForSubcategory=  (subcategoryID) =>{
 exports.getProductByID =  (ID) =>{
     return new Promise((resolve, reject)=> {
         request({
-                url: 'https://osf-digital-backend-academy.herokuapp.com/api/products/product_search?id='+ID+'&secretKey=$2a$08$6Hk6nD18tXEy3n8Pmre6/u55BSnCpQ8PWRkx9uci7I49XeOPIjSfW',
+                url: config.baseURL+'products/product_search?id='+ID+'&secretKey='+config.secretKEY,
                 method: 'GET'
             },
             function (error, response) {
@@ -46,7 +47,6 @@ exports.getProductByID =  (ID) =>{
                     else {
                         //TO DO : check if response in empty array <=> no such parent category
                         product[0].img_path = getMediumImg(product[0], 0,'large');
-                       // console.log(product);
                         resolve(product[0]);
                     }
                 }
@@ -59,7 +59,6 @@ function getMediumImg(item , index, size){
     })[0].images[0].link;
 }
 function isIterable(obj) {
-    // checks for null and undefined
     if (obj == null) {
         return false;
     }

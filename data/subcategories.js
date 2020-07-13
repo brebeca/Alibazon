@@ -1,5 +1,5 @@
 
-
+const config= require('../config');
 const request   = require('request');
 
 exports.getSubcategories=  (parentID) =>{
@@ -14,8 +14,11 @@ exports.getSubcategories=  (parentID) =>{
                     reject({error:error});
                 } else {
                     //TO DO : check if response in empty array <=> no such parent category
-                    //console.log(JSON.parse(response.body));
-                    resolve(JSON.parse(response.body));
+                    let body=JSON.parse(response.body);
+                    //console.log(body);
+                    if(body.error!==undefined)
+                        reject({error:body.error});
+                    resolve(body);
                 }
             });
     });
@@ -24,7 +27,7 @@ exports.getSubcategories=  (parentID) =>{
 exports.getCurrentCategoryParent =(subcategoryID) =>{
     return new Promise((resolve, reject)=> {
         request({
-                url: 'https://osf-digital-backend-academy.herokuapp.com/api/categories/'+subcategoryID+'?secretKey=$2a$08$6Hk6nD18tXEy3n8Pmre6/u55BSnCpQ8PWRkx9uci7I49XeOPIjSfW',
+                url: config.baseURL+'categories/'+subcategoryID+'?secretKey='+config.secretKEY,
                 method: 'GET'
             },
             function (error, response) {
@@ -33,7 +36,11 @@ exports.getCurrentCategoryParent =(subcategoryID) =>{
                     reject({error:error});
                 } else {
                     //TO DO : check if response in empty array <=> no such category
-                    resolve(JSON.parse(response.body).parent_category_id);
+                    let body=JSON.parse(response.body);
+                    //console.log(body);
+                    if(body.error!==undefined)
+                        reject({error:body.error});
+                    resolve(body.parent_category_id);
                 }
             });
     });

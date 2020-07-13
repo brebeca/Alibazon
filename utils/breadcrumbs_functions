@@ -36,5 +36,12 @@ module.exports = {
             ,
             active:productTitle
         }
+    },
+    breadcrumbsPageNotFound:()=>{
+        return {
+            path: []
+            ,
+            active:'not-found'
+        }
     }
 }

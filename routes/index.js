@@ -10,6 +10,6 @@ router.get('/' ,controller.home);
 router.get('/home', controller.home);
 
 /*GET the subcategory listing of a category page */
-router.get('/home/:category', controller.category);
+router.get('/home/:category',verify.checkParams , controller.category);
 
 module.exports = router;

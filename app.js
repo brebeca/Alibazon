@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const  main= require('./utils/main-categories');
 
 const indexRouter = require('./routes/index');
 const subcategoryRouter = require('./routes/subcategory');
