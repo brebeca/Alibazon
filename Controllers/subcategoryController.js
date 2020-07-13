@@ -4,9 +4,19 @@ const subcategory=require('../data/subcategories');
 const product=require('../data/products');
 const config= require('../config');
 
+/**
+ * calls the breadcrumbsHome function to get tge breadcrumbs object for the home page
+ * calls the category.getAllCategories to get all categories for the navbar
+ * calls product.getProductsForSubcategory to get the products from that subcategory
+ * calls the render function to send to the client the requested page
+ * in case of error it sends an error page
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 exports.subcategoryProductsPage =  async function(req, res) {
     try{
-        const breadcrumbs=breadcrumb.breadcrumbsSubcategoryProducts(req.params.subcategory);
+        let breadcrumbs=breadcrumb.breadcrumbsSubcategoryProducts(req.params.subcategory);
         let allCategories= await category.getAllCategories();
         let products= await product.getProductsForSubcategory(req.params.subcategory);
         res.render('index',{
@@ -17,23 +27,30 @@ exports.subcategoryProductsPage =  async function(req, res) {
         });
     }
     catch (e) {
-        console.log(e);
         res.status(e.status || 500);
         res.render('error2');
     }
 };
 
+/**
+ * calls the breadcrumbsHome function to get tge breadcrumbs object for the home page
+ * calls the category.getAllCategories to get all categories for the navbar
+ * calls the render function to send to the client the requested page
+ * in case of error it sends an error page
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 exports.productDetailsPage= async function(req, res) {
     try {
         let allCategories= await category.getAllCategories();
-        const breadcrumbs=breadcrumb.breadcrumbsProductDetails(req.params.subcategory,res.locals.product.name );
+        let breadcrumbs=breadcrumb.breadcrumbsProductDetails(req.params.subcategory,res.locals.product.name );
         res.render('index', {
             page:config.productDetailsPage,
             categories: allCategories,
             breadcrumbs:breadcrumbs,
         });
     }catch (e) {
-
         res.status(e.status || 500);
         res.render('error2');
     }

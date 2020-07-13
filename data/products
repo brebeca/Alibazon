@@ -1,6 +1,15 @@
 const request   = require('request');
 const config= require('../config');
 
+/**
+ * makes a get request to get the products for the subcategory
+ * in case of error calls reject with the error
+ * checks if the is iterable
+ * for each object calls the function getImgPath to get the path to the medium image
+ * calls resolve with the final array of products
+ * @param subcategoryID       the id for the requested subcategory
+ * @returns {Promise<unknown>}
+ */
 exports.getProductsForSubcategory=  (subcategoryID) =>{
     return new Promise((resolve, reject)=> {
         request({
@@ -9,7 +18,6 @@ exports.getProductsForSubcategory=  (subcategoryID) =>{
             },
             function (error, response) {
                 if (error) {
-                    //TO DO
                     reject({error:error});
                 } else {
                     let products=JSON.parse(response.body);
@@ -17,10 +25,9 @@ exports.getProductsForSubcategory=  (subcategoryID) =>{
                         reject({error:products.error});
                     }
                     else {
-                        //TO DO : check if response in empty array <=> no such parent category
                         if (isIterable(products))
                             products.forEach(function (item, index) {
-                                item.img_path = getMediumImg(item, index,'medium');
+                                item.img_path = getImgPath(item, index,'medium');
                             });
                         resolve(products);
                     }
@@ -29,6 +36,16 @@ exports.getProductsForSubcategory=  (subcategoryID) =>{
     });
 
 }
+
+
+/**
+ * makes a get request to get a product by it s id
+ * in case of error calls reject with the error
+ * calls the getImgPath with the large parameter to get the large image path for the product
+ * calls resolve with the requested product
+ * @param ID                 the id of the requested product
+ * @returns {Promise<unknown>}
+ */
 exports.getProductByID =  (ID) =>{
     return new Promise((resolve, reject)=> {
         request({
@@ -45,19 +62,29 @@ exports.getProductByID =  (ID) =>{
                         reject({error:product.error});
                     }
                     else {
-                        //TO DO : check if response in empty array <=> no such parent category
-                        product[0].img_path = getMediumImg(product[0], 0,'large');
+                        product[0].img_path = getImgPath(product[0], 0,'large');
                         resolve(product[0]);
                     }
                 }
             });
     });
 }
-function getMediumImg(item , index, size){
+
+/**
+ * searchs the array image_groups in te object to get the element with the field view_type= size  function parameter
+ * returns the field link of the object
+ * @param item       the object in witch to search
+ * @param index
+ * @param size       the size of the image path to be returned
+ * @returns {((existingPath: PathLike, newPath: PathLike, callback: NoParamCallback) => void) | ((existingPath: PathLike, newPath: PathLike) => Promise<void>) | string | string | link | ((url: string) => string)}
+ */
+function getImgPath(item , index, size){
     return item.image_groups.filter(function (item2) {
         return item2.view_type===size;
     })[0].images[0].link;
 }
+
+
 function isIterable(obj) {
     if (obj == null) {
         return false;
