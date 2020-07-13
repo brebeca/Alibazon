@@ -1,7 +1,7 @@
 
 const request   = require('request');
 const config= require('../config');
-const main= require('../utils/main-categories');
+const utils=require('../utils/utils-functions');
 
 /**
  * makes a GET request to get all the category objects
@@ -25,7 +25,7 @@ exports.getAllCategories=  () =>{
                         reject({ error:categories.error });
                     else {
                         //main.mainCategories=allCategoriesLevel2;
-                        resolve(getTheMainCategoryes(categories));
+                        resolve(utils.getTheMainCategoryes(categories));
                     }
                 }
             });
@@ -43,18 +43,3 @@ exports.getCurrentCategory= (all, id)=>{
     })[0];
 }
 
-/**
- * filters the main category objects
- * updates the field name adding the parent category capitalized
- * @param categories array of category objects
- * @returns {*} array with the main categories
- */
-function  getTheMainCategoryes(categories) {
-   categories= categories.filter(function (item) {
-        if (item.parent_category_id === 'mens' || item.parent_category_id === 'womens') {
-            item.name = item.parent_category_id.charAt(0).toUpperCase() + item.parent_category_id.slice(1) + ' ' + item.name;
-            return item;
-        }
-    });
-    return categories;
-}

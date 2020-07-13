@@ -1,7 +1,7 @@
 const breadcrumb=require('../utils/breadcrumbs_functions');
-const category=require('../data/get-categories');
-const subcategory=require('../data/subcategories');
-const product=require('../data/products');
+const category=require('../APIdata/get-categories');
+const subcategory=require('../APIdata/subcategories');
+const product=require('../APIdata/products');
 const config= require('../config');
 
 /**

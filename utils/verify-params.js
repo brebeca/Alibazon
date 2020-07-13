@@ -1,6 +1,6 @@
-const categoryAPI=require('../data/get-categories');
-const subcategoryAPI=require('../data/subcategories');
-const productAPI=require('../data/products');
+const categoryAPI=require('../APIdata/get-categories');
+const subcategoryAPI=require('../APIdata/subcategories');
+const productAPI=require('../APIdata/products');
 const config =require('../config');
 const breadcrumb=require('../utils/breadcrumbs_functions');
 

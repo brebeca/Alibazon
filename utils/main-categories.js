@@ -1,5 +1,5 @@
 var mainCategories=[];
-const category=require('../data/get-categories');
+const category=require('../APIdata/get-categories');
 module.exports = {
     mainCategories,
     define: () => {
