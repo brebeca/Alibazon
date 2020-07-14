@@ -19,7 +19,7 @@
                                 <a class="btn btn-primary text-white" href="#" role="button" >Buy now</a>
                             </div>
                             <div class="col-sm">
-                                Price : <strong class="simbol" >$</strong> <strong class="price"><%=product.price%></strong>
+                                Price : <strong id="simbol" >$</strong> <strong class="price"><%=product.price%></strong>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                          Change Currency
@@ -39,38 +39,39 @@
 </div>
 <script>
     var fromCurrency = 'USD';
+    var currency=0;
+    function getCurrencyRate() {
+        url='http://data.fixer.io/api/latest?access_key=01bdc1d1df01cdf0b7f7aa17be57cc43&symbols=USD&format=1';
+        let xmlhttp = new XMLHttpRequest();
 
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+                if (xmlhttp.status === 200) {
+                    let jsonObj = JSON.parse(xmlhttp.response);
+                    currency =parseFloat(jsonObj['rates']['USD']);
+                }
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }
+    getCurrencyRate();
     function convertCurrency(  toCurrency) {
         if (toCurrency !== fromCurrency) {
-            const apiKey = 'af99789a1c08afe7a1fc';
-            let amount = document.getElementsByClassName('price')[0].value;
-            fromCurrency = encodeURIComponent(fromCurrency);
-            toCurrency = encodeURIComponent(toCurrency);
-            let query = fromCurrency + '_' + toCurrency;
-
-            let url = 'https://api.currconv.com/api/v7/convert?q='
-                + query + '&compact=ultra&apiKey=' + apiKey;
-            let xmlhttp = new XMLHttpRequest();
-
-            xmlhttp.onreadystatechange = function () {
-                if (xmlhttp.readyState === XMLHttpRequest.DONE) {
-                    if (xmlhttp.status === 200) {
-                        let jsonObj = JSON.parse(xmlhttp.response);
-                        let val = jsonObj[query];
-                        if (val) {
-                            let total = val * amount;
-                            console.log(Math.round(total * 100) / 100);
-                        } else {
-                            let err = new Error("Value not found for " + query);
-                            console.log(err);
-                        }
-                    } else {
-                        alert('something else other than 200 was returned');
-                    }
-                }
-            };
-            xmlhttp.open("GET", url, true);
-            xmlhttp.send();
+            let amount = parseInt(document.getElementsByClassName('price')[0].innerText);
+            if(fromCurrency==='EURO') {
+                document.getElementsByClassName('price')[0].innerHTML = Math.round(amount * currency);
+                document.getElementById('simbol').innerHTML = '$';
+                console.log('cantitatea :'+amount+' currency: '+currency);
+                console.log(amount * currency);
+            }
+            else {
+                document.getElementsByClassName('price')[0].innerHTML = Math.round(amount / currency);
+                document.getElementById('simbol').innerHTML = '\u20AC';
+                console.log('cantitatea :'+amount+' currency: '+currency);
+                console.log(amount /currency);
+            }
+            fromCurrency=toCurrency;
         }
     }
 
