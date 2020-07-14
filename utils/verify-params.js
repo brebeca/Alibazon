@@ -22,7 +22,7 @@ exports.checkParams= async function(req, res, next) {
         if(req.params.subcategory!==undefined &&  false === await verifySubcategory(req.params.subcategory,res) ){
            throw 'Invalid subcategory name';
         }
-        if(req.params.id!==undefined &&  false === await verifyProductID(req.params.id,res) ){
+        if(req.params.id!==undefined &&  false === await verifyProductID(req.params.id,res,req.params.subcategory) ){
             throw 'Invalid product ';
         }
         next();
@@ -82,18 +82,25 @@ async function verifyCategory(category, res) {
 
 /**
  * calls productAPI.getProductByID(id)
- * if no error , it sets res.locals.product
+ * if no error , checks if the category from the params is the same as the product parent category and it sets res.locals.product
  * else sets returnVal to false
  * @param id                   the product id to be checked
  * @param res                  the response object
+ * @param parentCaregory
  * @returns {Promise<boolean>}  returns true if no error, else returns false
  */
-async function verifyProductID(id,res) {
+async function verifyProductID(id,res,parentCaregory) {
     let returnVal=true;
     await productAPI.getProductByID(id).then((product)=>{
-        res.locals.product=product;
+        if(product.primary_category_id!==parentCaregory)
+            returnVal= false ;
+        else
+            res.locals.product=product;
     }).catch((err)=>{
         returnVal= false ;
     });
     return returnVal;
 }
+exports.checksubcategory=verifySubcategory;
+exports.checkcategory=verifyCategory;
+exports.checkproductID=verifyProductID;

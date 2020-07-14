@@ -19,13 +19,59 @@
                                 <a class="btn btn-primary text-white" href="#" role="button" >Buy now</a>
                             </div>
                             <div class="col-sm">
-                                Price : $ <%= product.price %>
+                                Price : <strong class="simbol" >$</strong> <strong class="price"><%=product.price%></strong>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                         Change Currency
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <button class="dropdown-item" type="button" onclick="convertCurrency('USD')">USD</button>
+                                        <button class="dropdown-item" type="button" onclick="convertCurrency('EURO')">EURO</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
+<script>
+    var fromCurrency = 'USD';
+
+    function convertCurrency(  toCurrency) {
+        if (toCurrency !== fromCurrency) {
+            const apiKey = 'af99789a1c08afe7a1fc';
+            let amount = document.getElementsByClassName('price')[0].value;
+            fromCurrency = encodeURIComponent(fromCurrency);
+            toCurrency = encodeURIComponent(toCurrency);
+            let query = fromCurrency + '_' + toCurrency;
+
+            let url = 'https://api.currconv.com/api/v7/convert?q='
+                + query + '&compact=ultra&apiKey=' + apiKey;
+            let xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+                    if (xmlhttp.status === 200) {
+                        let jsonObj = JSON.parse(xmlhttp.response);
+                        let val = jsonObj[query];
+                        if (val) {
+                            let total = val * amount;
+                            console.log(Math.round(total * 100) / 100);
+                        } else {
+                            let err = new Error("Value not found for " + query);
+                            console.log(err);
+                        }
+                    } else {
+                        alert('something else other than 200 was returned');
+                    }
+                }
+            };
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+        }
+    }
+
+</script>

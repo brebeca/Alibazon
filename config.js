@@ -4,7 +4,7 @@ module.exports = {
         root2: "womens"
     },
     baseURL:'https://osf-digital-backend-academy.herokuapp.com/api/',
-    secretKEY:'',
+    secretKEY:process.env.SECRET_KEY,
     homePage:'category-menu-option',
     productsPage:'subcategory-page',
     productDetailsPage:'product-page',

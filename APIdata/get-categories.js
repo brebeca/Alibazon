@@ -10,7 +10,7 @@ const utils=require('../utils/utils-functions');
  * calls resolve with the filtered categories
  * @returns {Promise<unknown>}
  */
-exports.getAllCategories=  () =>{
+exports.getAllCategories =  () =>{
     return new Promise((resolve, reject)=> {
         request({
                 url: config.baseURL+'categories?secretKey='+config.secretKEY,
@@ -25,7 +25,7 @@ exports.getAllCategories=  () =>{
                         reject({ error:categories.error });
                     else {
                         //main.mainCategories=allCategoriesLevel2;
-                        resolve(utils.getTheMainCategoryes(categories));
+                        resolve(utils.getTheMainCategories(categories));
                     }
                 }
             });

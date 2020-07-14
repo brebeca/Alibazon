@@ -55,7 +55,6 @@ exports.getProductByID =  (ID) =>{
             },
             function (error, response) {
                 if (error) {
-                    //TO DO
                     reject({error:error});
                 } else {
                     let product=JSON.parse(response.body);

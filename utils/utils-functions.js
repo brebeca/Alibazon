@@ -5,7 +5,7 @@ const roots= require('../utils/categories-utils');
  * @param categories array of category objects
  * @returns {*} array with the main categories
  */
-exports.getTheMainCategoryes= (categories)=>{
+exports.getTheMainCategories= (categories)=>{
     categories= categories.filter(function (item) {
         if (item.parent_category_id === roots.root1|| item.parent_category_id === roots.root2) {
             item.name = item.parent_category_id.charAt(0).toUpperCase() + item.parent_category_id.slice(1) + ' ' + item.name;

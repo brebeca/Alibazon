@@ -19,7 +19,7 @@ exports.getSubcategories=  (parentID) =>{
                     reject({error:error});
                 } else {
                     let body=JSON.parse(response.body);
-                    if(body.error!==undefined)
+                    if(body.error!==undefined||body.length===0)
                         reject({error:body.error});
                     resolve(body);
                 }

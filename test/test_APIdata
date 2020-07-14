@@ -1,0 +1,100 @@
+const chai= require('chai');
+const chaiHttp= require('chai-http');
+const server= require('../app');
+const roots= require('../utils/categories-utils');
+const productsAPIfunctions = require('../APIdata/products');
+const subcategoryAPIfunctions=require('../APIdata/subcategories');
+const parentID='mens-accessories';
+const subcategory = 'mens-accessories-ties';
+const categoryAPIfunctions=require('../APIdata/get-categories');
+const productID='69309284';
+
+chai.should();
+chai.use(chaiHttp);
+
+ describe("API data tests", ()=>{
+
+     it(" all categories of level 2 in an array ",async ()=>{
+         const allCAtegories=  await  categoryAPIfunctions.getAllCategories();
+         chai.expect(allCAtegories).to.be.an('array');
+     });
+
+     it(" products for a subcategory - existing subcategory- in an array of objects with property img_path", (done)=> {
+         productsAPIfunctions.getProductsForSubcategory(subcategory)
+             .then((products) => {
+                 chai.expect(products).to.be.an('array');
+                 products.forEach((item, index) => {
+                 chai.expect(item).to.have.property('img_path');
+                 });
+                 done();
+             }).catch(err => done(err));
+     });
+
+     it(" products for a subcategory -  NONexisting subcategory- in an array of objects with property img_path", (done)=> {
+         productsAPIfunctions.getProductsForSubcategory('not-a-subcategory')
+             .then(()=>{
+                 done(new Error('Expected method to reject.'))
+             }).catch(err =>{
+                 chai.expect(err).to.have.property('error');
+                 done();
+             });
+     });
+
+     it(" get product by id - existing id ", (done)=> {
+         productsAPIfunctions.getProductByID(productID)
+             .then((product) => {
+                 chai.expect(product).to.have.property('img_path');
+                 done();
+             }).catch(err => done(err));
+     });
+
+     it(" get product by id - NONexisting id ", (done)=> {
+         productsAPIfunctions.getProductByID('not-an-id')
+             .then(()=>{
+                 done(new Error('Expected method to reject.'));
+             }).catch(err => {
+                 chai.expect(err).to.have.property('error');
+                 done();
+         });
+     });
+
+     it(" get subcategories by parentID- existing parentID ", (done)=> {
+         subcategoryAPIfunctions.getSubcategories(parentID)
+             .then((subcategories) => {
+             chai.expect(subcategories).to.be.an('array');
+             done();
+             }).catch(err => done(err));
+     });
+
+     it(" get subcategories by parentID -NONexisting parentID ", (done)=> {
+         subcategoryAPIfunctions.getSubcategories('not-a-parent-id')
+             .then(() => {
+                 done(new Error('Expected method to reject.'));
+             }).catch(err => {
+             chai.expect(err).to.have.property('error');
+             done();
+             });
+     });
+
+
+     it(" get subcategory s  parent - existing subcategory ", (done)=> {
+         subcategoryAPIfunctions.getCurrentCategoryParent(subcategory)
+             .then((parent) => {
+                 chai.expect(parent).to.be.an('string');
+                 done();
+             }).catch(err => done(err));
+     });
+
+     it(" get subcategory s  parent -NONexisting subcategory ", (done)=> {
+         subcategoryAPIfunctions.getCurrentCategoryParent('not-a-subcategory')
+             .then(() => {
+                 done(new Error('Expected method to reject.'));
+             }).catch(err => {
+             chai.expect(err).to.have.property('error');
+             done();
+         });
+     });
+ });
+
+
+
