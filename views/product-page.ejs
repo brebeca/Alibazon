@@ -62,14 +62,10 @@
             if(fromCurrency==='EURO') {
                 document.getElementsByClassName('price')[0].innerHTML = Math.round(amount * currency);
                 document.getElementById('simbol').innerHTML = '$';
-                console.log('cantitatea :'+amount+' currency: '+currency);
-                console.log(amount * currency);
             }
             else {
                 document.getElementsByClassName('price')[0].innerHTML = Math.round(amount / currency);
                 document.getElementById('simbol').innerHTML = '\u20AC';
-                console.log('cantitatea :'+amount+' currency: '+currency);
-                console.log(amount /currency);
             }
             fromCurrency=toCurrency;
         }
