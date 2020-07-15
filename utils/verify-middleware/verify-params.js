@@ -1,8 +1,8 @@
-const categoryAPI=require('../APIdata/get-categories');
-const subcategoryAPI=require('../APIdata/subcategories');
-const productAPI=require('../APIdata/products');
-const config =require('../config');
-const breadcrumb=require('../utils/breadcrumbs_functions');
+const categoryAPI=require('../../APIdata/get-categories');
+const subcategoryAPI=require('../../APIdata/subcategories');
+const productAPI=require('../../APIdata/products');
+const config =require('../../config');
+const breadcrumb=require('../breadcrumbs_functions');
 
 /**
  * checks if the specific params exist and calls the verify fuction

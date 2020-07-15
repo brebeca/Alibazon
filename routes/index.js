@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var controller = require('../Controllers/index');
-const verify=require('../utils/verify-params');
+const verify=require('../utils/verify-middleware/verify-params');
 
 /* GET the main page ( the category menu ) */
 router.get('/' ,controller.home);

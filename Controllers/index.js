@@ -16,7 +16,7 @@ const config =require('../config');
  */
 exports.home = async function(req, res) {
   try{
-    console.log(config.baseURL+'categories?secretKey='+config.secretKEY);
+    console.log(req.cookies.token);
     let breadcrumbs= breadcrumb.breadcrumbsHome();
     let subcategories= await subcategory.getSubcategories(config.defaultCategory);
     let allCategories= await category.getAllCategories();

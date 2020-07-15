@@ -43,5 +43,29 @@ module.exports = {
             ,
             active:'not-found'
         }
+    },
+    breadcrumbsLogin:()=>{
+        return {
+            path: [
+                {
+                    title: 'home',
+                    link: '/'
+                }
+            ]
+            ,
+            active:'LogIn'
+        }
+    },
+    breadcrumbsSignUp:()=>{
+        return {
+            path: [
+                {
+                    title: 'home',
+                    link: '/'
+                }
+            ]
+            ,
+            active:'SignUp'
+        }
     }
 }

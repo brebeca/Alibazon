@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var controller= require('../Controllers/subcategoryController');
-const verify=require('../utils/verify-params');
+const verify=require('../utils/verify-middleware/verify-params');
 
 /* GET the products displayed for a specific subcategory. */
 router.get('/:subcategory',verify.checkParams,controller.subcategoryProductsPage );

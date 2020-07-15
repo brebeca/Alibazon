@@ -4,7 +4,7 @@ const subcategory = 'mens-accessories-ties';
 const notAsubcategory = 'not-a-subcategory';
 const notAcategory = 'not-a-category';
 const productID='69309284';
-const verifyFunctions=require('../utils/verify-params');
+const verifyFunctions=require('../utils/verify-middleware/verify-params');
 const notAproductID='not-a-product-id';
 const res={};
 

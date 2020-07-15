@@ -1,4 +1,6 @@
 const roots= require('../utils/categories-utils');
+const {userModel} = require('./models/userModel');
+
 /**
  * filters the main category objects
  * updates the field name adding the parent category capitalized
@@ -37,3 +39,4 @@ exports.isIterable=(obj) =>{
     }
     return typeof obj[Symbol.iterator] === 'function';
 }
+
