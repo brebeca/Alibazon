@@ -17,4 +17,5 @@ router.post('/signup', verify.signUpBodyVerify,  signUpController.signUpValidati
 /* GET the signUp page  */
 router.get('/signup', signUpController.signUpPage);
 
+
 module.exports = router;

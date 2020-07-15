@@ -15,7 +15,13 @@
                 else {%>
                 <a class="btn btn-sm btn-outline-secondary text-white rounded-circle mr-1" href="/home/<%=item.id%>" role="button" ><%=item.name%></a>
                 <%}
-                });%>
+                });
+                if(logged){%>
+                    <button type="button" onclick="logout()" class="btn btn-light mr-1">LogOut</button>
+                <%}
+                else {%>
+                <a class="btn btn-light mr-1" href="/auth/login" role="button" >Login</a>
+                <%}%>
             </div>
         </div>
     </div>
