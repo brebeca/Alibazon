@@ -1,5 +1,6 @@
 const request = require('request');
 const config = require('../config');
+const {ProductModel}=require('../utils/models/productModel');
 
 exports.add = (productID, variantID, quantity='1',token) => {
 
@@ -24,7 +25,6 @@ exports.add = (productID, variantID, quantity='1',token) => {
         };
         request.post(options,
             function (error, response, body) {
-            console.log('a primit raspuns');
                 if (error) {
                     reject({error: error});
                 } else {
@@ -37,4 +37,33 @@ exports.add = (productID, variantID, quantity='1',token) => {
             }
         );
     });
+}
+
+exports.get=async function(token) {
+    return new Promise((resolve, reject) => {
+        const options = {
+            url: config.baseURL + 'cart?secretKey='+config.secretKEY,
+            method: 'GET',
+            headers: {
+                'Authorization':' Bearer '+token
+            }
+        };
+
+        request.get(options,function (error, response, body) {
+            if (error) {
+                reject({error: error});
+            } else {
+                if (response.statusCode !== 200)
+                    reject({error: 'error'});
+                else {
+                   // console.log(JSON.parsebody);
+                    body= JSON.parse(body);
+                    resolve(body.items);
+
+                }
+            }
+        });
+
+    });
+
 }

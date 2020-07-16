@@ -27,6 +27,7 @@ exports.checkParams= async function(req, res, next) {
         }
         next();
     } catch (e) {
+        console.log(e);
         res.status(404);
         res.render('index',{
             page:config.notFoundPage,
@@ -50,6 +51,7 @@ async function verifySubcategory(subcategory,res) {
     await subcategoryAPI.getCurrentCategoryParent(subcategory).then((id)=>{
         res.locals.pressed={ id: id};
     }).catch((err)=>{
+        console.log(err);
         returnVal= false ;
     });
     return returnVal;
@@ -92,7 +94,7 @@ async function verifyCategory(category, res) {
 async function verifyProductID(id,res,parentCaregory) {
     let returnVal=true;
     await productAPI.getProductByID(id).then((product)=>{
-        if(product.primary_category_id!==parentCaregory)
+        if(product.parentCategory!==parentCaregory)
             returnVal= false ;
         else
             res.locals.product=product;

@@ -51,6 +51,7 @@ exports.productDetailsPage= async function(req, res) {
             breadcrumbs:breadcrumbs,
         });
     }catch (e) {
+        console.log(e);
         res.status(e.status || 500);
         res.render('error2');
     }

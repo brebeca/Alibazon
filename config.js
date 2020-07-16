@@ -8,6 +8,7 @@ module.exports = {
     homePage:'category-menu-option',
     productsPage:'subcategory-page',
     productDetailsPage:'product-page',
+    cartPage:'cart-page',
     notFoundPage:'page-not-found',
     LoginPage:'auth/login',
     signUpPage:'auth/signUp',

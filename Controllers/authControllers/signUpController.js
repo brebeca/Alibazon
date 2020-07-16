@@ -1,7 +1,7 @@
-const breadcrumb=require('../utils/breadcrumbs_functions');
-const config =require('../config');
-const categoryAPI=require('../APIdata/get-categories');
-const singUpAPI=require('../APIdata/auth/signup');
+const breadcrumb=require('../../utils/breadcrumbs_functions');
+const config =require('../../config');
+const categoryAPI=require('../../APIdata/get-categories');
+const singUpAPI=require('../../APIdata/authAPI/signup');
 
 exports.signUpPage = async function(req, res) {
     try{

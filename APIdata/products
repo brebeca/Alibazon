@@ -1,6 +1,7 @@
 const request   = require('request');
 const config= require('../config');
 const utils=require('../utils/utils-functions');
+const {ProductModel}= require('../utils/models/productModel');
 
 /**
  * makes a get request to get the products for the subcategory
@@ -47,7 +48,7 @@ exports.getProductsForSubcategory=  (subcategoryID) =>{
  * @param ID                 the id of the requested product
  * @returns {Promise<unknown>}
  */
-exports.getProductByID =  (ID) =>{
+exports.getProductByID =  (ID, type=1) =>{
     return new Promise((resolve, reject)=> {
         request({
                 url: config.baseURL+'products/product_search?id='+ID+'&secretKey='+config.secretKEY,
@@ -61,9 +62,11 @@ exports.getProductByID =  (ID) =>{
                     if(product.error!==undefined){
                         reject({error:product.error});
                     }
-                    else {
-                        product[0].img_path = utils.getImgPath(product[0], 0,'large');
-                        resolve(product[0]);
+                    else{
+                        if(type===0)
+                            resolve(product[0])
+                        else
+                            resolve(new ProductModel(product[0]));
                     }
                 }
             });

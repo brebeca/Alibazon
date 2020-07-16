@@ -1,0 +1,13 @@
+module.exports={
+    userLogin:{
+        email:'test1@yahoo.com',
+        password:'123456',
+        notanemail:'notanemail@yahoo.com',
+        notapassword:'notapass'
+    },
+    userSignup:{
+        email:'test2@yahoo.com',
+        password:'123456',
+        name:'test2'
+    }
+}

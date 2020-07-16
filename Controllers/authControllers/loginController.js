@@ -1,7 +1,7 @@
-const breadcrumb=require('../utils/breadcrumbs_functions');
-const config =require('../config');
-const categoryAPI=require('../APIdata/get-categories');
-const loginAPI=require('../APIdata/auth/login');
+const breadcrumb=require('../../utils/breadcrumbs_functions');
+const config =require('../../config');
+const categoryAPI=require('../../APIdata/get-categories');
+const loginAPI=require('../../APIdata/authAPI/login');
 
 exports.loginPage = async function(req, res) {
     try{

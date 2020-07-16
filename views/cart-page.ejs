@@ -1,0 +1,47 @@
+
+<% products.forEach((item)=>{%>
+    <div class="card w-75 m-3 bg-light ml-5 pr-0" id="<%=item.productID%>">
+        <div class="container pb-2" style="padding-bottom: 3rem;">
+            <div class="row">
+                <div class="col-8 p-3">
+                    <h2><%= item.name%></h2>
+                </div>
+                <div class="col-sm p-3">
+                    <h2><%= item.price%> $</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                <img src="/images/<%= item.imagePath %>" class="img-fluid rounded" alt="Responsive image">
+                            </div>
+                            <div class="col-sm pt-3 pl-0 ml-0">
+                               <p><%= item.description%></p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm">
+                    <ul>
+                        <% function mapElements(value, key, map) {%>
+                            <li><strong><%= key%> </strong>: <%= value%></li>
+                        <%}
+                            item.atributes.forEach(mapElements)%>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                </div>
+                <div class="col-sm float-right">
+                    <button type="button" class="btn btn-info">More Info</button>
+                    <button class="btn btn-danger rounded-0" onclick="deleteFromCart('<%=item.productID%>')" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+<%})%>

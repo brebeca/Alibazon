@@ -1,13 +1,18 @@
-const chai= require('chai');
-const chaiHttp= require('chai-http');
-const server= require('../app');
-const roots= require('../utils/categories-utils');
-const productsAPIfunctions = require('../APIdata/products');
-const subcategoryAPIfunctions=require('../APIdata/subcategories');
-const parentID='mens-accessories';
-const subcategory = 'mens-accessories-ties';
-const categoryAPIfunctions=require('../APIdata/get-categories');
-const productID='69309284';
+const chai= require('chai'),
+    chaiHttp= require('chai-http'),
+    server= require('../app'),
+    roots= require('../utils/categories-utils')
+    ,loginAPI= require('../APIdata/authAPI/login'),
+    signUpAIP= require('../APIdata/authAPI/signup'),
+    productsAPIfunctions = require('../APIdata/products'),
+    subcategoryAPIfunctions=require('../APIdata/subcategories'),
+    parentID='mens-accessories',
+    subcategory = 'mens-accessories-ties',
+    categoryAPIfunctions=require('../APIdata/get-categories'),
+    productID='69309284',
+    {userLogin} =require('./useraccount'),
+    {userSignup} =require('./useraccount'),
+    {UserModel}=require('../utils/models/userModel');
 
 chai.should();
 chai.use(chaiHttp);
@@ -98,3 +103,32 @@ chai.use(chaiHttp);
 
 
 
+
+describe("API data AUTH tests ", ()=> {
+
+    it(" Login test real acount ",  (done ) => {
+        loginAPI.login(userLogin.email, userLogin.password)
+            .then((response)=>{
+                chai.expect(response).to.be.instanceOf(UserModel);
+                done();
+            })
+            .catch(err => done(err));
+    });
+
+    it(" Login test nonexisting acount ",  (done ) => {
+        loginAPI.login(userLogin.notanemail, userLogin.notapassword)
+            .then((response)=>{
+                done(new Error('Expected method to reject.'));
+            })
+            .catch(err => done());
+    });
+
+    it(" SignUp test existing account ",  (done ) => {
+        signUpAIP.signUp(userSignup.email, userSignup.password, userSignup.name)
+            .then((response)=>{
+                done(new Error('Expected method to reject.'));
+            })
+            .catch(err => done());
+    });
+
+})
