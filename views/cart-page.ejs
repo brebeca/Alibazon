@@ -1,13 +1,24 @@
 
-<% products.forEach((item)=>{%>
-    <div class="card w-75 m-3 bg-light ml-5 pr-0" id="<%=item.productID%>">
+<% if(products.length===0){
+    %><h1> Empty cart! </h1>
+<%}else {%>
+<%}products.forEach((item,index)=>{
+    let size=' w-75';
+    let ml='0';
+    if(index===0) { %>
+<div class="conntainer">
+    <div class="row">
+        <div class="col-8">
+<% size='';
+    ml='5';}%>
+    <div class="card<%=size%> m-3 bg-light ml-5 pr-<%=ml%>" id="<%=item.productID%>">
         <div class="container pb-2" style="padding-bottom: 3rem;">
             <div class="row">
                 <div class="col-8 p-3">
                     <h2><%= item.name%></h2>
                 </div>
-                <div class="col-sm p-3">
-                    <h2><%= item.price%> $</h2>
+                <div class="col-sm p-3" >
+                    <h2><strong id="price<%=item.variantID%>"><%=item.price%> $</strong></h2>
                 </div>
             </div>
             <div class="row">
@@ -39,9 +50,25 @@
                 </div>
                 <div class="col-sm float-right">
                     <button type="button" class="btn btn-info">More Info</button>
-                    <button class="btn btn-danger rounded-0" onclick="deleteFromCart('<%=item.productID%>')" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                    <button class="btn btn-danger rounded-0" onclick="deleteFromCart('<%=item.productID%>','<%=item.variantID %>')" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
         </div>
     </div>
-<%})%>
+<%
+    if(index===0){
+        %>
+        </div>
+        <div class="col-4 ml-0 pl-0">
+            <div class="card mr-4 pr-3 m-3 bg-light ml-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Your cart total:</h5>
+                    <h5 class="card-text text-center"> <strong id="totalPrice"><%= totalPrice%></strong> $</h5>
+                    <a href="#" class="btn btn-primary">Buy now!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><%
+    }})%>

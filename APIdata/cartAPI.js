@@ -56,15 +56,49 @@ exports.get=async function(token, baseURL=config.baseURL, secretKey=config.secre
             } else {
                 body= JSON.parse(body);
                 if (response.statusCode !== 200)
-                    reject({error: body.error});
+                    if('There is no cart created for this user'===body.error)
+                        resolve([]);
+                    else
+                        reject({error: body.error});
                 else {
-                   // console.log(JSON.parsebody);
                     resolve(body.items);
-
                 }
             }
         });
-
     });
+}
 
+exports.delete = (productID, variantID,token, baseURL=config.baseURL, secretKey=config.secretKEY) => {
+
+    return new Promise((resolve, reject) => {
+        const options = {
+            url: baseURL + '/cart/removeItem',
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Accept-Charset': 'utf-8',
+                'Authorization':' Bearer '+token
+            },
+            json: true,
+            body:
+                {
+                    'productId': productID,
+                    'variantId': variantID,
+                    'secretKey':secretKey
+                }
+        };
+        request.delete(options,
+            function (error, response, body) {
+                if (error) {
+                    reject({error: error});
+                } else {
+                    if (response.statusCode !== 200)
+                        reject({error: body.error});
+                    else {
+                        resolve({message:"Product deleted"})
+                    }
+                }
+            }
+        );
+    });
 }

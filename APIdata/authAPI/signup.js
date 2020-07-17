@@ -1,6 +1,6 @@
 const request = require('request');
 const config = require('../../config');
-const {userModel} = require('../../utils/models/userModel');
+const {UserModel} = require('../../utils/models/userModel');
 
 
 exports.signUp = (email, password, name, baseURL=config.baseURL, secretKey=config.secretKEY) => {
@@ -23,7 +23,7 @@ exports.signUp = (email, password, name, baseURL=config.baseURL, secretKey=confi
                     else {
                         if (body.token !== undefined && body.user.name !== undefined && body.user.createdAt !== undefined
                             && body.user.email !== undefined ) {
-                            resolve(new userModel(body.user.name,  body.user.email, body.token, body.user.createdAt));
+                            resolve(new UserModel(body.user.name,  body.user.email, body.token, body.user.createdAt));
                         } else {
                             //console.log(body);
                             reject({error: 'missing body data'});

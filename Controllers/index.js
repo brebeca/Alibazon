@@ -20,7 +20,7 @@ exports.home = async function(req, res) {
     let subcategories= await subcategory.getSubcategories(config.defaultCategory);
     let allCategories= await category.getAllCategories();
     let currentCategory=category.getCurrentCategory(allCategories,config.defaultCategory);
-    res.render('index',{
+    res.render(config.indexPage,{
       page:config.homePage,
       categories: allCategories,
       pressed: currentCategory,
@@ -29,7 +29,7 @@ exports.home = async function(req, res) {
     });
   }catch (e) {
     res.status(e.status || 500);
-    res.render('error2');
+    res.render('/error-pages/error2');
   }
 };
 
@@ -46,14 +46,14 @@ exports.category= async function(req, res) {
   try{
     let breadcrumbs=breadcrumb.breadcrumbsHome(req.params.category);
     let subcategories= await subcategory.getSubcategories(req.params.category);
-    res.render('index',{
+    res.render(config.indexPage,{
       page:config.homePage,
       breadcrumbs:breadcrumbs,
       subcategories:subcategories
     });
   }catch (e) {
     res.status(e.status || 500);
-    res.render('error2');
+    res.render('/error-pages/error2');
   }
   };
 

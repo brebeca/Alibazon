@@ -29,7 +29,7 @@ exports.checkParams= async function(req, res, next) {
     } catch (e) {
         console.log(e);
         res.status(404);
-        res.render('index',{
+        res.render(config.indexPage,{
             page:config.notFoundPage,
             categories: await categoryAPI.getAllCategories(),
             pressed: 'none',

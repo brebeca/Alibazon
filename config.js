@@ -9,8 +9,9 @@ module.exports = {
     productsPage:'subcategory-page',
     productDetailsPage:'product-page',
     cartPage:'cart-page',
-    notFoundPage:'page-not-found',
+    notFoundPage:'errpr-page/page-not-found',
     LoginPage:'auth/login',
     signUpPage:'auth/signUp',
-    defaultCategory:'womens-jewelry'
+    defaultCategory:'womens-jewelry',
+    indexPage:'index'
 }

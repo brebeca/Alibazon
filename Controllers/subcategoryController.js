@@ -19,7 +19,7 @@ exports.subcategoryProductsPage =  async function(req, res) {
         let breadcrumbs=breadcrumb.breadcrumbsSubcategoryProducts(req.params.subcategory);
         let allCategories= await category.getAllCategories();
         let products= await product.getProductsForSubcategory(req.params.subcategory);
-        res.render('index',{
+        res.render(config.indexPage,{
             page:config.productsPage,
             categories: allCategories,
             breadcrumbs:breadcrumbs,
@@ -45,7 +45,7 @@ exports.productDetailsPage= async function(req, res) {
     try {
         let allCategories= await category.getAllCategories();
         let breadcrumbs=breadcrumb.breadcrumbsProductDetails(req.params.subcategory,res.locals.product.name );
-        res.render('index', {
+        res.render(config.indexPage, {
             page:config.productDetailsPage,
             categories: allCategories,
             breadcrumbs:breadcrumbs,
@@ -53,6 +53,6 @@ exports.productDetailsPage= async function(req, res) {
     }catch (e) {
         console.log(e);
         res.status(e.status || 500);
-        res.render('error2');
+        res.render('/error-pages/error2');
     }
     };

@@ -5,7 +5,7 @@ const singUpAPI=require('../../APIdata/authAPI/signup');
 
 exports.signUpPage = async function(req, res) {
     try{
-        res.render('index',{
+        res.render(config.indexPage,{
             page:config.signUpPage,
             categories: await categoryAPI.getAllCategories(),
             pressed: 'none',
@@ -13,7 +13,7 @@ exports.signUpPage = async function(req, res) {
         });
     }catch (e) {
         res.status(e.status || 500);
-        res.render('error2');
+        res.render('/error-pages/error2');
     }
 };
 
