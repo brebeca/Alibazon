@@ -1,18 +1,7 @@
 const chai= require('chai'),
     chaiHttp= require('chai-http'),
-    server= require('../app'),
-    roots= require('../utils/categories-utils')
-    ,loginAPI= require('../APIdata/authAPI/login'),
-    signUpAIP= require('../APIdata/authAPI/signup'),
-    productsAPIfunctions = require('../APIdata/products'),
-    subcategoryAPIfunctions=require('../APIdata/subcategories'),
-    parentID='mens-accessories',
-    subcategory = 'mens-accessories-ties',
-    categoryAPIfunctions=require('../APIdata/get-categories'),
-    productID='69309284',
-    {userLogin} =require('./useraccount'),
-    {userSignup} =require('./useraccount'),
-    {UserModel}=require('../utils/models/userModel');
+    dataForTests=require('./test-data'),
+    secretData=require('./SECRET');
 
 chai.should();
 chai.use(chaiHttp);
@@ -20,12 +9,13 @@ chai.use(chaiHttp);
  describe("API data tests", ()=>{
 
      it(" all categories of level 2 in an array ",async ()=>{
-         const allCAtegories=  await  categoryAPIfunctions.getAllCategories();
+         const allCAtegories=  await  dataForTests.categoryAPIfunctions.getAllCategories(secretData.baseURL,secretData.secretKEY);
          chai.expect(allCAtegories).to.be.an('array');
      });
 
      it(" products for a subcategory - existing subcategory- in an array of objects with property img_path", (done)=> {
-         productsAPIfunctions.getProductsForSubcategory(subcategory)
+         dataForTests.productsAPIfunctions.getProductsForSubcategory(dataForTests.subcategory,
+             secretData.baseURL,secretData.secretKEY)
              .then((products) => {
                  chai.expect(products).to.be.an('array');
                  products.forEach((item, index) => {
@@ -36,7 +26,8 @@ chai.use(chaiHttp);
      });
 
      it(" products for a subcategory -  NONexisting subcategory- in an array of objects with property img_path", (done)=> {
-         productsAPIfunctions.getProductsForSubcategory('not-a-subcategory')
+         dataForTests.productsAPIfunctions.getProductsForSubcategory('not-a-subcategory',
+             secretData.baseURL,secretData.secretKEY)
              .then(()=>{
                  done(new Error('Expected method to reject.'))
              }).catch(err =>{
@@ -46,15 +37,18 @@ chai.use(chaiHttp);
      });
 
      it(" get product by id - existing id ", (done)=> {
-         productsAPIfunctions.getProductByID(productID)
+         dataForTests.productsAPIfunctions.getProductByID(dataForTests.productID,1,
+             secretData.baseURL,secretData.secretKEY)
              .then((product) => {
-                 chai.expect(product).to.have.property('img_path');
+                 //console.log(product);
+                 chai.expect(product).to.have.property('imagePath');
                  done();
-             }).catch(err => done(err));
+             }).catch(err => done(new Error('Method reject. '+ err)));
      });
 
      it(" get product by id - NONexisting id ", (done)=> {
-         productsAPIfunctions.getProductByID('not-an-id')
+         dataForTests.productsAPIfunctions.getProductByID('not-an-id',
+             secretData.baseURL,secretData.secretKEY)
              .then(()=>{
                  done(new Error('Expected method to reject.'));
              }).catch(err => {
@@ -64,15 +58,17 @@ chai.use(chaiHttp);
      });
 
      it(" get subcategories by parentID- existing parentID ", (done)=> {
-         subcategoryAPIfunctions.getSubcategories(parentID)
+         dataForTests.subcategoryAPIfunctions.getSubcategories(dataForTests.parentID,
+             secretData.baseURL,secretData.secretKEY)
              .then((subcategories) => {
              chai.expect(subcategories).to.be.an('array');
              done();
-             }).catch(err => done(err));
+             }).catch(err => done(new Error('Method reject.')));
      });
 
      it(" get subcategories by parentID -NONexisting parentID ", (done)=> {
-         subcategoryAPIfunctions.getSubcategories('not-a-parent-id')
+         dataForTests.subcategoryAPIfunctions.getSubcategories('not-a-parent-id',
+             secretData.baseURL,secretData.secretKEY)
              .then(() => {
                  done(new Error('Expected method to reject.'));
              }).catch(err => {
@@ -83,7 +79,8 @@ chai.use(chaiHttp);
 
 
      it(" get subcategory s  parent - existing subcategory ", (done)=> {
-         subcategoryAPIfunctions.getCurrentCategoryParent(subcategory)
+         dataForTests.subcategoryAPIfunctions.getCurrentCategoryParent(dataForTests.subcategory,
+             secretData.baseURL,secretData.secretKEY)
              .then((parent) => {
                  chai.expect(parent).to.be.an('string');
                  done();
@@ -91,7 +88,8 @@ chai.use(chaiHttp);
      });
 
      it(" get subcategory s  parent -NONexisting subcategory ", (done)=> {
-         subcategoryAPIfunctions.getCurrentCategoryParent('not-a-subcategory')
+         dataForTests.subcategoryAPIfunctions.getCurrentCategoryParent('not-a-subcategory',
+             secretData.baseURL,secretData.secretKEY)
              .then(() => {
                  done(new Error('Expected method to reject.'));
              }).catch(err => {
@@ -107,16 +105,18 @@ chai.use(chaiHttp);
 describe("API data AUTH tests ", ()=> {
 
     it(" Login test real acount ",  (done ) => {
-        loginAPI.login(userLogin.email, userLogin.password)
+        dataForTests.loginAPI.login(dataForTests.userLogin.email, dataForTests.userLogin.password,
+            secretData.baseURL,secretData.secretKEY)
             .then((response)=>{
-                chai.expect(response).to.be.instanceOf(UserModel);
+                chai.expect(response).to.be.instanceOf(dataForTests.UserModel);
                 done();
             })
-            .catch(err => done(err));
+            .catch(err => done(new Error('Method  rejected.')));
     });
 
     it(" Login test nonexisting acount ",  (done ) => {
-        loginAPI.login(userLogin.notanemail, userLogin.notapassword)
+        dataForTests.loginAPI.login(dataForTests.userLogin.notanemail, dataForTests.userLogin.notapassword,
+            secretData.baseURL,secretData.secretKEY)
             .then((response)=>{
                 done(new Error('Expected method to reject.'));
             })
@@ -124,7 +124,8 @@ describe("API data AUTH tests ", ()=> {
     });
 
     it(" SignUp test existing account ",  (done ) => {
-        signUpAIP.signUp(userSignup.email, userSignup.password, userSignup.name)
+        dataForTests.signUpAIP.signUp(dataForTests.userSignup.email, dataForTests.userSignup.password, dataForTests.userSignup.name,
+            secretData.baseURL,secretData.secretKEY)
             .then((response)=>{
                 done(new Error('Expected method to reject.'));
             })

@@ -10,10 +10,10 @@ const utils=require('../utils/utils-functions');
  * calls resolve with the filtered categories
  * @returns {Promise<unknown>}
  */
-exports.getAllCategories =  () =>{
+exports.getAllCategories =  ( baseURL=config.baseURL, secretKey=config.secretKEY) =>{
     return new Promise((resolve, reject)=> {
         request({
-                url: config.baseURL+'categories?secretKey='+config.secretKEY,
+                url: baseURL+'categories?secretKey='+secretKey,
                 method: 'GET'
             },
             function (error, response) {

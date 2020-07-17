@@ -6,19 +6,23 @@ const request   = require('request');
  * in case of error calls reject
  * parses the body and calls resolve
  * @param parentID           the parent Id of the subcategories
+ * @param baseURL
+ * @param secretKey
  * @returns {Promise<unknown>}
  */
-exports.getSubcategories=  (parentID) =>{
+exports.getSubcategories=  (parentID, baseURL=config.baseURL, secretKey=config.secretKEY) =>{
     return new Promise((resolve, reject)=> {
         request({
-                url: config.baseURL+'categories/parent/'+parentID+'?secretKey='+config.secretKEY,
+                url: baseURL+'categories/parent/'+parentID+'?secretKey='+secretKey,
                 method: 'GET'
             },
             function (error, response) {
                 if (error) {
+                    //console.log(error);
                     reject({error:error});
                 } else {
                     let body=JSON.parse(response.body);
+                    //console.log(body);
                     if(body.error!==undefined||body.length===0)
                         reject({error:body.error});
                     resolve(body);
@@ -33,12 +37,14 @@ exports.getSubcategories=  (parentID) =>{
  * in case of error calls reject
  * parses the body and calls resolve on the parent_category_id field of the object
  * @param subcategoryID       the id of the subcategory
+ * @param baseURL
+ * @param secretKey
  * @returns {Promise<unknown>}
  */
-exports.getCurrentCategoryParent =(subcategoryID) =>{
+exports.getCurrentCategoryParent =(subcategoryID, baseURL=config.baseURL, secretKey=config.secretKEY) =>{
     return new Promise((resolve, reject)=> {
         request({
-                url: config.baseURL+'categories/'+subcategoryID+'?secretKey='+config.secretKEY,
+                url: baseURL+'categories/'+subcategoryID+'?secretKey='+secretKey,
                 method: 'GET'
             },
             function (error, response) {

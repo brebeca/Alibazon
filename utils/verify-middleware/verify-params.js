@@ -44,14 +44,16 @@ exports.checkParams= async function(req, res, next) {
  * in case of error sets returnVal to false
  * @param subcategory           the category to be chacked
  * @param res                    the response object
+ * @param url
+ * @param key
  * @returns {Promise<boolean>}   true if no error ; flase, else
  */
-async function verifySubcategory(subcategory,res) {
+async function verifySubcategory(subcategory,res,url=config.baseURL, key=config.secretKEY) {
     let returnVal=true;
-    await subcategoryAPI.getCurrentCategoryParent(subcategory).then((id)=>{
+    await subcategoryAPI.getCurrentCategoryParent(subcategory,url,key).then((id)=>{
         res.locals.pressed={ id: id};
     }).catch((err)=>{
-        console.log(err);
+       // console.log(err);
         returnVal= false ;
     });
     return returnVal;
@@ -64,10 +66,12 @@ async function verifySubcategory(subcategory,res) {
  * if it dose not exist, it returns false
  * @param category      the category id to be checked
  * @param res           the response object
+ * @param url
+ * @param key
  * @returns {Promise<boolean>}
  */
-async function verifyCategory(category, res) {
-    let categories = await  categoryAPI.getAllCategories();
+async function verifyCategory(category, res,url=config.baseURL, key=config.secretKEY) {
+    let categories = await  categoryAPI.getAllCategories(url,key);
     let wantedCategory = categories.filter(function (item) {
         return item.id === category;
     });
@@ -89,12 +93,14 @@ async function verifyCategory(category, res) {
  * @param id                   the product id to be checked
  * @param res                  the response object
  * @param parentCaregory
+ * @param url
+ * @param key
  * @returns {Promise<boolean>}  returns true if no error, else returns false
  */
-async function verifyProductID(id,res,parentCaregory) {
+async function verifyProductID(id,res,parentCaregory,url=config.baseURL, key=config.secretKEY) {
     let returnVal=true;
-    await productAPI.getProductByID(id).then((product)=>{
-        if(product.parentCategory!==parentCaregory)
+    await productAPI.getProductByID(id,1,url,key).then((product)=>{
+       if(product.parentCategory!==parentCaregory)
             returnVal= false ;
         else
             res.locals.product=product;

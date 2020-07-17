@@ -2,20 +2,22 @@ const request = require('request');
 const config = require('../../config');
 const userModel = require('../../utils/models/userModel').UserModel;
 
-exports.login = (email, password) => {
+exports.login = (email, password, baseURL=config.baseURL, secretKey=config.secretKEY) => {
     return new Promise((resolve, reject) => {
-        request.post(config.baseURL + 'auth/signin',
+        request.post(baseURL + 'auth/signin',
             {
                 json: {
                     email: email,
                     password: password,
-                    secretKey:config.secretKEY
+                    secretKey:secretKey
                 }
             },
             function (error, response, body) {
                 if (error) {
+                    //console.log(error);
                     reject({error: error});
                 } else {
+                    //console.log(body);
                     if (response.statusCode === 400)
                         reject({error: body.error});
                     else {

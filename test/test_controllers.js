@@ -1,16 +1,9 @@
 const chai= require('chai'),
     chaiHttp= require('chai-http'),
     server = require('../app'),
-    loginAPI= require('../APIdata/authAPI/login'),
-    signUpAIP= require('../APIdata/authAPI/signup'),
-    {userLogin} =require('./useraccount'),
-    {userSignup} =require('./useraccount'),
-    category='mens-accessories',
-    notACategory='not-a-category',
-    subcategory='mens-clothing-jackets',
-    notAsubcategory='not-a-subcategory',
-    id='69309284',
-    notAid='not-a-id';
+    dataForTests=require('./test-data'),
+    id='69309284';
+
 
 chai.should();
 chai.use(chaiHttp);
@@ -41,7 +34,7 @@ describe("Endpoints index tests", ()=> {
 
     it(" GET /home/category -> status 200",  (done) => {
         chai.request(server)
-            .get('/home/'+ category)
+            .get('/home/'+ dataForTests.category)
             .end((err, response)=>{
                 if(err)
                     done(err);
@@ -52,7 +45,7 @@ describe("Endpoints index tests", ()=> {
 
     it(" GET /home/category  -> status 404",  (done) => {
         chai.request(server)
-            .get('/home/'+ notACategory)
+            .get('/home/'+ dataForTests.notACategory)
             .end((err, response)=>{
                 if(err)
                     done(err);
@@ -66,7 +59,7 @@ describe("Endpoints products  tests", ()=> {
 
     it(" GET /subcategory/:subcategory -> status 200",  (done) => {
         chai.request(server)
-            .get('/subcategory/'+subcategory)
+            .get('/subcategory/'+dataForTests.subcategory)
             .end((err, response)=>{
                 if(err)
                     done(err);
@@ -77,7 +70,7 @@ describe("Endpoints products  tests", ()=> {
 
     it(" GET /subcategory/:subcategory -> status 404",  (done) => {
         chai.request(server)
-            .get('/subcategory/'+notAsubcategory)
+            .get('/subcategory/'+dataForTests.notAsubcategory)
             .end((err, response)=>{
                 if(err)
                     done(err);
@@ -88,7 +81,7 @@ describe("Endpoints products  tests", ()=> {
 
     it(" GET /subcategory/:subcategory/:id-> status 404 (subcategory and product id do not match )",  (done) => {
         chai.request(server)
-            .get('/subcategory/'+ subcategory+'/'+id)
+            .get('/subcategory/'+ dataForTests.subcategory+'/'+id)
             .end((err, response)=>{
                 if(err)
                     done(err);
@@ -99,7 +92,7 @@ describe("Endpoints products  tests", ()=> {
 
     it(" GET /subcategory/:subcategory/:id-> status 200",  (done) => {
         chai.request(server)
-            .get('/subcategory/mens-clothing-dress-shirts/'+id)
+            .get('/subcategory/'+dataForTests.subcategory+'/'+dataForTests.id)
             .end((err, response)=>{
                 if(err)
                     done(err);
@@ -110,7 +103,7 @@ describe("Endpoints products  tests", ()=> {
 
     it(" GET /subcategory/:subcategory/:id-> status 404",  (done) => {
         chai.request(server)
-            .get('/subcategory/'+ subcategory+'/'+notAid)
+            .get('/subcategory/'+ dataForTests.subcategory+'/'+dataForTests.notAid)
             .end((err, response)=>{
                 if(err)
                     done(err);
@@ -147,7 +140,7 @@ describe('Auth Controllers tests ',()=>{
     it('POST /auth/login -> 200',(done)=>{
         chai.request(server)
             .post('/auth/login')
-            .send({password:userLogin.password,  email:userLogin.email})
+            .send({password:dataForTests.userLogin.password,  email:dataForTests.userLogin.email})
             .end((err, response)=>{
                 if(err)
                     done(err);
@@ -159,7 +152,7 @@ describe('Auth Controllers tests ',()=>{
     it('POST /auth/login -> 400',(done)=>{
         chai.request(server)
             .post('/auth/login')
-            .send({password:userLogin.notapassword,  email:userLogin.notanemail})
+            .send({password:dataForTests.userLogin.notapassword,  email:dataForTests.userLogin.notanemail})
             .end((err, response)=>{
                 if(err)
                     done(err);
@@ -171,7 +164,8 @@ describe('Auth Controllers tests ',()=>{
     it('POST /auth/signup -> 400', (done)=>{
         chai.request(server)
             .post('/auth/signup')
-            .send({password:userLogin.password,  email:userLogin.email, name:userSignup.name})
+            .send({password:dataForTests.userLogin.password,  email:dataForTests.userLogin.email,
+                name:dataForTests.userSignup.name})
             .end((err, response)=>{
                 if(err)
                     done(err);

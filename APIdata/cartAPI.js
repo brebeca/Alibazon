@@ -2,11 +2,11 @@ const request = require('request');
 const config = require('../config');
 const {ProductModel}=require('../utils/models/productModel');
 
-exports.add = (productID, variantID, quantity='1',token) => {
+exports.add = (productID, variantID, quantity='1',token, baseURL=config.baseURL, secretKey=config.secretKEY) => {
 
     return new Promise((resolve, reject) => {
         const options = {
-            url: config.baseURL + '/cart/addItem',
+            url: baseURL + '/cart/addItem',
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -19,7 +19,7 @@ exports.add = (productID, variantID, quantity='1',token) => {
                         'productId': productID,
                         'variantId': variantID,
                         'quantity':quantity,
-                        'secretKey':config.secretKEY
+                        'secretKey':secretKey
                 }
 
         };
@@ -39,10 +39,10 @@ exports.add = (productID, variantID, quantity='1',token) => {
     });
 }
 
-exports.get=async function(token) {
+exports.get=async function(token, baseURL=config.baseURL, secretKey=config.secretKEY) {
     return new Promise((resolve, reject) => {
         const options = {
-            url: config.baseURL + 'cart?secretKey='+config.secretKEY,
+            url: baseURL + 'cart?secretKey='+secretKey,
             method: 'GET',
             headers: {
                 'Authorization':' Bearer '+token

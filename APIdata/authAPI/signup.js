@@ -3,15 +3,15 @@ const config = require('../../config');
 const {userModel} = require('../../utils/models/userModel');
 
 
-exports.signUp = (email, password, name) => {
+exports.signUp = (email, password, name, baseURL=config.baseURL, secretKey=config.secretKEY) => {
     return new Promise((resolve, reject) => {
-        request.post(config.baseURL + 'auth/signup',
+        request.post(baseURL + 'auth/signup',
             {
                 json: {
                     name:name,
                     email: email,
                     password: password,
-                    secretKey:config.secretKEY
+                    secretKey:secretKey
                 }
             },
             function (error, response, body) {
