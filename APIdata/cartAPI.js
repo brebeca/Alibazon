@@ -28,8 +28,9 @@ exports.add = (productID, variantID, quantity='1',token, baseURL=config.baseURL,
                 if (error) {
                     reject({error: error});
                 } else {
+
                     if (response.statusCode !== 200)
-                        reject({error: 'error'});
+                        reject({error: body.error});
                     else {
                        resolve({message:"Product added"})
                     }
@@ -53,11 +54,11 @@ exports.get=async function(token, baseURL=config.baseURL, secretKey=config.secre
             if (error) {
                 reject({error: error});
             } else {
+                body= JSON.parse(body);
                 if (response.statusCode !== 200)
-                    reject({error: 'error'});
+                    reject({error: body.error});
                 else {
                    // console.log(JSON.parsebody);
-                    body= JSON.parse(body);
                     resolve(body.items);
 
                 }

@@ -204,6 +204,7 @@ module.exports={
     parentID:'mens-accessories',
     subcategory :'mens-clothing-dress-shirts',
     productID:'69309284',
+    variantID:'69309284-4',
     loginAPI: require('../APIdata/authAPI/login'),
     notACategory:'not-a-category',
     notAsubcategory:'not-a-subcategory',
@@ -215,4 +216,5 @@ module.exports={
     iterable:[1,2,3],
     utils:require('../utils/utils-functions'),
     res:{locals:{pressed:'', product:{}}},
+    cartAPI: require('../APIdata/cartAPI'),
 }

@@ -8,7 +8,7 @@ exports.loginBodyVerify = (req, res, next)=> {
             throw ' Missing password ';
         next();
     }catch (e) {
-        console.log(e);
+      //console.log(e);
         res.status(400);
         res.json({ message: e});
     }
@@ -27,9 +27,24 @@ exports.signUpBodyVerify = (req, res, next)=> {
             throw ' Missing name ';
         next();
     }catch (e) {
-        console.log(e);
+        //console.log(e);
         res.status(400);
         res.json({ message: e});
     }
+}
 
+exports.addToCartBodyVerify = (req, res, next)=> {
+    try {
+        if(req.body.productID===undefined)
+            throw ' Missing productID ';
+
+        if(req.body.variantID===undefined)
+            throw ' Missing variantID ';
+
+        next();
+    }catch (e) {
+        //console.log(e);
+        res.status(400);
+        res.json({ message: e});
+    }
 }

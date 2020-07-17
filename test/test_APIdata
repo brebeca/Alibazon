@@ -6,7 +6,7 @@ const chai= require('chai'),
 chai.should();
 chai.use(chaiHttp);
 
- describe("API data tests", ()=>{
+describe("API data tests", ()=>{
 
      it(" all categories of level 2 in an array ",async ()=>{
          const allCAtegories=  await  dataForTests.categoryAPIfunctions.getAllCategories(secretData.baseURL,secretData.secretKEY);
@@ -100,8 +100,6 @@ chai.use(chaiHttp);
  });
 
 
-
-
 describe("API data AUTH tests ", ()=> {
 
     it(" Login test real acount ",  (done ) => {
@@ -132,4 +130,59 @@ describe("API data AUTH tests ", ()=> {
             .catch(err => done());
     });
 
+})
+
+
+describe("API data CART tests",()=>{
+    it(" POST cart, add a product to a cart  ",  (done ) => {
+        dataForTests.cartAPI.add(dataForTests.productID,dataForTests.variantID,1,secretData.aToken,
+            secretData.baseURL,secretData.secretKEY)
+            .then((response)=>{
+                chai.expect(response).to.have.property('message');
+                chai.expect(response.message).to.eql('Product added');
+                done();
+            })
+            .catch((err)=>{
+                //console.log(err);
+                done(new Error('Method  rejected.'))
+            })
+    });
+
+    it(" GET cart for a user", (done)=>{
+        dataForTests.cartAPI.get(secretData.aToken,secretData.baseURL,secretData.secretKEY)
+            .then((response)=>{
+                chai.expect(response).to.be.an('array');
+                done();
+            })
+            .catch((err)=>{
+                console.log(err);
+                done(new Error('Method  rejected.'))
+            })
+    });
+
+    it(" GET cart for a user with wrong token", (done)=>{
+        dataForTests.cartAPI.get('not-a-token',secretData.baseURL,secretData.secretKEY)
+            .then((response)=>{
+                //chai.expect(response).to.be.an('array');
+                done(new Error('Expected to fail.'))
+            })
+            .catch((err)=>{
+               // console.log(err);
+                done();
+            })
+    });
+
+    it("POST cart, add product to NONexisting cart ", (done)=>{
+        dataForTests.cartAPI.add(dataForTests.productID,dataForTests.variantID,1,'not-a-token',
+            secretData.baseURL,secretData.secretKEY)
+            .then((response)=>{
+                done(new Error('Method  rejected.'));
+            })
+            .catch((err)=>{
+               // console.log(err);
+                chai.expect(err).to.have.property('error');
+                chai.expect(err.error).to.eql('Invalid Token');
+                done();
+            })
+    })
 })

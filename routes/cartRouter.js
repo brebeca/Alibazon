@@ -1,13 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var controller = require('../Controllers/cartController');
-const verifyToken=require('../utils/verify-middleware/verify-token');
+const verifyToken=require('../utils/verify-middleware/verify-token'),
+    verifyBody=require('../utils/verify-middleware/verify-body').addToCartBodyVerify;
 
 /* POST product to cart */
-router.post('/add' , controller.add);
+router.post('/add' , verifyToken.shouldHaveTokenVerify, controller.add);
 
 /* GET the cart page ( the category menu ) */
-router.get('/mycart' ,verifyToken.shouldHaveTokenVerify, controller.getCart);
+router.get('/mycart' ,verifyToken.shouldHaveTokenVerify, verifyBody ,controller.getCart);
 
 
 module.exports = router;
