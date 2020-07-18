@@ -2,11 +2,11 @@ const request = require('request');
 const config = require('../config');
 const {ProductModel}=require('../utils/models/productModel');
 
-exports.add = (productID, variantID, quantity='1',token, baseURL=config.baseURL, secretKey=config.secretKEY) => {
+exports.add = (type,productID, variantID, quantity='1',token, baseURL=config.baseURL, secretKey=config.secretKEY) => {
 
     return new Promise((resolve, reject) => {
         const options = {
-            url: baseURL + '/cart/addItem',
+            url: baseURL + '/'+type+'/addItem',
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -40,10 +40,10 @@ exports.add = (productID, variantID, quantity='1',token, baseURL=config.baseURL,
     });
 }
 
-exports.get=async function(token, baseURL=config.baseURL, secretKey=config.secretKEY) {
+exports.get=async function(type,token, baseURL=config.baseURL, secretKey=config.secretKEY) {
     return new Promise((resolve, reject) => {
         const options = {
-            url: baseURL + 'cart?secretKey='+secretKey,
+            url: baseURL + type+'?secretKey='+secretKey,
             method: 'GET',
             headers: {
                 'Authorization':' Bearer '+token
@@ -56,7 +56,7 @@ exports.get=async function(token, baseURL=config.baseURL, secretKey=config.secre
             } else {
                 body= JSON.parse(body);
                 if (response.statusCode !== 200)
-                    if('There is no cart created for this user'===body.error)
+                    if('There is no '+type+' created for this user'===body.error)
                         resolve([]);
                     else
                         reject({error: body.error});
@@ -68,11 +68,11 @@ exports.get=async function(token, baseURL=config.baseURL, secretKey=config.secre
     });
 }
 
-exports.delete = (productID, variantID,token, baseURL=config.baseURL, secretKey=config.secretKEY) => {
+exports.delete = (type,productID, variantID,token, baseURL=config.baseURL, secretKey=config.secretKEY) => {
 
     return new Promise((resolve, reject) => {
         const options = {
-            url: baseURL + '/cart/removeItem',
+            url: baseURL + '/'+type+'/removeItem',
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

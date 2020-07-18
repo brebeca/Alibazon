@@ -1,49 +1,127 @@
-
-<div class="container">
-    <% products.forEach(function (item, index) {
-        if(item.primary_category_id===undefined)
-             item.id=item.master.master_id;
+<div id="pC">
+    <div class="container" >
+        <% products.forEach(function (item, index) {
+            if(item.primary_category_id===undefined)
+                item.id=item.master.master_id;
         if(index%2===0&&index!==0){%>
-       </div><div class="row" >
+    </div><div class="row" >
         <%}
         else if(index%2===0&&index==0){%>
         <div class="row" >
             <%}%>
-        <div class="col-sm">
-            <h4><%=item.name%></h4>
+            <div class="col-sm">
+                <h4><%=item.name%></h4>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            <img src="/images/<%= item.img_path %>" class="img-fluid" alt="Responsive image">
+                        </div>
+                        <div class="col-sm">
+                            <div class="container">
+                                <div class="row">
+                                    <p><%= item.short_description %></p>
+                                </div>
+                                <div class="row">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                Price : $ <%= item.price %>
+                                            </div>
+                                            <div class="col-sm">
+                                                <a class="btn btn-primary text-white" href="/subcategory/<%= item.primary_category_id %>/<%= item.id %>" role="button" >More details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <% });
+            if((products.length-1)%2===0){%>
+        </div>
+        <%}%>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+    <button type="button" class="btn btn-outline-primary m-4" onclick="loadMoreProducts()" id="moreProducts">More Results</button>
+</div>
+<script>
+    var page=1;
+    function loadMoreProducts() {
+        page++;
+        url=window.location.pathname+'/more/'+page;
+        let xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+                let jsonObj = JSON.parse(xmlhttp.response);
+                if(xmlhttp.status === 400){
+                    //alert('No more products');
+                    document.getElementById("moreProducts").disabled = true;
+                    document.getElementById("moreProducts").innerText = 'No more results';
+                }
+                if(xmlhttp.status===200){
+                    displayMore(jsonObj);
+                }
+            }
+        };
+        xmlhttp.open("GET", url);
+        xmlhttp.send();
+    }
+
+    function displayMore(products) {
+        document.getElementById("pC").innerHTML+= `<div class="container" id="pC${page}"></div>`
+        products.forEach(function (item, index) {
+            let id="pC"+page+(index-1);
+            if(index%2===0){
+                document.getElementById("pC"+page).innerHTML+= `<div class="row" id="pC${page}${index}"></div>`
+                id="pC"+page+index;
+            }
+            /*if(index%2===0&&index!==0){
+                document.getElementById("pC"+page).innerHTML+= ` </div><div class="row" > `
+            }*/
+
+            document.getElementById(id).innerHTML+= `
+            <div class="col-sm">
+            <h4>${item.name}</h4>
             <div class="container">
                 <div class="row">
                     <div class="col-sm">
-                        <img src="/images/<%= item.img_path %>" class="img-fluid" alt="Responsive image">
+                        <img src="/images/${item.img_path}" class="img-fluid" alt="Responsive image">
                     </div>
                     <div class="col-sm">
                         <div class="container">
                             <div class="row">
-                                <p><%= item.short_description %></p>
+                                <p>${item.short_description}</p>
                             </div>
                             <div class="row">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-sm">
-                                            Price : $ <%= item.price %>
+                                            Price : $ ${item.price}
                                         </div>
                                         <div class="col-sm">
-                                            <a class="btn btn-primary text-white" href="/subcategory/<%= item.primary_category_id %>/<%= item.id %>" role="button" >More details</a>
-
+                                            <a class="btn btn-primary text-white" href="/subcategory/${item.primary_category_id }/${item.id}" role="button" >More details</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
             </div>
-        </div>
-    <% });
-    if((products.length-1)%2===0){%>
-        </div>
-    <%}%>
-</div>
+        </div>`
 
+     });
+        if((products.length-1)%2===0){
+            document.getElementById("pC"+page).innerHTML+=`</div>`
+        }
+
+        //document.getElementById("pC").innerHTML+=`</div>`
+    }
+</script>

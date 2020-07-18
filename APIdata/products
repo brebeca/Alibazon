@@ -10,14 +10,15 @@ const {ProductModel}= require('../utils/models/productModel');
  * for each object calls the function getImgPath to get the path to the medium image
  * calls resolve with the final array of products
  * @param subcategoryID       the id for the requested subcategory
+ * @param page
  * @param baseURL
  * @param secretKey
  * @returns {Promise<unknown>}
  */
-exports.getProductsForSubcategory=  (subcategoryID, baseURL=config.baseURL, secretKey=config.secretKEY) =>{
+exports.getProductsForSubcategory=  (subcategoryID,page, baseURL=config.baseURL, secretKey=config.secretKEY) =>{
     return new Promise((resolve, reject)=> {
         request({
-                url: baseURL+'products/product_search?primary_category_id='+subcategoryID+'&secretKey='+secretKey,
+                url: baseURL+'products/product_search?primary_category_id='+subcategoryID+'&secretKey='+secretKey+'&page='+page,
                 method: 'GET'
             },
             function (error, response) {
@@ -26,6 +27,8 @@ exports.getProductsForSubcategory=  (subcategoryID, baseURL=config.baseURL, secr
                 } else {
                     let products=JSON.parse(response.body);
                     if(products.error!==undefined){
+                        if('Product Not Found'===products.error)
+                            resolve([]);
                         reject({error:products.error});
                     }
                     else {

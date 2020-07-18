@@ -9,7 +9,8 @@ require('dotenv').config();
 const indexRouter = require('./routes/indexRouter');
 const subcategoryRouter = require('./routes/subcategoryRouter');
 const authRouter = require('./routes/authRouter');
-const cartRouter= require('./routes/cartRouter')
+const cartRouter= require('./routes/cartRouter');
+const wishListRouter=require('./routes/wishListRouter');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/', verifyToken.tokenVerify,indexRouter);
 app.use('/subcategory',verifyToken.tokenVerify, subcategoryRouter);
 app.use('/auth', verifyToken.tokenVerify,authRouter);
 app.use('/cart',verifyToken.tokenVerify,cartRouter);
+app.use('/wishlist',wishListRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

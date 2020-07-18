@@ -1,16 +1,17 @@
 
 <% if(products.length===0){
-    %><h1> Empty cart! </h1>
-<%}else {%>
-<%}products.forEach((item,index)=>{
+    %><h1> Empty <%= pageType%>! </h1>
+<%}
+    products.forEach((item,index)=>{
     let size=' w-75';
     let ml='0';
-    if(index===0) { %>
-<div class="conntainer">
-    <div class="row">
-        <div class="col-8">
-<% size='';
-    ml='5';}%>
+    if(index===0&&pageType==='cart') { %>
+      <div class="conntainer">
+        <div class="row">
+           <div class="col-8">
+      <% size='';
+       ml='5';
+    }%>
     <div class="card<%=size%> m-3 bg-light ml-5 pr-<%=ml%>" id="<%=item.productID%>">
         <div class="container pb-2" style="padding-bottom: 3rem;">
             <div class="row">
@@ -41,6 +42,7 @@
                             <li><strong><%= key%> </strong>: <%= value%></li>
                         <%}
                             item.atributes.forEach(mapElements)%>
+                            <li><strong>quantity </strong>: <%= item.quantity%></li>
                     </ul>
 
                 </div>
@@ -49,26 +51,30 @@
                 <div class="col-8">
                 </div>
                 <div class="col-sm float-right">
-                    <button type="button" class="btn btn-info">More Info</button>
-                    <button class="btn btn-danger rounded-0" onclick="deleteFromCart('<%=item.productID%>','<%=item.variantID %>')" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+                    <a href="/subcategory/<%=item.parentCategory%>/<%=item.productID%>" class="btn btn-info">More Info</a>
+                    <button class="btn btn-danger rounded-0" onclick="deleteFrom('<%=pageType%>','<%=item.productID%>','<%=item.variantID %>')" type="button" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
                 </div>
             </div>
         </div>
     </div>
 <%
-    if(index===0){
-        %>
-        </div>
-        <div class="col-4 ml-0 pl-0">
-            <div class="card mr-4 pr-3 m-3 bg-light ml-5">
-                <div class="card-body">
-                    <h5 class="card-title text-center">Your cart total:</h5>
-                    <h5 class="card-text text-center"> <strong id="totalPrice"><%= totalPrice%></strong> $</h5>
-                    <a href="#" class="btn btn-primary">Buy now!</a>
+    if(index===0&&pageType==='cart'){
+      function priceDisplay() {
+            %>
+           </div>
+            <div class="col-4 ml-0 pl-0">
+                <div class="card mr-4 pr-3 m-3 bg-light ml-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Your cart total:</h5>
+                        <h5 class="card-text text-center"> <strong id="totalPrice"><%if(totalPrice!==undefined){%><%= totalPrice%><%}%></strong> $</h5>
+                        <a href="#" class="btn btn-primary">Buy now!</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-</div><%
+      </div>
+               <%
+      }
+      priceDisplay();
     }})%>

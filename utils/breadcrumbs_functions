@@ -79,5 +79,17 @@ module.exports = {
             ,
             active:'Cart'
         }
+    },
+    breadcrumbsWishList:()=>{
+        return {
+            path: [
+                {
+                    title: 'home',
+                    link: '/'
+                }
+            ]
+            ,
+            active:'Wish List'
+        }
     }
 }

@@ -1,6 +1,23 @@
 function logout() {
-    document.cookie = "token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-    window.location.href = "/";
+  //  document.cookie = "token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    url='/auth/logout';
+    let xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+            let jsonObj = JSON.parse(xmlhttp.response);
+            if(xmlhttp.status !== 200){
+                alert('LogOut failed ');
+            }
+            if(xmlhttp.status===200){
+                window.location.replace("/");
+            }
+            console.log(jsonObj);
+        }
+    };
+    xmlhttp.open("DELETE", url);
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify({}));
 }
 
 function login(){
@@ -15,8 +32,9 @@ function login(){
             if(xmlhttp.status === 400){
                 alert('Login failed : '+ jsonObj['message']);
             }
-            else
-                alert('Login failed : internal problem . ');
+            if(xmlhttp.status===200){
+                window.location.replace("/");
+            }
         }
     };
     xmlhttp.open("POST", url);
@@ -60,15 +78,16 @@ function signUp(){
     }
 }
 
-function deleteFromCart( productID, variationID){
+function deleteFrom(type, productID, variationID){
     let product = document.getElementById(productID);
-    let price=parseFloat(document.getElementById('totalPrice').innerText);
-    price=price - parseFloat(document.getElementById('price'+variationID).innerText);
-    document.getElementById('totalPrice').innerHTML=price.toString();
-
+    if(type==='cart'){
+        let price=parseFloat(document.getElementById('totalPrice').innerText);
+        price=price - parseFloat(document.getElementById('price'+variationID).innerText);
+        document.getElementById('totalPrice').innerHTML=price.toString();
+    }
     product.remove();
 
-    url='/cart/delete';
+    url='/'+type+'/delete';
     let xmlhttp = new XMLHttpRequest();
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === XMLHttpRequest.DONE) {

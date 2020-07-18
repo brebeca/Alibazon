@@ -13,5 +13,6 @@ module.exports = {
     LoginPage:'auth/login',
     signUpPage:'auth/signUp',
     defaultCategory:'womens-jewelry',
-    indexPage:'index'
+    indexPage:'index',
+    wishListPage:'cart-page'
 }
