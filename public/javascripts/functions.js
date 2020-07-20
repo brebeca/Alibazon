@@ -1,82 +1,3 @@
-function logout() {
-  //  document.cookie = "token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-    url='/auth/logout';
-    let xmlhttp = new XMLHttpRequest();
-
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState === XMLHttpRequest.DONE) {
-            let jsonObj = JSON.parse(xmlhttp.response);
-            if(xmlhttp.status !== 200){
-                alert('LogOut failed ');
-            }
-            if(xmlhttp.status===200){
-                window.location.replace("/");
-            }
-            console.log(jsonObj);
-        }
-    };
-    xmlhttp.open("DELETE", url);
-    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xmlhttp.send(JSON.stringify({}));
-}
-
-function login(){
-    let email= document.getElementById("Email").value;
-    let password= document.getElementById("Password").value;
-    url='/auth/login';
-    let xmlhttp = new XMLHttpRequest();
-
-    xmlhttp.onreadystatechange = function () {
-        if (xmlhttp.readyState === XMLHttpRequest.DONE) {
-            let jsonObj = JSON.parse(xmlhttp.response);
-            if(xmlhttp.status === 400){
-                alert('Login failed : '+ jsonObj['message']);
-            }
-            if(xmlhttp.status===200){
-                window.location.replace("/");
-            }
-        }
-    };
-    xmlhttp.open("POST", url);
-    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-    xmlhttp.send(JSON.stringify({ "email": email,password: password}));
-}
-
-function signUp(){
-    let email= document.getElementById("Email").value;
-    let name= document.getElementById("Name").value;
-    let password= document.getElementById("Password").value;
-    let passwordMatch= document.getElementById("PasswordMatching").value;
-    if(password!==passwordMatch)
-        alert("Passwords do not match");
-    else {
-        url = '/auth/signUp';
-        let xmlhttp = new XMLHttpRequest();
-
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState === XMLHttpRequest.DONE) {
-                let jsonObj = JSON.parse(xmlhttp.response);
-                console.log(jsonObj);
-                if (xmlhttp.status === 200) {
-                    //document.cookie = "token=" + jsonObj['token'] + "; path=/";
-                    console.log(jsonObj);
-                    //console.log(document.cookie);
-                    window.location.replace("/auth/login");
-                } else if (xmlhttp.status === 400) {
-                    alert('Login failed : ' + jsonObj['message']);
-                } else
-                    alert('Login failed : internal problem . ');
-            }
-        };
-        xmlhttp.open("POST", url);
-        xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-        xmlhttp.send(JSON.stringify({
-            email: email,
-            password: password,
-            name: name,
-        }));
-    }
-}
 
 function deleteFrom(type, productID, variationID){
     let product = document.getElementById(productID);
@@ -130,4 +51,100 @@ function convertCurrency(  toCurrency) {
         }
         fromCurrency=toCurrency;
     }
+}
+
+var page=1;
+function loadMoreProducts() {
+    page++;
+    url=window.location.pathname+'/more/'+page;
+    let xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+            let jsonObj = JSON.parse(xmlhttp.response);
+            if(xmlhttp.status === 400){
+                document.getElementById("moreProducts").disabled = true;
+                document.getElementById("moreProducts").innerText = 'No more results';
+            }
+            if(xmlhttp.status===200){
+                let aux=productsInfo.concat(jsonObj);
+                productsInfo=jsonObj;
+                if(activeFilter.length===0)
+                    displayMore(jsonObj);
+                else
+                    filterProducts(activeFilter[0],activeFilter[1],activeFilter[2],'more');
+               productsInfo=aux;
+            }
+        }
+    };
+    xmlhttp.open("GET", url);
+    xmlhttp.send();
+}
+
+function displayMore(products) {
+
+    document.getElementById("pC").innerHTML+= `<div class="container" id="pC${page}"></div>`
+    products.forEach(function (item, index) {
+        let id="pC"+page+(index-1);
+        if(index%2===0){
+            document.getElementById("pC"+page).innerHTML+= `<div class="row" id="pC${page}${index}"></div>`
+            id="pC"+page+index;
+        }
+        document.getElementById(id).innerHTML+= `
+            <div class="col-sm">
+            <h4>${item.name}</h4>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        <img src="/images/${item.img_path}" class="img-fluid" alt="Responsive image">
+                    </div>
+                    <div class="col-sm">
+                        <div class="container">
+                            <div class="row">
+                                <p>${item.short_description}</p>
+                            </div>
+                            <div class="row">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            Price : $ ${item.price}
+                                        </div>
+                                        <div class="col-sm">
+                                            <a class="btn btn-primary text-white" href="/subcategory/${item.primary_category_id }/${item.id}" role="button" >More details</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`
+
+    });
+    if((products.length-1)%2===0){
+        document.getElementById("pC"+page).innerHTML+=`</div>`
+    }
+}
+
+function writeModal() {
+    document.getElementById("userNameProfile").innerHTML=localStorage.getItem('name');
+    document.getElementById("userEmailProfile").innerHTML=localStorage.getItem('email');
+    let mydate = new Date(Date.parse(localStorage.getItem('data')));
+    document.getElementById("userDataProfile").innerHTML=mydate.toDateString();
+
+    url='/cart/info';
+    let xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+            let jsonObj = JSON.parse(xmlhttp.response);
+            if(xmlhttp.status===200){
+                document.getElementById("cartNumber").innerHTML=jsonObj['cart'];
+                document.getElementById("wishlistNumber").innerHTML=jsonObj['wishlist']
+            }
+        }
+    };
+    xmlhttp.open("GET", url);
+    xmlhttp.send();
 }

@@ -1,0 +1,20 @@
+<!-- filters -->
+<div class="card">
+    <%filters.forEach((filter)=>{%>
+        <article class="card-group-item">
+            <header class="card-header">
+                <h6 class="title"><%= filter.name%> </h6>
+            </header>
+            <div class="filter-content">
+                <div class="card-body">
+                    <form>
+                        <%function logMapVarinat(value, key, map) { %>
+                        <button id="<%=value%>|<%=key%>|<%=filter.id%>" type="button" class="btn btn-dark m-1" onclick="filterProducts('<%=value%>','<%=key%>','<%=filter.id%>')"><%=value%></button>
+                        <%}
+                            filter.variantsMap.forEach(logMapVarinat);%>
+                    </form>
+                </div>
+            </div>
+        </article>
+    <%})%>
+</div> <!-- /filters -->

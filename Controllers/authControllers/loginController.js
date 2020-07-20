@@ -21,7 +21,7 @@ exports.loginValidation = async function(req, res) {
         loginAPI.login(req.body.email, req.body.password)
             .then((user)=>{
                 res.status(200);
-                res.cookie('token', user.token, { maxAge: 900000, httpOnly: true });
+                res.cookie('token', user.token, { maxAge: 9000000, httpOnly: true });
                 res.json(user);
             })
             .catch((err)=>{

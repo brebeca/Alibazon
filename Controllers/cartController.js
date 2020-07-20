@@ -64,3 +64,17 @@ exports.getCart= async function(req, res) {
     }
 }
 
+exports.getInfo= async function(req, res) {
+    try{
+        let cartItems = await cartAPI.get('cart',req.cookies.token);
+        let wishListItmes= await cartAPI.get('wishlist',req.cookies.token);
+
+        res.status(200);
+        res.json({cart:cartItems.length, wishlist: wishListItmes.length});
+    }
+    catch (e) {
+        res.status(400);
+        res.json({message: e});
+    }
+}
+

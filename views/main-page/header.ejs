@@ -18,8 +18,9 @@
                 });
                 if(logged){%>
                     <button type="button" onclick="logout()" class="btn btn-light mr-1">LogOut</button>
-                    <a class="btn btn-sm btn-warning mr-1" href="/cart/mycart" role="button" >Cart</a>
-                    <a class="btn btn-sm btn-info mr-1" href="/wishlist/mywishlist" role="button" >Wish list</a>
+                    <button type="button" class="btn btn-primary mr-1" data-toggle="modal" data-target="#exampleModal" >
+                        Profile
+                    </button>
                 <%}
                 else {%>
                 <a class="btn btn-sm btn-light mr-1" href="/auth/login" role="button" >LogIn</a>
@@ -43,3 +44,26 @@
     </nav>
 </div>
 <!-- /breadcrumbs-->
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Profile</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Name: <strong id="userNameProfile"></strong></p>
+                <p>Email: <strong id="userEmailProfile"></strong></p>
+                <p>Registered: <strong id="userDataProfile"></strong></p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-sm btn-warning mr-1" href="/cart/mycart" role="button" >Cart (<strong id="cartNumber"></strong>)</a>
+                <a class="btn btn-sm btn-info mr-1" href="/wishlist/mywishlist" role="button" >Wish list (<strong id="wishlistNumber"></strong>)</a>
+            </div>
+        </div>
+    </div>
+</div>

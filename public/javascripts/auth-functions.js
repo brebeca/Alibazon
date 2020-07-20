@@ -1,8 +1,26 @@
-
 function logout() {
-    document.cookie = "token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-   // document.cookie = 'token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-    location.reload();
+    //  document.cookie = "token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    url='/auth/logout';
+    let xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+            let jsonObj = JSON.parse(xmlhttp.response);
+            if(xmlhttp.status !== 200){
+                alert('LogOut failed ');
+            }
+            if(xmlhttp.status===200){
+                window.location.replace("/");
+            }
+            console.log(jsonObj);
+        }
+    };
+    xmlhttp.open("DELETE", url);
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify({}));
+    localStorage.removeItem('name');
+    localStorage.removeItem('email');
+    localStorage.removeItem('data');
 }
 
 function login(){
@@ -14,17 +32,16 @@ function login(){
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState === XMLHttpRequest.DONE) {
             let jsonObj = JSON.parse(xmlhttp.response);
-            if (xmlhttp.status === 200) {
-                document.cookie="token="+jsonObj['token']+"; path=/";
-                // console.log(jsonObj);
-                //console.log(document.cookie);
-                window.location.replace("/");
-            }
-            else if(xmlhttp.status === 400){
+            if(xmlhttp.status === 400){
                 alert('Login failed : '+ jsonObj['message']);
             }
-            else
-                alert('Login failed : internal problem . ');
+            if(xmlhttp.status===200){
+                localStorage.setItem('name', jsonObj.name);
+                localStorage.setItem('email', jsonObj.email);
+                localStorage.setItem('data', jsonObj.registerData);
+                //console.log(jsonObj);
+                 window.location.replace("/");
+            }
         }
     };
     xmlhttp.open("POST", url);
@@ -48,10 +65,7 @@ function signUp(){
                 let jsonObj = JSON.parse(xmlhttp.response);
                 console.log(jsonObj);
                 if (xmlhttp.status === 200) {
-                    //document.cookie = "token=" + jsonObj['token'] + "; path=/";
-                    console.log(jsonObj);
-                    //console.log(document.cookie);
-                     window.location.replace("/auth/login");
+                   window.location.replace("/auth/login");
                 } else if (xmlhttp.status === 400) {
                     alert('Login failed : ' + jsonObj['message']);
                 } else
