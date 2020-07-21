@@ -13,4 +13,7 @@ router.get('/home' , controller.home);
 /*GET the subcategory listing of a category page */
 router.get('/home/:category',verify.checkParams , controller.category);
 
+/*GET the product details page. */
+router.get('/search', controller.search);
+
 module.exports = router;

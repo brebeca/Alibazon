@@ -45,6 +45,36 @@ exports.getProductsForSubcategory=  (subcategoryID,page, baseURL=config.baseURL,
 }
 
 
+exports.getProductsSearch=  (keyWord, baseURL=config.baseURL, secretKey=config.secretKEY) =>{
+
+    return new Promise((resolve, reject)=> {
+        request({
+                url: baseURL+'products/product_search?page_title='+keyWord+'&secretKey='+secretKey,
+                method: 'GET'
+            },
+            function (error, response) {
+                if (error) {
+                    reject({error:error});
+                } else {
+                    let products=JSON.parse(response.body);
+                    if(products.error!==undefined){
+                        if('Product Not Found'===products.error)
+                            resolve([]);
+                        reject({error:products.error});
+                    }
+                    else {
+                        let productList=[];
+                        products.forEach((item)=>{
+                            productList.push(new ProductModel(item));
+                        })
+                        resolve(productList);
+                    }
+                }
+            });
+    });
+
+}
+
 /**
  * makes a get request to get a product by it s id
  * in case of error calls reject with the error

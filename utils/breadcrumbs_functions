@@ -44,7 +44,8 @@ module.exports = {
             active:'not-found'
         }
     },
-    breadcrumbsLogin:()=>{
+    getBreadcrumbs:(activePage)=>{
+
         return {
             path: [
                 {
@@ -53,43 +54,7 @@ module.exports = {
                 }
             ]
             ,
-            active:'LogIn'
-        }
-    },
-    breadcrumbsSignUp:()=>{
-        return {
-            path: [
-                {
-                    title: 'home',
-                    link: '/'
-                }
-            ]
-            ,
-            active:'SignUp'
-        }
-    },
-    breadcrumbsCart:()=>{
-        return {
-            path: [
-                {
-                    title: 'home',
-                    link: '/'
-                }
-            ]
-            ,
-            active:'Cart'
-        }
-    },
-    breadcrumbsWishList:()=>{
-        return {
-            path: [
-                {
-                    title: 'home',
-                    link: '/'
-                }
-            ]
-            ,
-            active:'Wish List'
+            active:activePage
         }
     }
 }

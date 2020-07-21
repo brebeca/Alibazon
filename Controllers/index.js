@@ -2,6 +2,28 @@ const breadcrumb=require('../utils/breadcrumbs_functions');
 const category=require('../APIdata/get-categories');
 const subcategory=require('../APIdata/subcategories');
 const config =require('../config');
+const product=require('../APIdata/products');
+
+exports.search =  async function(req, res) {
+  try{
+    let breadcrumbs=breadcrumb.getBreadcrumbs('search-'+req.query.key);
+    let allCategories= await category.getAllCategories();
+    let products= await product.getProductsSearch(req.query.key);
+
+    res.render(config.indexPage,{
+      page:config.searchPage,
+      categories: allCategories,
+      breadcrumbs:breadcrumbs,
+      products:products,
+      pressed:'none'
+    });
+  }
+  catch (e) {
+    console.log("in search controler "+e);
+    res.status(e.status || 500);
+    res.render('/error-pages/error2');
+  }
+};
 
 /**
  * calls the function breadcrumb.breadcrumbsHome() to get the breadcrumbs object for the header of the page

@@ -1,0 +1,64 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Image</th>
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Add</th>
+    </tr>
+    </thead>
+    <tbody>
+<%products.forEach((item)=>{%>
+    <tr>
+        <td><img src="/images/<%=  item.imagePath  %>" class="img-fluid rounded" alt="Responsive image"></td>
+        <td><%=item.name%></td>
+        <td><%=item.parentCategory%></td>
+        <td>
+           <div class="dropdown mb-0">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Variants
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <% item.variants.forEach((item2, index)=>{%>
+                <div class="dropdown-item">
+                    <%= item.title %>
+                    <button  class="btn btn-warning" type="button" onclick="addTo('cart','<%=item2.id%>', '<%=item.id%>')"<%if(item2.inStock!==true){%><%='disabled'%><%}%>>To Cart</button>
+                    <button class="btn btn-info" type="button" onclick="addTo('wishlist','<%=item2.id%>', '<%=item.id%>')"<%if(item2.inStock!==true){%><%='disabled'%><%}%>>To Wish List</button>
+                </div>
+            <%})%>
+                <input type="number" id="quantity" name="quantity" min="1" max="5">
+
+            </div>
+           </div>
+        </td>
+
+    </tr>
+<%})%>
+
+
+    </tbody>
+</table>
+<script>
+    function addTo(type,variationID, productID) {
+        <%if(!logged){%>
+        alert('Please login first');
+        <%}else {%>
+        let setQuantity= document.getElementById("quantity").value;
+        if(setQuantity==='')
+            setQuantity=1;
+        else setQuantity=(parseInt(setQuantity));
+        url='/'+type+'/add';
+        let xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+                console.log(JSON.parse(xmlhttp.response));
+            }
+        };
+        xmlhttp.open("POST", url);
+        xmlhttp.setRequestHeader("Content-Type", "application/json");
+        xmlhttp.send(JSON.stringify({ productID:productID, variantID:variationID, quantity:setQuantity}));
+        <%}%>
+    }
+
+</script>

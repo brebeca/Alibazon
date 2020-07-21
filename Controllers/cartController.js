@@ -37,7 +37,7 @@ exports.delete = async function(req, res) {
 
 exports.getCart= async function(req, res) {
     try{
-        let breadcrumbs=breadcrumb.breadcrumbsCart();
+        let breadcrumbs=breadcrumb.getBreadcrumbs('cart');
         let allCategories = await category.getAllCategories();
         let cartItems = await cartAPI.get('cart',req.cookies.token);
         let products=[];
@@ -61,7 +61,7 @@ exports.getCart= async function(req, res) {
     catch (e) {
        // console.log(e);
         res.status( 500);
-        res.render('error-pages/error2');
+        res.render('/error-pages/error2');
     }
 }
 

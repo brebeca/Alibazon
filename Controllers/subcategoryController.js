@@ -5,6 +5,8 @@ const product=require('../APIdata/products');
 const config= require('../config');
 const {VariantsModel}=require('../utils/models/variantsModel');
 
+
+
 /**
  * calls the breadcrumbsHome function to get tge breadcrumbs object for the home page
  * calls the category.getAllCategories to get all categories for the navbar
@@ -35,7 +37,7 @@ exports.subcategoryProductsPage =  async function(req, res) {
     catch (e) {
         console.log(e);
         res.status(e.status || 500);
-        res.render('error-pages/error2');
+        res.render('/error-pages/error2');
     }
 };
 
@@ -92,6 +94,6 @@ exports.productDetailsPage= async function(req, res) {
     }catch (e) {
         console.log(e);
         res.status(e.status || 500);
-        res.render('error-pages/error2');
+        res.render('/error-pages/error2');
     }
     };

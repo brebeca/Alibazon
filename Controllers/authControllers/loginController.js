@@ -10,7 +10,7 @@ exports.loginPage = async function(req, res) {
             page:config.LoginPage,
             categories: await categoryAPI.getAllCategories(),
             pressed: 'none',
-            breadcrumbs:breadcrumb.breadcrumbsLogin()
+            breadcrumbs:breadcrumb.getBreadcrumbs('login')
         });
     }catch (e) {
         res.status(e.status || 500);

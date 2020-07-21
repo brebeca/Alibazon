@@ -58,13 +58,15 @@ class ProductCartModel {
     parentCategory;
     quantity;
 
+
     constructor(product, pvariant) {
         this.productID=product.id;
         this.variantID=pvariant.variant.product_id;
         this.name = product.name;
         this.description= product.page_description;
         this.price=parseFloat(pvariant.variant.price)*parseFloat(pvariant.quantity);
-        this.quantity=pvariant.quantity
+        this.quantity=pvariant.quantity;
+
         this.imagePath=utils.getImgPath(product, 0,'medium');
         this.parentCategory=product.primary_category_id;
         this.atributes=getAtributesList(product,pvariant);

@@ -11,7 +11,7 @@ exports.signUpPage = async function(req, res) {
             page:config.signUpPage,
             categories: await categoryAPI.getAllCategories(),
             pressed: 'none',
-            breadcrumbs:breadcrumb.breadcrumbsSignUp()
+            breadcrumbs:breadcrumb.getBreadcrumbs('signup')
         });
     }catch (e) {
         res.status(e.status || 500);
@@ -26,7 +26,7 @@ exports.codeVerifyPage = async function(req, res) {
             page:config.codeVerifyPage,
             categories: categories,
             pressed: 'none',
-            breadcrumbs:breadcrumb.breadcrumbsSignUp()
+            breadcrumbs:breadcrumb.getBreadcrumbs('confirm code')
         });
     }catch (e) {
         res.status(e.status || 500);

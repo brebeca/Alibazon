@@ -32,6 +32,13 @@ exports.getImgPath=(item , index, size)=>{
     })[0].images[0].link;
 }
 
+exports.getImgPathByVariant=(item , index, value)=>{
+    return item.image_groups.filter(function (item2) {
+        return item2.variation_value===value;
+    })[0].images[0].link;
+}
+
+
 
 exports.isIterable=(obj) =>{
     if (obj == null) {

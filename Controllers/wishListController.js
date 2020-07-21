@@ -22,7 +22,7 @@ exports.add = async function(req, res) {
 
 exports.getWishList= async function(req, res) {
     try{
-        let breadcrumbs=breadcrumb.breadcrumbsWishList();
+        let breadcrumbs=breadcrumb.getBreadcrumbs('wish list');
         let allCategories = await category.getAllCategories();
         let cartItems = await wishListAPI.get('wishlist',req.cookies.token);
         let products=[];
