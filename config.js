@@ -12,7 +12,9 @@ module.exports = {
     notFoundPage:'errpr-page/page-not-found',
     LoginPage:'auth/login',
     signUpPage:'auth/signUp',
+    codeVerifyPage:'auth/confirm-page',
     defaultCategory:'womens-jewelry',
     indexPage:'index',
-    wishListPage:'cart-page'
+    wishListPage:'cart-page',
+    databaseName:'Alibazon'
 }

@@ -4,6 +4,7 @@ const config= require('../config');
 const cartAPI= require('../APIdata/cartAPI');
 const productsAPI=require('../APIdata/products');
 const {ProductCartModel}=require('../utils/models/productModel');
+const database=require('../utils/database-utils/db-functions');
 
 exports.add = async function(req, res) {
     cartAPI.add('cart',req.body.productID, req.body.variantID,req.body.quantity,req.cookies.token)
@@ -68,9 +69,10 @@ exports.getInfo= async function(req, res) {
     try{
         let cartItems = await cartAPI.get('cart',req.cookies.token);
         let wishListItmes= await cartAPI.get('wishlist',req.cookies.token);
+        let confirmed= await database.isEmailConfirmed(req.body.email);
 
         res.status(200);
-        res.json({cart:cartItems.length, wishlist: wishListItmes.length});
+        res.json({cart:cartItems.length, wishlist: wishListItmes.length, email_Confirmed:confirmed});
     }
     catch (e) {
         res.status(400);

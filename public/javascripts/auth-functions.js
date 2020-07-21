@@ -57,7 +57,7 @@ function signUp(){
     if(password!==passwordMatch)
         alert("Passwords do not match");
     else {
-        url = '/auth/signUp';
+        url = '/auth/signup';
         let xmlhttp = new XMLHttpRequest();
 
         xmlhttp.onreadystatechange = function () {
@@ -65,11 +65,12 @@ function signUp(){
                 let jsonObj = JSON.parse(xmlhttp.response);
                 console.log(jsonObj);
                 if (xmlhttp.status === 200) {
-                   window.location.replace("/auth/login");
+                    alert( jsonObj['message']);
+                   window.location.replace("/");
                 } else if (xmlhttp.status === 400) {
-                    alert('Login failed : ' + jsonObj['message']);
+                    alert('Signup failed : ' + jsonObj['message']);
                 } else
-                    alert('Login failed : internal problem . ');
+                    alert('Signup failed : internal problem . ');
             }
         };
         xmlhttp.open("POST", url);
@@ -80,4 +81,29 @@ function signUp(){
             name: name,
         }));
     }
+}
+
+function confirmConde() {
+        url = '/auth/signup/codeverify';
+        let xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState === XMLHttpRequest.DONE) {
+                let jsonObj = JSON.parse(xmlhttp.response);
+                console.log(jsonObj);
+                if (xmlhttp.status === 200) {
+                    alert(jsonObj['message']);
+                    window.location.replace("/");
+                } else if (xmlhttp.status === 400) {
+                    alert('Confirmation failed : ' + jsonObj['message']);
+                } else
+                    alert('Confirmation failed : internal problem . ');
+            }
+        };
+        xmlhttp.open("POST", url);
+        xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+        xmlhttp.send(JSON.stringify({
+            email:document.getElementById("userEmailProfile").innerText,
+            code: document.getElementById("Code").value
+        }));
 }

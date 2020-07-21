@@ -33,6 +33,21 @@ exports.signUpBodyVerify = (req, res, next)=> {
     }
 }
 
+exports.codeBodyVerify = (req, res, next)=> {
+    try {
+        if(req.body.email===undefined)
+            throw ' Missing email ';
+
+        if(req.body.code===undefined)
+            throw ' Missing code ';
+        next();
+    }catch (e) {
+        //console.log(e);
+        res.status(400);
+        res.json({ message: e});
+    }
+}
+
 exports.addToCartBodyVerify = (req, res, next)=> {
     try {
         if(req.body.productID===undefined)

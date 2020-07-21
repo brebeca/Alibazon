@@ -11,7 +11,7 @@ router.post('/add' , verifyToken.shouldHaveTokenVerify, verifyBody, controller.a
 router.get('/mycart' ,verifyToken.shouldHaveTokenVerify, controller.getCart);
 
 /* GET number of items in cart */
-router.get('/info' ,verifyToken.shouldHaveTokenVerify, controller.getInfo);
+router.post('/info' ,verifyToken.shouldHaveTokenVerify, controller.getInfo);
 
 /* DELETE an item  */
 router.delete('/delete' ,verifyToken.shouldHaveTokenVerify,verifyBody, controller.delete);

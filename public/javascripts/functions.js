@@ -133,7 +133,8 @@ function writeModal() {
     let mydate = new Date(Date.parse(localStorage.getItem('data')));
     document.getElementById("userDataProfile").innerHTML=mydate.toDateString();
 
-    url='/cart/info';
+
+    url='/cart/info/';
     let xmlhttp = new XMLHttpRequest();
 
     xmlhttp.onreadystatechange = function () {
@@ -141,10 +142,18 @@ function writeModal() {
             let jsonObj = JSON.parse(xmlhttp.response);
             if(xmlhttp.status===200){
                 document.getElementById("cartNumber").innerHTML=jsonObj['cart'];
-                document.getElementById("wishlistNumber").innerHTML=jsonObj['wishlist']
+                document.getElementById("wishlistNumber").innerHTML=jsonObj['wishlist'];
+                if(jsonObj['email_Confirmed']!==true)
+                    document.getElementById("emailConfirm").innerHTML=`Your email is not confirmed.
+                                                                       Please check your email and <a href="auth/signup/codeverify">confirm the code</a>`;
+                else
+                    document.getElementById("emailConfirm").innerHTML=`Your email is confirmed.`;
             }
         }
     };
-    xmlhttp.open("GET", url);
-    xmlhttp.send();
+    xmlhttp.open("POST", url);
+    xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xmlhttp.send(JSON.stringify({
+        email: localStorage.getItem('email'),
+    }));
 }

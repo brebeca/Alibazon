@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', verifyToken.tokenVerify,indexRouter);
 app.use('/subcategory',verifyToken.tokenVerify, subcategoryRouter);
-app.use('/auth', verifyToken.tokenVerify,authRouter);
+app.use('/auth', authRouter);
 app.use('/cart',verifyToken.tokenVerify,cartRouter);
 app.use('/wishlist',wishListRouter);
 
@@ -51,5 +51,5 @@ if (port == null || port == "") {
   port = 8000;
 }
 app.listen(port);
-
+require('./utils/database-utils/db-connection');
 module.exports = app;

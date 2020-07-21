@@ -13,8 +13,14 @@ router.post('/login', verify.loginBodyVerify, logincontroller.loginValidation);
 /* GET the login page  */
 router.get('/login',tokenVerify.shouldNotHaveTokenVerify, logincontroller.loginPage);
 
+/* GET the codeverify  page  */
+router.get('/signup/codeverify', signUpController.codeVerifyPage);
+
 /* Submit the signUp form  */
-router.post('/signup', verify.signUpBodyVerify,  signUpController.signUpValidation);
+router.post('/signup', verify.signUpBodyVerify,  signUpController.signUpSendMail);
+
+/* Submit the code verify form  */
+router.post('/signup/codeverify', verify.codeBodyVerify,  signUpController.verifyCode);
 
 /* GET the signUp page  */
 router.get('/signup',tokenVerify.shouldNotHaveTokenVerify, signUpController.signUpPage);
