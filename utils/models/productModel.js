@@ -45,7 +45,6 @@ function getVariants(product) {
     return variants;
 }
 
-
 class ProductCartModel {
 
     name;

@@ -2,7 +2,7 @@ const categoryAPI=require('../../APIdata/get-categories');
 const subcategoryAPI=require('../../APIdata/subcategories');
 const productAPI=require('../../APIdata/products');
 const config =require('../../config');
-const breadcrumb=require('../breadcrumbs_functions');
+const utils=require('../utils-functions');
 
 /**
  * checks if the specific params exist and calls the verify fuction
@@ -27,14 +27,9 @@ exports.checkParams= async function(req, res, next) {
         }
         next();
     } catch (e) {
-        console.log(e);
+       // console.log(e);
         res.status(404);
-        res.render(config.indexPage,{
-            page:config.notFoundPage,
-            categories: await categoryAPI.getAllCategories(),
-            pressed: 'none',
-            breadcrumbs:breadcrumb.breadcrumbsPageNotFound()
-        });
+        res.render(config.indexPage,utils.getThePageVars('Page not found','page not found'));
     }
 };
 

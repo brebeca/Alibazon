@@ -43,6 +43,7 @@
                         <%}
                             item.atributes.forEach(mapElements)%>
                             <li><strong>quantity </strong>: <%= item.quantity%></li>
+
                     </ul>
 
                 </div>
@@ -67,7 +68,9 @@
                     <div class="card-body">
                         <h5 class="card-title text-center">Your cart total:</h5>
                         <h5 class="card-text text-center"> <strong id="totalPrice"><%if(totalPrice!==undefined){%><%= totalPrice%><%}%></strong> $</h5>
-                        <a href="#" class="btn btn-primary">Buy now!</a>
+                        <form action="buy" method="post">
+                            <input type="submit" class="btn btn-primary" value="Buy">
+                        </form>
                     </div>
                 </div>
             </div>

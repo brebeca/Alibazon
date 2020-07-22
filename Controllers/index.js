@@ -21,7 +21,7 @@ exports.search =  async function(req, res) {
   catch (e) {
     console.log("in search controler "+e);
     res.status(e.status || 500);
-    res.render('/error-pages/error2');
+    res.render('error-pages/error2');
   }
 };
 
@@ -50,8 +50,9 @@ exports.home = async function(req, res) {
       subcategories:subcategories
     });
   }catch (e) {
+    console.log(e);
     res.status(e.status || 500);
-    res.render('/error-pages/error2');
+    res.render('error-pages/error2');
   }
 };
 

@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var controller = require('../Controllers/index');
+var controller2 = require('../Controllers/cartController');
 const verify=require('../utils/verify-middleware/verify-params');
 const verifyToken=require('../utils/verify-middleware/verify-token');
 

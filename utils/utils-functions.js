@@ -1,5 +1,8 @@
 const roots= require('../utils/categories-utils');
 const {userModel} = require('./models/userModel');
+const categoryAPI=require('../APIdata/get-categories');
+const breadcrumb=require('./breadcrumbs_functions');
+const config=require('../config');
 
 /**
  * filters the main category objects
@@ -45,5 +48,15 @@ exports.isIterable=(obj) =>{
         return false;
     }
     return typeof obj[Symbol.iterator] === 'function';
+}
+
+exports.getThePageVars= async ( message, breadcrumbs)=>{
+   return  {
+        page:config.notFoundPage,
+        message:message,
+        categories: await categoryAPI.getAllCategories(),
+        pressed: 'none',
+        breadcrumbs:breadcrumb.getBreadcrumbs(breadcrumbs)
+    }
 }
 

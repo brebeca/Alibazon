@@ -3,8 +3,13 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const verifyToken=require('./utils/verify-middleware/verify-token');
 require('dotenv').config();
+const verifyToken=require('./utils/verify-middleware/verify-token');
+const categoryAPI=require('./APIdata/get-categories');
+const config =require('./config');
+const breadcrumb=require('./utils/breadcrumbs_functions');
+
+
 
 const indexRouter = require('./routes/indexRouter');
 const subcategoryRouter = require('./routes/subcategoryRouter');
@@ -37,12 +42,22 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(async function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
+  if(err.status===404)
+  {
+    res.status(404);
+    res.render(config.indexPage,{
+      page:config.notFoundPage,
+      categories:await categoryAPI.getAllCategories(),
+      pressed: 'none',
+      breadcrumbs:breadcrumb.breadcrumbsPageNotFound()
+    });
+  }
   res.status(err.status || 500);
   res.render('error-pages/error');
 });

@@ -19,6 +19,7 @@
     "node-localstorage": "^2.1.6",
     "nodemailer": "^6.4.10",
     "nodemon": "^2.0.4",
+    "paypal-rest-sdk": "^1.8.1",
     "request": "^2.88.2",
     "sinon": "^9.0.2"
   },
