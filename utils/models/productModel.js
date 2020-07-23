@@ -29,15 +29,28 @@ function getVariants(product) {
             variantAtributes.set(item2.value,item2.name);
         })
     });
+
+    let imageVariants=new Map();
+    product.image_groups.forEach((image_grup)=>{
+        if(image_grup.hasOwnProperty('variation_value'))
+            if(image_grup.view_type==='small')
+                imageVariants.set(image_grup['variation_value'],image_grup.images[0].link);
+    })
     let variants=[];
     product.variants.forEach((item)=>{
         let variant={
             title:'',
             inStock:item.orderable,
-            id:item.product_id
+            id:item.product_id,
+            image:''
         };
         for( const property in item.variation_values){
-            variant.title+=property+': '+variantAtributes.get(item.variation_values[property])+'   ';
+            if(item.variation_values.hasOwnProperty(property)){
+                variant.title+=property+': '+variantAtributes.get(item.variation_values[property])+'   ';
+                if(undefined!==imageVariants.get(item.variation_values[property]))
+                    variant.image=imageVariants.get(item.variation_values[property])
+            }
+
         }
         variant.title+=' Price: '+item.price;
         variants.push(variant);

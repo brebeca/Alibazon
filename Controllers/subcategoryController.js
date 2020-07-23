@@ -19,8 +19,8 @@ const {VariantsModel}=require('../utils/models/variantsModel');
  */
 exports.subcategoryProductsPage =  async function(req, res) {
     try{
-        let breadcrumbs=breadcrumb.breadcrumbsSubcategoryProducts(req.params.subcategory);
-        let allCategories= await category.getAllCategories();
+       let breadcrumbs=await breadcrumb.breadcrumbsSubcategory(req.params.subcategory);
+       let allCategories= await category.getAllCategories();
         let products= await product.getProductsForSubcategory(req.params.subcategory,1);
         let variationFilters= [];
         products[0].variation_attributes.forEach((variation)=>{
@@ -37,7 +37,7 @@ exports.subcategoryProductsPage =  async function(req, res) {
     catch (e) {
         console.log(e);
         res.status(e.status || 500);
-        res.render('/error-pages/error2');
+        res.render('error-pages/error2');
     }
 };
 
@@ -85,15 +85,16 @@ exports.getMoreOfSubcategory =  async function(req, res) {
 exports.productDetailsPage= async function(req, res) {
     try {
         let allCategories= await category.getAllCategories();
-        let breadcrumbs=breadcrumb.breadcrumbsProductDetails(req.params.subcategory,res.locals.product.name );
+        let breadcrumbs= await breadcrumb.breadcrumbsProductDetails(req.params.subcategory,res.locals.product.name );
         res.render(config.indexPage, {
             page:config.productDetailsPage,
             categories: allCategories,
             breadcrumbs:breadcrumbs,
+            pressed:'none'
         });
     }catch (e) {
         console.log(e);
         res.status(e.status || 500);
-        res.render('/error-pages/error2');
+        res.render('error-pages/error2');
     }
     };

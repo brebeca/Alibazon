@@ -38,7 +38,7 @@ exports.search =  async function(req, res) {
  */
 exports.home = async function(req, res) {
   try{
-    let breadcrumbs= breadcrumb.breadcrumbsHome();
+   let breadcrumbs= await breadcrumb.breadcrumbsSubcategory(config.defaultCategory);
     let subcategories= await subcategory.getSubcategories(config.defaultCategory);
     let allCategories= await category.getAllCategories();
     let currentCategory=category.getCurrentCategory(allCategories,config.defaultCategory);
@@ -47,7 +47,8 @@ exports.home = async function(req, res) {
       categories: allCategories,
       pressed: currentCategory,
       breadcrumbs:breadcrumbs,
-      subcategories:subcategories
+      subcategories:subcategories,
+      depth:breadcrumbs.path.length
     });
   }catch (e) {
     console.log(e);
@@ -67,16 +68,20 @@ exports.home = async function(req, res) {
  */
 exports.category= async function(req, res) {
   try{
-    let breadcrumbs=breadcrumb.breadcrumbsHome(req.params.category);
+    let breadcrumbs= await breadcrumb.breadcrumbsSubcategory(req.params.category);
     let subcategories= await subcategory.getSubcategories(req.params.category);
     res.render(config.indexPage,{
+      categories:await category.getAllCategories(),
       page:config.homePage,
       breadcrumbs:breadcrumbs,
-      subcategories:subcategories
+      depth:breadcrumbs.path.length,
+      subcategories:subcategories,
+      pressed:'none'
     });
   }catch (e) {
+    console.log(e);
     res.status(e.status || 500);
-    res.render('/error-pages/error2');
+    res.render('error-pages/error2');
   }
   };
 

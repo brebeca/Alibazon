@@ -4,18 +4,16 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 require('dotenv').config();
-const verifyToken=require('./utils/verify-middleware/verify-token');
+
 const categoryAPI=require('./APIdata/get-categories');
 const config =require('./config');
 const breadcrumb=require('./utils/breadcrumbs_functions');
-
-
-
 const indexRouter = require('./routes/indexRouter');
 const subcategoryRouter = require('./routes/subcategoryRouter');
 const authRouter = require('./routes/authRouter');
 const cartRouter= require('./routes/cartRouter');
 const wishListRouter=require('./routes/wishListRouter');
+const {tokenVerify}=require('./utils/verify-middleware/verify-token');
 
 const app = express();
 
@@ -30,10 +28,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use('/', verifyToken.tokenVerify,indexRouter);
-app.use('/subcategory',verifyToken.tokenVerify, subcategoryRouter);
+app.use('/',tokenVerify,indexRouter);
+app.use('/subcategory',tokenVerify, subcategoryRouter);
 app.use('/auth', authRouter);
-app.use('/cart',verifyToken.tokenVerify,cartRouter);
+app.use('/cart',cartRouter);
 app.use('/wishlist',wishListRouter);
 
 // catch 404 and forward to error handler

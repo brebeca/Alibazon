@@ -24,7 +24,14 @@
                 </p>
             </div>
             <div class="row p-2">
-                <a class="btn btn-primary text-white rounded-circle" href="/subcategory/<%=item.id%>" role="button" >View products</a>
+                <%
+                    let path='';
+                if(depth<2)
+                    path='/home/'+item.id;
+                else
+                    path='/subcategory/'+item.id;
+                %>
+                <a class="btn btn-primary text-white rounded-circle" href="<%=path%>" role="button" >View</a>
             </div>
             <div class="row p-3">
                 <span class="border-top-0 border-dark"></span>

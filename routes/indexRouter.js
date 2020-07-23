@@ -3,18 +3,18 @@ var router = express.Router();
 var controller = require('../Controllers/index');
 var controller2 = require('../Controllers/cartController');
 const verify=require('../utils/verify-middleware/verify-params');
-const verifyToken=require('../utils/verify-middleware/verify-token');
+
 
 /* GET the main page ( the category menu ) */
 router.get('/' , controller.home);
 
 /* GET the main page ( the category menu ) */
-router.get('/home' , controller.home);
+router.get('/home' ,controller.home);
 
 /*GET the subcategory listing of a category page */
-router.get('/home/:category',verify.checkParams , controller.category);
+router.get('/home/:category', controller.category);
 
 /*GET the product details page. */
-router.get('/search', controller.search);
+router.get('/search',controller.search);
 
 module.exports = router;

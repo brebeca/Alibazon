@@ -14,7 +14,7 @@ router.post('/login', verify.loginBodyVerify, logincontroller.loginValidation);
 router.get('/login',tokenVerify.shouldNotHaveTokenVerify, logincontroller.loginPage);
 
 /* GET the codeverify  page  */
-router.get('/signup/codeverify', signUpController.codeVerifyPage);
+router.get('/signup/codeverify', tokenVerify.shouldHaveTokenVerify,signUpController.codeVerifyPage);
 
 /* Submit the signUp form  */
 router.post('/signup', verify.signUpBodyVerify,  signUpController.signUpSendMail);

@@ -1,3 +1,4 @@
+const category= require('../APIdata/get-categories');
 module.exports = {
     breadcrumbsHome: (category) => {
         return {
@@ -10,30 +11,61 @@ module.exports = {
             active:category
         }
     },
-    breadcrumbsSubcategoryProducts: (subcategory) => {
+    breadcrumbsSubcategory: async (subcategory) => {
+        let breadcrumbs=[];
+        let current=subcategory;
+        let nr=0;
+        while(current!=='root'&&nr<4){
+            nr++;
+          try {
+              current=await category.getBreadCrumbsCategories(current);
+              if(current!=='root')
+                  breadcrumbs.push({
+                      title: current,
+                      link: '/home/'+current,
+                  });
+          }catch (e) {
+              current='root';
+          }
+        }
+        breadcrumbs.push({
+            title: 'home',
+            link: '/'
+        });
         return {
-            path: [
-                {
-                    title: 'home',
-                    link: '/'
-                }
-            ],
+            path:breadcrumbs.reverse(),
             active:subcategory
         }
     },
-    breadcrumbsProductDetails: (subcategory, productTitle) => {
+    breadcrumbsProductDetails:async (subcategory, productTitle) => {
+        let breadcrumbs=[];
+        let current=subcategory;
+        let nr=0;
+        while(current!=='root'&&nr<4){
+            nr++;
+            try {
+                if(nr>=2)
+                breadcrumbs.push({
+                    title: current,
+                    link: '/home/'+current,
+                });
+                else
+                    breadcrumbs.push({
+                        title: current,
+                        link: '/subcategory/'+current,
+                    });
+                current=await category.getBreadCrumbsCategories(current);
+
+            }catch (e) {
+                current='root';
+            }
+        }
+        breadcrumbs.push({
+            title: 'home',
+            link: '/'
+        });
         return {
-            path: [
-                {
-                    title: 'home',
-                    link: '/'
-                },
-                {
-                    title:subcategory,
-                    link: '/subcategory/'+subcategory
-                }
-                ]
-            ,
+            path:breadcrumbs.reverse(),
             active:productTitle
         }
     },

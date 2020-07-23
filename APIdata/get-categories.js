@@ -43,3 +43,24 @@ exports.getCurrentCategory= (all, id)=>{
     })[0];
 }
 
+
+exports.getBreadCrumbsCategories=async ( currentCategorie, baseURL=config.baseURL, secretKey=config.secretKEY) =>{
+    return new Promise((resolve, reject)=> {
+             request({
+                    url: baseURL+'categories/'+currentCategorie+'?secretKey='+secretKey,
+                    method: 'GET'
+                },
+                function (error, response) {
+                    if (error) {
+                        reject({error:error});
+                    } else {
+                        let categories = JSON.parse(response.body);
+                        if(categories.error!==undefined)
+                            reject({ error:categories.error });
+                        else {
+                            resolve(categories.parent_category_id);
+                        }
+                    }
+                });
+    });
+}

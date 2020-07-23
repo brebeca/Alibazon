@@ -8,7 +8,7 @@ const verifyToken=require('../utils/verify-middleware/verify-token'),
 router.post('/add' , verifyToken.shouldHaveTokenVerify, verifyBody, controller.add);
 
 /* POST the order */
-router.post('/buy', controller.buy);
+router.post('/buy',verifyToken.shouldHaveTokenVerify, controller.buy);
 
 /* GET the cart page  */
 router.get('/mycart' ,verifyToken.shouldHaveTokenVerify, controller.getCart);

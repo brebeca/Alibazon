@@ -17,24 +17,6 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-sm">
-                                <div class="dropdown mb-0">
-                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Variants
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                       <% product.variants.forEach((item, index)=>{%>
-                                        <div class="dropdown-item">
-                                            <%= item.title %>
-                                            <button  class="btn btn-warning" type="button" onclick="addTo('cart','<%=item.id%>', '<%=product.id%>')"<%if(item.inStock!==true){%><%='disabled'%><%}%>>To Cart</button>
-                                            <button class="btn btn-info" type="button" onclick="addTo('wishlist','<%=item.id%>', '<%=product.id%>')"<%if(item.inStock!==true){%><%='disabled'%><%}%>>To Wish List</button>
-                                        </div>
-                                        <%})%>
-                                    </div>
-                                    <input type="number" id="quantity" name="quantity" min="1" max="5">
-
-                                </div>
-                            </div>
-                            <div class="col-sm">
                                 Price : <strong id="simbol" >$</strong> <strong class="price"><%=product.price%></strong>
                                 <div class="dropdown">
                                     <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,6 +35,36 @@
         </div>
     </div>
 </div>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">Image</th>
+        <th scope="col">Atributes</th>
+        <th scope="col">Add</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% product.variants.forEach((item, index)=>{%>
+        <tr>
+            <td>
+                <%if(item.image!==''){ %>
+                    <img src="/images/<%= item.image %>" class="img-fluid" alt="Responsive image">
+                <%}%>
+            </td>
+
+            <td> <%= item.title %></td>
+            <td>
+                <button  class="btn btn-warning" type="button" onclick="addTo('cart','<%=item.id%>', '<%=product.id%>')"<%if(item.inStock!==true){%><%='disabled'%><%}%>>To Cart</button>
+                <button class="btn btn-info" type="button" onclick="addTo('wishlist','<%=item.id%>', '<%=product.id%>')"<%if(item.inStock!==true){%><%='disabled'%><%}%>>To Wish List</button>
+                <input type="number" id="quantity" name="quantity" min="1" max="5">
+            </td>
+
+        </tr>
+    <%})%>
+    </tbody>
+</table>
+
+
 <script>
     function addTo(type,variationID, productID) {
         <%if(!logged){%>
