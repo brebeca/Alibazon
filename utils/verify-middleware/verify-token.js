@@ -1,3 +1,4 @@
+const utils=require('../utils-functions');
 
 exports.tokenVerify = function(req, res, next){
         if(req.cookies.token===undefined){
@@ -9,24 +10,24 @@ exports.tokenVerify = function(req, res, next){
         next();
 }
 
-exports.shouldHaveTokenVerify = function(req, res, next){
+exports.shouldHaveTokenVerify = async function(req, res, next){
     if(req.cookies.token!==undefined){
         res.locals.logged=true;
         next();
     }
     else{
         res.status(401);
-        res.send(' 401  Unauthorized ');
+        res.render(config.indexPage,await utils.getThePageVars(' UNAUTHORIZED : 401 !','page not found'));
     }
 }
 
-exports.shouldNotHaveTokenVerify = function(req, res, next){
+exports.shouldNotHaveTokenVerify = async function(req, res, next){
     if(req.cookies.token===undefined){
         res.locals.logged=false;
         next();
     }
     else{
         res.status(403);
-        res.send(' 403  Forbidden ');
+        res.render(config.indexPage,await utils.getThePageVars(' 403  Forbidden ','page not found'));
     }
 }

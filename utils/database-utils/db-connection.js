@@ -1,6 +1,6 @@
-
+const connectionString=require('../../config').db.connectoinString;
 const mongo_client = require(`mongodb`).MongoClient,
-    mongo_db     = mongo_client.connect(process.env.CONNECTION_STRING,
+    mongo_db     = mongo_client.connect(connectionString,
         {
             useUnifiedTopology: true
         });

@@ -131,7 +131,7 @@ exports.getCart= async function(req, res) {
     catch (e) {
         console.log(e);
         res.status( 500);
-        res.render('error-pages/error2');
+        res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
     }
 }
 

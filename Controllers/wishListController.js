@@ -4,6 +4,7 @@ const config= require('../config');
 const wishListAPI= require('../APIdata/cartAPI');
 const productsAPI=require('../APIdata/products');
 const {ProductCartModel}=require('../utils/models/productModel');
+const utils=require('../utils/utils-functions')
 
 exports.add = async function(req, res) {
     wishListAPI.add('wishlist',req.body.productID, req.body.variantID,req.body.quantity,req.cookies.token)
@@ -43,7 +44,7 @@ exports.getWishList= async function(req, res) {
     catch (e) {
         // console.log(e);
         res.status(e.status || 500);
-        res.render('/error-pages/error2');
+        res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
     }
 }
 

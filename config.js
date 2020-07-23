@@ -3,6 +3,13 @@ module.exports = {
         root1: "mens",
         root2: "womens"
     },
+    app:{
+        port:8000
+    },
+    db:{
+        databaseName:'Alibazon',
+        connectoinString:process.env.CONNECTION_STRING
+    },
     baseURL:process.env.BASE_URL,
     secretKEY:process.env.SECRET_KEY,
     homePage:'category-menu-option',
@@ -16,6 +23,5 @@ module.exports = {
     codeVerifyPage:'auth/confirm-page',
     defaultCategory:'womens-jewelry',
     indexPage:'index',
-    wishListPage:'cart-page',
-    databaseName:'Alibazon'
+    wishListPage:'cart-page'
 }

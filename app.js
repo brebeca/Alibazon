@@ -14,6 +14,7 @@ const authRouter = require('./routes/authRouter');
 const cartRouter= require('./routes/cartRouter');
 const wishListRouter=require('./routes/wishListRouter');
 const {tokenVerify}=require('./utils/verify-middleware/verify-token');
+const utils=require('./utils/utils-functions');
 
 const app = express();
 
@@ -49,18 +50,13 @@ app.use(async function(err, req, res, next) {
   if(err.status===404)
   {
     res.status(404);
-    res.render(config.indexPage,{
-      page:config.notFoundPage,
-      categories:await categoryAPI.getAllCategories(),
-      pressed: 'none',
-      breadcrumbs:breadcrumb.breadcrumbsPageNotFound()
-    });
+    res.render(config.indexPage, await utils.getThePageVars('Page not found !','page not found'));
   }
   res.status(err.status || 500);
   res.render('error-pages/error');
 });
 let port = process.env.PORT;
-if (port == null || port == "") {
+if (port == null || port === "") {
   port = 8000;
 }
 app.listen(port);

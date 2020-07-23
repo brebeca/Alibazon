@@ -29,7 +29,7 @@ exports.checkParams= async function(req, res, next) {
     } catch (e) {
        // console.log(e);
         res.status(404);
-        res.render(config.indexPage,utils.getThePageVars('Page not found','page not found'));
+        res.render(config.indexPage, await utils.getThePageVars('Page not found','page not found'));
     }
 };
 

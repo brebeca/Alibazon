@@ -1,5 +1,5 @@
 const databaseConn = require("./db-connection"),
-    {databaseName}=require('../../config');
+    databaseName=require('../../config').db.databaseName;
 
 module.exports = {
 

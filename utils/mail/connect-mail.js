@@ -14,10 +14,6 @@ let transporter = node_mailer.createTransport(
             rejectUnauthorized: false
         }
     }
-    // (err) => { // The callback is not beeing called for this request
-    // 	if (err) console.log(`Could not connect to the mailing service!, ${err}`);
-    // 	else console.log(log.date_now() + f_header, color.green, `Connected as ${config.email.user} ! `);
-    // },
 );
 
 module.exports = {

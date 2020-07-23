@@ -5,6 +5,7 @@ const singUpAPI=require('../../APIdata/authAPI/signup');
 const mail = require("../../utils/mail/send-mail");
 const database=require('../../utils/database-utils/db-functions');
 
+const utils=require('../../utils/utils-functions');
 exports.signUpPage = async function(req, res) {
     try{
         res.render(config.indexPage,{
@@ -15,7 +16,7 @@ exports.signUpPage = async function(req, res) {
         });
     }catch (e) {
         res.status(e.status || 500);
-        res.render('/error-pages/error2');
+        res.render(config.indexPage,await utils.getThePageVars(' Internal error!','page fail'));
     }
 };
 
@@ -30,7 +31,7 @@ exports.codeVerifyPage = async function(req, res) {
         });
     }catch (e) {
         res.status(e.status || 500);
-        res.render('/error-pages/error2');
+        res.render(config.indexPage,await utils.getThePageVars(' Internal error!','page fail'));
     }
 };
 
@@ -46,13 +47,14 @@ exports.signUpSendMail= async function(req, res){
             confirmed: false
         }
         user=await singUpAPI.signUp(account.email, account.password, account.name);
-
+        let ok=true;
         if(user!==false){
             await database.insertAccount(account);
 
-            let ok = await mail.send(req.body.email, req.body.name, code);
-            if ( !ok ) throw `The mailing server did not respond properly !`;
+             ok = await mail.send(req.body.email, req.body.name, code);
+
         }
+        if ( !ok ) throw `The mailing server did not respond properly !`;
         res.status(200);
         res.json({message:'SignUp succeeded! '});
     } catch (err) {

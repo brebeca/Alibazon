@@ -4,6 +4,7 @@ const subcategory=require('../APIdata/subcategories');
 const product=require('../APIdata/products');
 const config= require('../config');
 const {VariantsModel}=require('../utils/models/variantsModel');
+const utils=require('../utils/utils-functions')
 
 
 
@@ -37,7 +38,7 @@ exports.subcategoryProductsPage =  async function(req, res) {
     catch (e) {
         console.log(e);
         res.status(e.status || 500);
-        res.render('error-pages/error2');
+        res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
     }
 };
 
@@ -95,6 +96,6 @@ exports.productDetailsPage= async function(req, res) {
     }catch (e) {
         console.log(e);
         res.status(e.status || 500);
-        res.render('error-pages/error2');
+        res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
     }
     };

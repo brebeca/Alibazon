@@ -26,14 +26,16 @@ module.exports = {
 
                             let mail = {
                                 to: email,
-                                from: "birleanutamara" + config.email.user,
+                                from: /*"birleanutamara" + */config.email.user,
                                 subject: "Confirm Alibazon registration",
                                 html: html
                             };
                             transporter.sendMail(mail,
                                 function (err, info) {
-                                    if ( err ) throw `Could not connect to the mailing service!, ${ err }`;
-                                    resolve(true);
+                                    if ( err ){
+                                       console.log( `Could not connect to the mailing service!, ${ err }`);
+                                    }
+                                   else  resolve(true);
                                 });
                         }
                     });

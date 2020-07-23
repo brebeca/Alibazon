@@ -3,6 +3,7 @@ const category=require('../APIdata/get-categories');
 const subcategory=require('../APIdata/subcategories');
 const config =require('../config');
 const product=require('../APIdata/products');
+const utils=require('../utils/utils-functions');
 
 exports.search =  async function(req, res) {
   try{
@@ -19,9 +20,9 @@ exports.search =  async function(req, res) {
     });
   }
   catch (e) {
-    console.log("in search controler "+e);
+    console.log(e);
     res.status(e.status || 500);
-    res.render('error-pages/error2');
+    res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
   }
 };
 
@@ -53,7 +54,7 @@ exports.home = async function(req, res) {
   }catch (e) {
     console.log(e);
     res.status(e.status || 500);
-    res.render('error-pages/error2');
+    res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
   }
 };
 
@@ -81,7 +82,7 @@ exports.category= async function(req, res) {
   }catch (e) {
     console.log(e);
     res.status(e.status || 500);
-    res.render('error-pages/error2');
+    res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
   }
   };
 

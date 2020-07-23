@@ -2,7 +2,9 @@ const breadcrumb=require('../../utils/breadcrumbs_functions');
 const config =require('../../config');
 const categoryAPI=require('../../APIdata/get-categories');
 const loginAPI=require('../../APIdata/authAPI/login');
-const mail=require('../../utils/mail/send-mail');
+const utils=require('../../utils/utils-functions');
+const mail = require("../../utils/mail/send-mail");
+const database=require('../../utils/database-utils/db-functions');
 
 exports.loginPage = async function(req, res) {
     try{
@@ -14,12 +16,12 @@ exports.loginPage = async function(req, res) {
         });
     }catch (e) {
         res.status(e.status || 500);
-        res.render('/error-pages/error2');
+        res.render(config.indexPage,await utils.getThePageVars(' Internal error!','page fail'));
     }
 };
 
 exports.loginValidation = async function(req, res) {
-        loginAPI.login(req.body.email, req.body.password)
+  loginAPI.login(req.body.email, req.body.password)
             .then((user)=>{
                 res.status(200);
                 res.cookie('token', user.token, { maxAge: 9000000, httpOnly: true });
