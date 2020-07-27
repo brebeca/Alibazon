@@ -17,4 +17,17 @@ describe("utils functions tests", ()=> {
     it(" verify if iterable ",()=>{
         chai.expect(dataForTests.utils.isIterable(dataForTests.iterable)).to.be.true;
     })
+
+    it(" breadcrumb array for subcategory pages  ",async ()=>{
+        let breadcrumbs= await dataForTests.breadCrumbsFunctions.breadcrumbsSubcategory(dataForTests.subcategory);
+        chai.expect(breadcrumbs.path).to.be.an('array');
+        chai.expect(breadcrumbs.path[0].title ).eql('home');
+        chai.expect(breadcrumbs.path[0].link ).eql('/');
+
+        breadcrumbs.path.forEach((item, index)=>{
+            if(index!==0)
+                chai.expect(item.link).match(/home/);
+        })
+    })
+
 })

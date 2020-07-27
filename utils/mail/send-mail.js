@@ -6,7 +6,6 @@ const config      = require("./mail-config"),
 
 module.exports = {
     /**
-     * Gets a specific card from the database
      * @param {string} email - User's email
      * @param {string}[user] - Username - Username of the user
      * @param {string}[code] - Unique user registration code
@@ -14,7 +13,7 @@ module.exports = {
     send: (email, user, code) => {
         return new Promise((resolve, reject) => {
             try {
-                transporter = mail.get_transporter();
+               let transporter = mail.get_transporter();
                 fs.readFile(path.join(__dirname,
                     "./mail-layout/index.html"),
                     "utf8",
@@ -26,7 +25,7 @@ module.exports = {
 
                             let mail = {
                                 to: email,
-                                from: /*"birleanutamara" + */config.email.user,
+                                from: config.email.user,
                                 subject: "Confirm Alibazon registration",
                                 html: html
                             };

@@ -10,10 +10,18 @@ module.exports={
         password:'123456',
         name:'test2'
     },
+    searchKeyWord:'pants',
+    notAParentID:'not-a-parent-id',
+    parent:'mens-clothing-dress-shirts',
+    sendEmail:require('../utils/mail/send-mail').send,
+    searchNonExistingKeyWord:'sdsegre',
+    breadCrumbsFunctions:require('../utils/breadcrumbs_functions'),
     signUpAIP:require('../APIdata/authAPI/signup'),
+    databse:require('../utils/database-utils/db-functions'),
     productsAPIfunctions : require('../APIdata/products'),
     subcategoryAPIfunctions:require('../APIdata/subcategories'),
     categoryAPIfunctions:require('../APIdata/get-categories'),
+    orderAPIfunctions:require('../APIdata/orderAPI'),
     UserModel:require('../utils/models/userModel').UserModel,
     product:{
         "master": {
@@ -208,7 +216,7 @@ module.exports={
     loginAPI: require('../APIdata/authAPI/login'),
     notACategory:'not-a-category',
     notAsubcategory:'not-a-subcategory',
-    id:'69309284',
+    id:'74974310',
     notAid:'not-a-id',
     category:'mens-accessories',
     size:'large',

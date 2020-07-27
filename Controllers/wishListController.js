@@ -1,10 +1,10 @@
-const breadcrumb=require('../utils/breadcrumbs_functions');
-const category=require('../APIdata/get-categories');
-const config= require('../config');
-const wishListAPI= require('../APIdata/cartAPI');
-const productsAPI=require('../APIdata/products');
-const {ProductCartModel}=require('../utils/models/productModel');
-const utils=require('../utils/utils-functions')
+const breadcrumb=require('../utils/breadcrumbs_functions'),
+    category=require('../APIdata/get-categories'),
+    config= require('../config'),
+    wishListAPI= require('../APIdata/cartAPI'),
+    productsAPI=require('../APIdata/products'),
+    {ProductCartModel}=require('../utils/models/productModel'),
+    utils=require('../utils/utils-functions');
 
 exports.add = async function(req, res) {
     wishListAPI.add('wishlist',req.body.productID, req.body.variantID,req.body.quantity,req.cookies.token)

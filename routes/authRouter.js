@@ -1,10 +1,10 @@
 var express = require('express');
 var router = express.Router();
 var logincontroller = require('../Controllers/authControllers/loginController');
-const signUpController=require('../Controllers/authControllers/signUpController');
-const verify=require('../utils/verify-middleware/verify-body');
-const tokenVerify=require('../utils/verify-middleware/verify-token');
-const logoutController=require('../Controllers/authControllers/logoutController');
+const signUpController=require('../Controllers/authControllers/signUpController'),
+    verify=require('../utils/verify-middleware/verify-body'),
+    tokenVerify=require('../utils/verify-middleware/verify-token'),
+    logoutController=require('../Controllers/authControllers/logoutController');
 
 
 /* Submit the login form  */

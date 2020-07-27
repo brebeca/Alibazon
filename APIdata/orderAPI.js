@@ -1,6 +1,5 @@
 const request = require('request');
 const config = require('../config');
-const {ProductModel}=require('../utils/models/productModel');
 
 exports.add = (paymentID,items,token, baseURL=config.baseURL, secretKey=config.secretKEY) => {
 

@@ -41,8 +41,6 @@ exports.getImgPathByVariant=(item , index, value)=>{
     })[0].images[0].link;
 }
 
-
-
 exports.isIterable=(obj) =>{
     if (obj == null) {
         return false;
@@ -59,4 +57,6 @@ exports.getThePageVars= async ( message, breadcrumbs)=>{
         breadcrumbs:breadcrumb.getBreadcrumbs(breadcrumbs)
     }
 }
+
+exports.getARandomCode= ()=>{return Math.random().toString(36).substr(2, 9);}
 

@@ -1,9 +1,10 @@
-const breadcrumb=require('../../utils/breadcrumbs_functions');
-const config =require('../../config');
-const categoryAPI=require('../../APIdata/get-categories');
-const singUpAPI=require('../../APIdata/authAPI/signup');
-const mail = require("../../utils/mail/send-mail");
-const database=require('../../utils/database-utils/db-functions');
+const breadcrumb=require('../../utils/breadcrumbs_functions'),
+    config =require('../../config'),
+    categoryAPI=require('../../APIdata/get-categories'),
+    singUpAPI=require('../../APIdata/authAPI/signup'),
+    mail = require("../../utils/mail/send-mail"),
+    database=require('../../utils/database-utils/db-functions'),
+    {AccountModel}=require('../../utils/models/accountModel');
 
 const utils=require('../../utils/utils-functions');
 exports.signUpPage = async function(req, res) {
@@ -37,26 +38,21 @@ exports.codeVerifyPage = async function(req, res) {
 
 exports.signUpSendMail= async function(req, res){
     try {
-        let user=false;
-        let code = Math.random().toString(36).substr(2, 9);
-        let account={
-            code: code,
-            email: req.body.email,
-            password: req.body.password,
-            name:req.body.name,
-            confirmed: false
-        }
-        user=await singUpAPI.signUp(account.email, account.password, account.name);
         let ok=true;
+        let user=false;
+        let code = utils.getARandomCode;
+        let account= new AccountModel(req.body.name,req.body.email, code ,req.body.password,);
+
+        user=await singUpAPI.signUp(account.email, account.password, account.name);
         if(user!==false){
             await database.insertAccount(account);
-
-             ok = await mail.send(req.body.email, req.body.name, code);
-
+             ok = await mail.send(req.body.email, req.body.name,code );
         }
         if ( !ok ) throw `The mailing server did not respond properly !`;
+
         res.status(200);
         res.json({message:'SignUp succeeded! '});
+
     } catch (err) {
         res.status(400);
         res.json({message: err.error});

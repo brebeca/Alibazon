@@ -1,11 +1,11 @@
 module.exports = {
     email: {
-        user: "birleanu0rebeca@gmail.com",
-        pass: "birleanu1998",
+        user:process.env.EMAIL_ACC,
+        pass: process.env.EMAIL_PASS,
     },
     server: {
-        port: 8000,
+        port: parseInt(process.env.DEV_APP_PORT) || 3000,
         endpoint: "localhost",
-        protocol: "http",
+        protocol: "http"
     }
 }

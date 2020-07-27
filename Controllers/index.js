@@ -1,9 +1,9 @@
-const breadcrumb=require('../utils/breadcrumbs_functions');
-const category=require('../APIdata/get-categories');
-const subcategory=require('../APIdata/subcategories');
-const config =require('../config');
-const product=require('../APIdata/products');
-const utils=require('../utils/utils-functions');
+const breadcrumb=require('../utils/breadcrumbs_functions'),
+    category=require('../APIdata/get-categories'),
+    subcategory=require('../APIdata/subcategories'),
+    config =require('../config'),
+    product=require('../APIdata/products'),
+    utils=require('../utils/utils-functions');
 
 exports.search =  async function(req, res) {
   try{

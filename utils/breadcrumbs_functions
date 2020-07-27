@@ -1,16 +1,5 @@
 const category= require('../APIdata/get-categories');
 module.exports = {
-    breadcrumbsHome: (category) => {
-        return {
-            path: [
-                {
-                    title: 'home',
-                    link: '/'
-                }
-                ],
-            active:category
-        }
-    },
     breadcrumbsSubcategory: async (subcategory) => {
         let breadcrumbs=[];
         let current=subcategory;
@@ -37,6 +26,7 @@ module.exports = {
             active:subcategory
         }
     },
+
     breadcrumbsProductDetails:async (subcategory, productTitle) => {
         let breadcrumbs=[];
         let current=subcategory;
@@ -69,13 +59,7 @@ module.exports = {
             active:productTitle
         }
     },
-    breadcrumbsPageNotFound:()=>{
-        return {
-            path: []
-            ,
-            active:'not-found'
-        }
-    },
+
     getBreadcrumbs:(activePage)=>{
 
         return {

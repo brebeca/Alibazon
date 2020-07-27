@@ -1,14 +1,14 @@
-const breadcrumb=require('../utils/breadcrumbs_functions');
-const category=require('../APIdata/get-categories');
-const config= require('../config');
-const cartAPI= require('../APIdata/cartAPI');
-const orderAPI= require('../APIdata/orderAPI');
-const productsAPI=require('../APIdata/products');
-const {ProductCartModel}=require('../utils/models/productModel');
-const database=require('../utils/database-utils/db-functions');
-const {paypal}=require('../utils/paypal-utils/paypal');
-const {getJsonPayment}=require('../utils/paypal-utils/paypal-config');
-const utils=require('../utils/utils-functions');
+const breadcrumb=require('../utils/breadcrumbs_functions'),
+    category=require('../APIdata/get-categories'),
+    config= require('../config'),
+    cartAPI= require('../APIdata/cartAPI'),
+    orderAPI= require('../APIdata/orderAPI'),
+    productsAPI=require('../APIdata/products'),
+    {ProductCartModel}=require('../utils/models/productModel'),
+    database=require('../utils/database-utils/db-functions'),
+    {paypal}=require('../utils/paypal-utils/paypal'),
+    {getJsonPayment}=require('../utils/paypal-utils/paypal-config'),
+    utils=require('../utils/utils-functions');
 
 exports.cancelPay= async function(req, res){
     res.render(config.indexPage, await utils.getThePageVars('You canceled the payment. ','payment'));
@@ -27,13 +27,7 @@ exports.finishPay= async  function(req, res){
             }
         });
         let cartItems= await cartAPI.get('cart',req.cookies.token);
-        orderAPI.add(req.query.paymentId,cartItems,req.cookies.token)
-            .then((result)=>{
-              //  console.log(result);
-            })
-            .catch((err)=>{
-            //    console.log(err);
-            })
+        await orderAPI.add(req.query.paymentId, cartItems, req.cookies.token);
     }catch (e) {
         console.log(e);
         res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));

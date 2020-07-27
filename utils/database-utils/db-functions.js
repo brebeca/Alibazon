@@ -13,7 +13,7 @@ module.exports = {
                         if (err) {
                             reject({err: err});
                         } else {
-                            resolve({msg: "Inserted"});
+                            resolve({message: "Inserted"});
                         }
                     });
          }),
@@ -24,13 +24,16 @@ module.exports = {
             connection.db(databaseName)
                 .collection("Accounts")
                 .findOne({code : code, email:email },
-                    { $set: { confirmed : true } },
-                    (err) => {
+                    (err,documnet) => {
                     if ( err ) {
                             reject(err);
                     }
-                    else
-                        resolve(true);
+                    else {
+                        if (documnet !== null)
+                            resolve(true);
+                        else
+                            resolve(false);
+                    }
                 });
         }),
 

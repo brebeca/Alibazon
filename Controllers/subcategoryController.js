@@ -1,10 +1,10 @@
-const breadcrumb=require('../utils/breadcrumbs_functions');
-const category=require('../APIdata/get-categories');
-const subcategory=require('../APIdata/subcategories');
-const product=require('../APIdata/products');
-const config= require('../config');
-const {VariantsModel}=require('../utils/models/variantsModel');
-const utils=require('../utils/utils-functions')
+const breadcrumb=require('../utils/breadcrumbs_functions'),
+    category=require('../APIdata/get-categories'),
+    subcategory=require('../APIdata/subcategories'),
+    product=require('../APIdata/products'),
+    config= require('../config'),
+    {VariantsModel}=require('../utils/models/variantsModel'),
+    utils=require('../utils/utils-functions');
 
 
 

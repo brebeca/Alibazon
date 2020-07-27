@@ -7,17 +7,26 @@ const mongo_client = require(`mongodb`).MongoClient,
 
 let database;
 
-mongo_db.then(db => {
-    database = db;
-    console.log(
-        "Connected to MongoDb ! ");
-})
-    .catch(err => {
+async function connect( done){
+
+    mongo_db.then(db => {
+        database = db;
         console.log(
-            "Error while connecting to mongoDb !\n",
-            err);
-    });
+            "Connected to MongoDb ! ");
+        if(done!==undefined)
+            done();
+    })
+        .catch(err => {
+            console.log(
+                "Error while connecting to mongoDb !\n",
+                err);
+            if(done!==undefined)
+                done();
+        });
+
+}
 
 module.exports = {
-    get_db: () => database
+    get_db: () => database,
+    connect:connect
 };

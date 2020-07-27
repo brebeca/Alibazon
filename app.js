@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-require('dotenv').config();
+
 
 const categoryAPI=require('./APIdata/get-categories');
 const config =require('./config');
@@ -15,6 +15,7 @@ const cartRouter= require('./routes/cartRouter');
 const wishListRouter=require('./routes/wishListRouter');
 const {tokenVerify}=require('./utils/verify-middleware/verify-token');
 const utils=require('./utils/utils-functions');
+const db=require('./utils/database-utils/db-connection').connect;
 
 const app = express();
 
@@ -55,10 +56,8 @@ app.use(async function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error-pages/error');
 });
-let port = process.env.PORT;
-if (port == null || port === "") {
-  port = 8000;
-}
-app.listen(port);
-require('./utils/database-utils/db-connection');
+
+
+app.listen(config.app.port);
+ db();
 module.exports = app;
