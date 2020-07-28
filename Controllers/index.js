@@ -22,7 +22,7 @@ exports.search =  async function(req, res) {
   catch (e) {
     console.log(e);
     res.status(e.status || 500);
-    res.render(config.indexPage, await utils.getThePageVars('Something went wrong!'+e.message,'error'));
+    res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
   }
 };
 
@@ -38,7 +38,7 @@ exports.search =  async function(req, res) {
  * @returns {Promise<void>}
  */
 exports.home = async function(req, res) {
-
+  try{
    let breadcrumbs= await breadcrumb.breadcrumbsSubcategory(config.defaultCategory);
     let subcategories= await subcategory.getSubcategories(config.defaultCategory);
     let allCategories= await category.getAllCategories();
@@ -51,7 +51,11 @@ exports.home = async function(req, res) {
       subcategories:subcategories,
       depth:breadcrumbs.path.length
     });
-  
+  }catch (e) {
+    console.log(e);
+    res.status(e.status || 500);
+    res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
+  }
 };
 
 /**
