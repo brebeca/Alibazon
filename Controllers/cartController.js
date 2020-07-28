@@ -20,9 +20,8 @@ exports.finishPay= async  function(req, res){
             if(err){
                 console.log(err);
                 res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
-              //  throw err;
+                throw err;
             } else {
-                //console.log(JSON.stringify(payment));
                 res.render(config.indexPage, await utils.getThePageVars('Payment succeeded !','payment'));
             }
         });

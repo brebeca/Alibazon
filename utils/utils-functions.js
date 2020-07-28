@@ -49,12 +49,27 @@ exports.isIterable=(obj) =>{
 }
 
 exports.getThePageVars= async ( message, breadcrumbs)=>{
+    let categories=[];
+    try{
+         categories=await categoryAPI.getAllCategories();
+    }catch (e) {
+        categories=[]
+    }
    return  {
         page:config.notFoundPage,
         message:message,
-        categories: await categoryAPI.getAllCategories(),
+        categories: categories,
         pressed: 'none',
-        breadcrumbs:breadcrumb.getBreadcrumbs(breadcrumbs)
+        breadcrumbs:{
+            path: [
+                {
+                    title: 'home',
+                    link: '/'
+                }
+            ]
+            ,
+            active:breadcrumbs
+        }
     }
 }
 
