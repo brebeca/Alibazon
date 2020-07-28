@@ -32,7 +32,7 @@ const test = {
     wishListPage:'cart-page'
 };
 
-const dev = {
+module.exports= {
     db: {
         databaseName:process.env.DEV_DB_NAME ,
         connectoinString:process.env.CONNECTION_STRING
@@ -60,7 +60,7 @@ const dev = {
     indexPage:'index',
     wishListPage:'cart-page'
 };
-
+/*
 const config = {
     dev,
     test
@@ -68,4 +68,4 @@ const config = {
 if(env===undefined)
     module.exports=dev;
 else
-    module.exports=config[env];
+    module.exports=config[env];*/
