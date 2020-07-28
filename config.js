@@ -13,7 +13,7 @@ const test = {
         root2: "womens"
     },
     app:{
-        port: parseInt(process.env.DEV_APP_PORT) || 3000
+        port: parseInt(process.env.PORT) || 3000
     },
     baseURL:process.env.BASE_URL,
     secretKEY:process.env.SECRET_KEY,
@@ -42,7 +42,7 @@ const dev = {
         root2: "womens"
     },
     app:{
-        port: parseInt(process.env.DEV_APP_PORT) || 3000
+        port: parseInt(process.env.PORT) || 3000
     },
     baseURL:process.env.BASE_URL,
     secretKEY:process.env.SECRET_KEY,
