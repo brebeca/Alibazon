@@ -1,5 +1,8 @@
 const utils=require('../utils-functions');
 
+/**
+ * class to describe a product
+ */
 class ProductModel {
 
     name;
@@ -10,6 +13,10 @@ class ProductModel {
     id;
     parentCategory;
 
+    /**
+     * Constructs the class
+     * @param product the object with the attributes to construct the class
+     */
     constructor(product) {
         this.id=product.id;
         this.name = product.name;

@@ -5,6 +5,12 @@ const breadcrumb=require('../utils/breadcrumbs_functions'),
     product=require('../APIdata/products'),
     utils=require('../utils/utils-functions');
 
+/**
+ * Renders the search page with the products for the keyword
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.search =  async function(req, res) {
   try{
     let breadcrumbs=breadcrumb.getBreadcrumbs('search-'+req.query.key);
@@ -27,14 +33,9 @@ exports.search =  async function(req, res) {
 };
 
 /**
- * calls the function breadcrumb.breadcrumbsHome() to get the breadcrumbs object for the header of the page
- * calls the function subcategory.getSubcategories to get the subcategories for the default category and their proprieties
- * calls the function category.getAllCategories() to get all categories for the navbar
- * call category.getCurrentCategory to get the active/selected category
- * calls the render function to send the page to the browser
- * in case of error it sends an error page .
- * @param req
- * @param res
+ * Renders the home page with the default category set in the server
+ * @param {Object}req the request object
+ * @param {Object}res the response object
  * @returns {Promise<void>}
  */
 exports.home = async function(req, res) {
@@ -59,12 +60,9 @@ exports.home = async function(req, res) {
 };
 
 /**
- * calls the breadcrumbsHome function to get tge breadcrumbs object for the home page
- * calls the subcategory.getSubcategories to get the subcategories for the selected category
- * calls the render function to send to the client the requested page
- * in case of error it sends an error page
- * @param req
- * @param res
+ *Renders the category page for the category in req.params.category
+ * @param {Object}req the request object
+ * @param {Object}res the response object
  * @returns {Promise<void>}
  */
 exports.category= async function(req, res) {

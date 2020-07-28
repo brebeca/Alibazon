@@ -4,6 +4,12 @@ const breadcrumb=require('../../utils/breadcrumbs_functions'),
     loginAPI=require('../../APIdata/authAPI/login'),
     utils=require('../../utils/utils-functions');
 
+/**
+ * Renders the login page
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>} a promise of the login page
+ */
 exports.loginPage = async function(req, res) {
     try{
         res.render(config.indexPage,{
@@ -18,6 +24,12 @@ exports.loginPage = async function(req, res) {
     }
 };
 
+/**
+ * Performs login setting a cookie
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<JSON>} An json object with an success or failure message
+ */
 exports.loginValidation = async function(req, res) {
   loginAPI.login(req.body.email, req.body.password)
             .then((user)=>{
@@ -26,7 +38,6 @@ exports.loginValidation = async function(req, res) {
                 res.json(user);
             })
             .catch((err)=>{
-                //console.log(err.error);
                 res.status(400);
                 res.json({message: err.error});
             });

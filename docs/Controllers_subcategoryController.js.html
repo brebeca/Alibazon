@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Controllers/subcategoryController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Controllers/subcategoryController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const breadcrumb=require('../utils/breadcrumbs_functions'),
+    category=require('../APIdata/get-categories'),
+    subcategory=require('../APIdata/subcategories'),
+    product=require('../APIdata/products'),
+    config= require('../config'),
+    {VariantsModel}=require('../utils/models/variantsModel'),
+    utils=require('../utils/utils-functions');
+
+
+
+/**
+ * Renders the subcategory products page
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise&lt;void>}
+ */
+exports.subcategoryProductsPage =  async function(req, res) {
+    try{
+       let breadcrumbs=await breadcrumb.breadcrumbsSubcategory(req.params.subcategory);
+       let allCategories= await category.getAllCategories();
+        let products= await product.getProductsForSubcategory(req.params.subcategory,1);
+        let variationFilters= [];
+        products[0].variation_attributes.forEach((variation)=>{
+            variationFilters.push(new VariantsModel(variation,products));
+        });
+        res.render(config.indexPage,{
+            page:config.productsPage,
+            categories: allCategories,
+            breadcrumbs:breadcrumbs,
+            products:products,
+            filters:variationFilters
+        });
+    }
+    catch (e) {
+        console.log(e);
+        res.status(e.status || 500);
+        res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
+    }
+};
+
+/**
+ * Sends to client the products for the subcategory req.params.subcategory  as  json
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise&lt;void>}
+ */
+exports.subcategoryProductsInfo=  async function(req, res) {
+    try{
+        let products= await product.getProductsForSubcategory(req.params.subcategory,1);
+        res.status(200);
+        res.json(products);
+    }
+    catch (e) {
+        res.status(500);
+        res.json({error:e});
+    }
+};
+
+/**
+ * Sends to client the products for the subcategory req.params.subcategory  as  json
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise&lt;void>}
+ */
+exports.getMoreOfSubcategory =  async function(req, res) {
+    try{
+        let products= await product.getProductsForSubcategory(req.params.subcategory,req.params.page);
+        if(products.length===0)
+        {
+            res.status(400);
+            res.json({message:'no more products.js'});
+        }
+        else{
+            res.status(200);
+            res.json(products);
+        }
+    }
+    catch (e) {
+        res.status(500);
+        res.json({error:e});
+    }
+};
+
+/**
+ *Renders the product details page for the product with the id in the params
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise&lt;void>}
+ */
+exports.productDetailsPage= async function(req, res) {
+    try {
+        let allCategories= await category.getAllCategories();
+        let breadcrumbs= await breadcrumb.breadcrumbsProductDetails(req.params.subcategory,res.locals.product.name );
+        res.render(config.indexPage, {
+            page:config.productDetailsPage,
+            categories: allCategories,
+            breadcrumbs:breadcrumbs,
+            pressed:'none'
+        });
+    }catch (e) {
+        console.log(e);
+        res.status(e.status || 500);
+        res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
+    }
+    };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ProductModel.html">ProductModel</a></li><li><a href="UserModel.html">UserModel</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#buy">buy</a></li><li><a href="global.html#cancelPay">cancelPay</a></li><li><a href="global.html#category">category</a></li><li><a href="global.html#codeVerifyPage">codeVerifyPage</a></li><li><a href="global.html#delete">delete</a></li><li><a href="global.html#finishPay">finishPay</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getAllCategories">getAllCategories</a></li><li><a href="global.html#getBreadCrumbsCategories">getBreadCrumbsCategories</a></li><li><a href="global.html#getCart">getCart</a></li><li><a href="global.html#getCurrentCategory">getCurrentCategory</a></li><li><a href="global.html#getCurrentCategoryParent">getCurrentCategoryParent</a></li><li><a href="global.html#getInfo">getInfo</a></li><li><a href="global.html#getMoreOfSubcategory">getMoreOfSubcategory</a></li><li><a href="global.html#getProductByID">getProductByID</a></li><li><a href="global.html#getProductsForSubcategory">getProductsForSubcategory</a></li><li><a href="global.html#getProductsSearch">getProductsSearch</a></li><li><a href="global.html#getSubcategories">getSubcategories</a></li><li><a href="global.html#getWishList">getWishList</a></li><li><a href="global.html#home">home</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#loginPage">loginPage</a></li><li><a href="global.html#loginValidation">loginValidation</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#productDetailsPage">productDetailsPage</a></li><li><a href="global.html#search">search</a></li><li><a href="global.html#signUp">signUp</a></li><li><a href="global.html#signUpPage">signUpPage</a></li><li><a href="global.html#signUpSendMail">signUpSendMail</a></li><li><a href="global.html#subcategoryProductsInfo">subcategoryProductsInfo</a></li><li><a href="global.html#subcategoryProductsPage">subcategoryProductsPage</a></li><li><a href="global.html#verifyCode">verifyCode</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Jul 28 2020 16:56:10 GMT+0300 (Eastern European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

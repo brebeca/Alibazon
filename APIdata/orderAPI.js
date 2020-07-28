@@ -1,11 +1,18 @@
 const request = require('request');
 const config = require('../config');
 
-exports.add = (paymentID,items,token, baseURL=config.baseURL, secretKey=config.secretKEY) => {
+/**
+ * Makes an order
+ * @param {string}paymentID the payment id
+ * @param {Array}items  the list of items for the order
+ * @param {string}token   users JWT
+ * @returns {Promise<Object>} A primise to an object with a success message
+ */
+exports.add = (paymentID,items,token) => {
 
     return new Promise((resolve, reject) => {
         const options = {
-            url: baseURL + 'orders',
+            url: config.baseURL + 'orders',
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -18,7 +25,7 @@ exports.add = (paymentID,items,token, baseURL=config.baseURL, secretKey=config.s
                     "paymentId": paymentID,
                     "address": "address",
                     "items": items,
-                    'secretKey':secretKey
+                    'secretKey':config.secretKEY
                 }
 
         };

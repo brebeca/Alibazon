@@ -7,7 +7,7 @@ const chai= require('chai'),
 chai.should();
 chai.use(chaiHttp);
 
-describe("Endpoints products  tests", ()=> {
+describe("Endpoints products.js  tests", ()=> {
 
     it(" GET /subcategory/:subcategory -> status 200",  (done) => {
         chai.request(server)

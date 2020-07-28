@@ -2,16 +2,22 @@ const request = require('request');
 const config = require('../../config');
 const {UserModel} = require('../../utils/models/userModel');
 
-
-exports.signUp = (email, password, name, baseURL=config.baseURL, secretKey=config.secretKEY) => {
+/**
+ * Executes signUp
+ * @param {string} email -User email
+ * @param {string} password  User password
+ * @param  {string} name    User name
+ * @returns {Promise<UserModel>} A promise to a UserModel See {@link UserModel}
+ */
+exports.signUp = (email, password, name) => {
     return new Promise((resolve, reject) => {
-        request.post(baseURL + 'auth/signup',
+        request.post(config.baseURL + 'auth/signup',
             {
                 json: {
                     name:name,
                     email: email,
                     password: password,
-                    secretKey:secretKey
+                    secretKey:config.secretKEY
                 }
             },
             function (error, response, body) {
@@ -25,7 +31,6 @@ exports.signUp = (email, password, name, baseURL=config.baseURL, secretKey=confi
                             && body.user.email !== undefined ) {
                             resolve(new UserModel(body.user.name,  body.user.email, body.token, body.user.createdAt));
                         } else {
-                            //console.log(body);
                             reject({error: 'missing body data'});
                         }
                     }

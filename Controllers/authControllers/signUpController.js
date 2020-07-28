@@ -4,9 +4,15 @@ const breadcrumb=require('../../utils/breadcrumbs_functions'),
     singUpAPI=require('../../APIdata/authAPI/signup'),
     mail = require("../../utils/mail/send-mail"),
     database=require('../../utils/database-utils/db-functions'),
-    {AccountModel}=require('../../utils/models/accountModel');
+    {AccountModel}=require('../../utils/models/accountModel'),
+    utils=require('../../utils/utils-functions');
 
-const utils=require('../../utils/utils-functions');
+/**
+ * Renders the signUp page
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.signUpPage = async function(req, res) {
     try{
         res.render(config.indexPage,{
@@ -21,6 +27,13 @@ exports.signUpPage = async function(req, res) {
     }
 };
 
+
+/**
+ * Renders the codeverifing page
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.codeVerifyPage = async function(req, res) {
     try{
         let categories=await categoryAPI.getAllCategories()
@@ -36,6 +49,12 @@ exports.codeVerifyPage = async function(req, res) {
     }
 };
 
+/**
+ * Registers the user to the database and sends the confirmation email
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.signUpSendMail= async function(req, res){
     try {
         let ok=true;
@@ -59,9 +78,14 @@ exports.signUpSendMail= async function(req, res){
     }
 }
 
+/**
+ * Verifies if the code sent corresponds with the one in the database
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.verifyCode= async function(req, res ){
     try {
-        //add body validation
        let account= await database.verifyAccount(req.body.code, req.body.email);
        if(account===false)
            throw "The code and email do not match";

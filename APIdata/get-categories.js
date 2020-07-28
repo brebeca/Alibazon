@@ -4,16 +4,13 @@ const config= require('../config');
 const utils=require('../utils/utils-functions');
 
 /**
- * makes a GET request to get all the category objects
- * in case of error calls reject with the error message
- * filters the category object array to pick the main ones
- * calls resolve with the filtered categories
- * @returns {Promise<unknown>}
+ * Gets the main categories
+ * @returns {Promise<Array>} A promise to an array of categories
  */
-exports.getAllCategories =  ( baseURL=config.baseURL, secretKey=config.secretKEY) =>{
+exports.getAllCategories =  ( ) =>{
     return new Promise((resolve, reject)=> {
         request({
-                url: baseURL+'categories?secretKey='+secretKey,
+                url: config.baseURL+'categories?secretKey='+config.secretKEY,
                 method: 'GET'
             },
             function (error, response) {
@@ -24,13 +21,15 @@ exports.getAllCategories =  ( baseURL=config.baseURL, secretKey=config.secretKEY
                     if(categories.error!==undefined)
                         reject({ error:categories.error });
                     else {
-                        //main.mainCategories=allCategoriesLevel2;
                         resolve(utils.getTheMainCategories(categories));
                     }
                 }
             });
     });
 }
+
+
+
 /**
  * searches in the array all for the object with the id received in the function params
  * @param all array of category objects
@@ -43,11 +42,15 @@ exports.getCurrentCategory= (all, id)=>{
     })[0];
 }
 
-
-exports.getBreadCrumbsCategories=async ( currentCategorie, baseURL=config.baseURL, secretKey=config.secretKEY) =>{
+/**
+ * Gets the parent category of the currentCategorie
+ * @param currentCategorie - the current category
+ * @returns {Promise<String>} A promise to the name of the parent category
+ */
+exports.getBreadCrumbsCategories=async ( currentCategorie) =>{
     return new Promise((resolve, reject)=> {
              request({
-                    url: baseURL+'categories/'+currentCategorie+'?secretKey='+secretKey,
+                    url: config.baseURL+'categories/'+currentCategorie+'?secretKey='+config.secretKEY,
                     method: 'GET'
                 },
                 function (error, response) {

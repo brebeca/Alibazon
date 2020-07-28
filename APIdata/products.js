@@ -4,21 +4,15 @@ const utils=require('../utils/utils-functions');
 const {ProductModel}= require('../utils/models/productModel');
 
 /**
- * makes a get request to get the products for the subcategory
- * in case of error calls reject with the error
- * checks if the is iterable
- * for each object calls the function getImgPath to get the path to the medium image
- * calls resolve with the final array of products
- * @param subcategoryID       the id for the requested subcategory
- * @param page
- * @param baseURL
- * @param secretKey
- * @returns {Promise<unknown>}
+ * Gets the products.js of a subcategory for a specific page
+ * @param {string}subcategoryID    the id for the requested subcategory
+ * @param {string|number}page page number
+ * @returns {Promise<Array>} A promise to an array of products.js
  */
-exports.getProductsForSubcategory=  (subcategoryID,page, baseURL=config.baseURL, secretKey=config.secretKEY) =>{
+exports.getProductsForSubcategory=  (subcategoryID,page) =>{
     return new Promise((resolve, reject)=> {
         request({
-                url: baseURL+'products/product_search?primary_category_id='+subcategoryID+'&secretKey='+secretKey+'&page='+page,
+                url: config.baseURL+'products/product_search?primary_category_id='+subcategoryID+'&secretKey='+config.secretKEY+'&page='+page,
                 method: 'GET'
             },
             function (error, response) {
@@ -44,12 +38,16 @@ exports.getProductsForSubcategory=  (subcategoryID,page, baseURL=config.baseURL,
 
 }
 
-
-exports.getProductsSearch=  (keyWord, baseURL=config.baseURL, secretKey=config.secretKEY) =>{
+/**
+ * Gets the products.js represented by the keyWord
+ * @param {string}keyWord the key word for the search
+ * @returns {Promise<Array>} A promise to an array of products.js
+ */
+exports.getProductsSearch=  (keyWord) =>{
 
     return new Promise((resolve, reject)=> {
         request({
-                url: baseURL+'products/product_search?page_title='+keyWord+'&secretKey='+secretKey,
+                url: config.baseURL+'products/product_search?page_title='+keyWord+'&secretKey='+config.secretKEY,
                 method: 'GET'
             },
             function (error, response) {
@@ -76,20 +74,15 @@ exports.getProductsSearch=  (keyWord, baseURL=config.baseURL, secretKey=config.s
 }
 
 /**
- * makes a get request to get a product by it s id
- * in case of error calls reject with the error
- * calls the getImgPath with the large parameter to get the large image path for the product
- * calls resolve with the requested product
- * @param ID                 the id of the requested product
- * @param type
- * @param baseURL
- * @param secretKey
- * @returns {Promise<unknown>}
+ *  Gets the product with the id ID
+ * @param {string}ID    the id of the requested product
+ * @param {number}type  type of request : 0 for the raw product , 1 for the product model
+ * @returns {Promise<ProductModel>} A promise to a ProductModel See {@link ProductModel}
  */
-exports.getProductByID =  (ID, type=1, baseURL=config.baseURL, secretKey=config.secretKEY) =>{
+exports.getProductByID =  (ID, type=1) =>{
     return new Promise((resolve, reject)=> {
         request({
-                url:baseURL+'products/product_search?id='+ID+'&secretKey='+secretKey,
+                url:config.baseURL+'products/product_search?id='+ID+'&secretKey='+config.secretKEY,
                 method: 'GET'
             },
             function (error, response) {

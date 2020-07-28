@@ -7,7 +7,7 @@ chai.should();
 chai.use(chaiHttp);
 
 
-describe("API data categories and products tests", ()=>{
+describe("API data categories and products.js tests", ()=>{
 
     it(" all categories of level 2 in an array ",async ()=>{
        dataForTests.categoryAPIfunctions.getAllCategories(secretData.baseURL,secretData.secretKEY)
@@ -18,7 +18,7 @@ describe("API data categories and products tests", ()=>{
 
     });
 
-    it(" products for a subcategory - existing subcategory- in an array of objects with property img_path", (done)=> {
+    it(" products.js for a subcategory - existing subcategory- in an array of objects with property img_path", (done)=> {
         dataForTests.productsAPIfunctions.getProductsForSubcategory(dataForTests.subcategory,1,
             secretData.baseURL,secretData.secretKEY)
             .then((products) => {
@@ -31,7 +31,7 @@ describe("API data categories and products tests", ()=>{
             }).catch(err => done(new Error(err.error)));
     });
 
-    it(" products for a subcategory -  NONexisting subcategory- in an array of objects with property img_path", (done)=> {
+    it(" products.js for a subcategory -  NONexisting subcategory- in an array of objects with property img_path", (done)=> {
         dataForTests.productsAPIfunctions.getProductsForSubcategory(dataForTests.notAsubcategory,
             secretData.baseURL,secretData.secretKEY)
             .then(()=>{

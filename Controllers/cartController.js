@@ -10,10 +10,24 @@ const breadcrumb=require('../utils/breadcrumbs_functions'),
     {getJsonPayment}=require('../utils/paypal-utils/paypal-config'),
     utils=require('../utils/utils-functions');
 
+
+/**
+ * Renders a cancel payment message page
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.cancelPay= async function(req, res){
     res.render(config.indexPage, await utils.getThePageVars('You canceled the payment. ','payment'));
 }
 
+
+/**
+ * Finishes the payment with paypal, places the order and sends to client a message page
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.finishPay= async  function(req, res){
     try{
      await  paypal.payment.execute(req.query.paymentId, { payer_id: req.query.PayerID },async function (err, payment) {
@@ -34,6 +48,12 @@ exports.finishPay= async  function(req, res){
 
 }
 
+/**
+ * Creates payment with the objects from the users cart and redirects the user to the paypal page
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.buy= async function(req, res){
     try {
         let cartItems= await cartAPI.get('cart',req.cookies.token);
@@ -69,6 +89,12 @@ exports.buy= async function(req, res){
 
 }
 
+/**
+ * Ads an item in the users cart and sends an json with success or error message
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.add = async function(req, res) {
     cartAPI.add('cart',req.body.productID, req.body.variantID,req.body.quantity,req.cookies.token)
         .then((response)=>{
@@ -83,21 +109,31 @@ exports.add = async function(req, res) {
         });
 };
 
+/**
+ * Deletes an item from the users cart and sends an json with success or error message
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.delete = async function(req, res) {
     cartAPI.delete('cart',req.body.productID, req.body.variantID,req.cookies.token)
         .then((response)=>{
-            // console.log(response);
             res.status(200);
             res.json(response);
         })
         .catch((err)=>{
-            // console.log(err.error);
             res.status(400);
             res.json({message: err.error});
         })
 
 };
 
+/**
+ * Renders the cart page for the users cart
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.getCart= async function(req, res) {
     try{
         let breadcrumbs=breadcrumb.getBreadcrumbs('cart');
@@ -128,6 +164,12 @@ exports.getCart= async function(req, res) {
     }
 }
 
+/**
+ * Sends to the client a json with the number of items in the user cart and wishlist and whether the email is confirmed or not
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.getInfo= async function(req, res) {
     try{
         let cartItems = await cartAPI.get('cart',req.cookies.token);

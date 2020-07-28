@@ -3,10 +3,10 @@ var router = express.Router();
 var controller= require('../Controllers/subcategoryController');
 const verify=require('../utils/verify-middleware/verify-params');
 
-/* GET the products displayed for a specific subcategory. */
+/* GET the products.js displayed for a specific subcategory. */
 router.get('/:subcategory',verify.checkParams,controller.subcategoryProductsPage );
 
-/* GET the products displayed for a specific subcategory. */
+/* GET the products.js displayed for a specific subcategory. */
 router.get('/:subcategory/info',verify.checkParams,controller.subcategoryProductsInfo );
 
 /*GET the product details page. */

@@ -1,12 +1,21 @@
 const request = require('request');
 const config = require('../config');
-const {ProductModel}=require('../utils/models/productModel');
 
-exports.add = (type,productID, variantID, quantity='1',token, baseURL=config.baseURL, secretKey=config.secretKEY) => {
+
+/**
+ * Ads a product to users cart or wishlist
+ * @param {string}type - can be 'cart' or 'wishlist'
+ * @param {string}productID  the id of the product to be added
+ * @param {string}variantID the id of the variant to be added
+ * @param {string}quantity the quantity of item to be added
+ * @param {string}token  the JWT of the user
+ * @returns {Promise<Object>} promise to an object with a success message
+ */
+exports.add = (type,productID, variantID, quantity='1',token) => {
 
     return new Promise((resolve, reject) => {
         const options = {
-            url: baseURL + '/'+type+'/addItem',
+            url: config.baseURL + '/'+type+'/addItem',
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -19,7 +28,7 @@ exports.add = (type,productID, variantID, quantity='1',token, baseURL=config.bas
                         'productId': productID,
                         'variantId': variantID,
                         'quantity':quantity,
-                        'secretKey':secretKey
+                        'secretKey':config.secretKEY
                 }
 
         };
@@ -40,10 +49,17 @@ exports.add = (type,productID, variantID, quantity='1',token, baseURL=config.bas
     });
 }
 
-exports.get=async function(type,token, baseURL=config.baseURL, secretKey=config.secretKEY) {
+
+/**
+ * Gets the list of items in users cart/ wishlist
+ * @param {string}type - can be 'cart' or 'wishlist'
+ * @param {string}token  the JWT of the user
+ * @returns {Promise<Array>} A promise to an array of products.js
+ */
+exports.get=async function(type,token) {
     return new Promise((resolve, reject) => {
         const options = {
-            url: baseURL + type+'?secretKey='+secretKey,
+            url: config.baseURL + type+'?secretKey='+config.secretKEY,
             method: 'GET',
             headers: {
                 'Authorization':' Bearer '+token
@@ -68,11 +84,20 @@ exports.get=async function(type,token, baseURL=config.baseURL, secretKey=config.
     });
 }
 
-exports.delete = (type,productID, variantID,token, baseURL=config.baseURL, secretKey=config.secretKEY) => {
+
+/**
+ * Deletes an item form users cart/ wishlist
+ * @param {string}type - can be 'cart' or 'wishlist'
+ * @param {string}productID  the id of the product to be deleted
+ * @param {string}variantID the id of the variant to be deleted
+ * @param {string}token  the JWT of the user
+ * @returns {Promise<Object>} promise to an object with a success message
+ */
+exports.delete = (type,productID, variantID,token) => {
 
     return new Promise((resolve, reject) => {
         const options = {
-            url: baseURL + '/'+type+'/removeItem',
+            url:config.baseURL + '/'+type+'/removeItem',
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -84,7 +109,7 @@ exports.delete = (type,productID, variantID,token, baseURL=config.baseURL, secre
                 {
                     'productId': productID,
                     'variantId': variantID,
-                    'secretKey':secretKey
+                    'secretKey':config.secretKEY
                 }
         };
         request.delete(options,

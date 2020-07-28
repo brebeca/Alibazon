@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node app.js",
-    "test": "mocha"
+    "test": "mocha",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "dependencies": {
     "@sentry/apm": "^5.20.1",
@@ -27,6 +28,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "jsdoc": "^3.6.5",
     "mocha": "^8.0.1"
   }
 }

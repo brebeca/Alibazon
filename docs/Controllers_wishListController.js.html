@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Controllers/wishListController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Controllers/wishListController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const breadcrumb=require('../utils/breadcrumbs_functions'),
+    category=require('../APIdata/get-categories'),
+    config= require('../config'),
+    wishListAPI= require('../APIdata/cartAPI'),
+    productsAPI=require('../APIdata/products'),
+    {ProductCartModel}=require('../utils/models/productModel'),
+    utils=require('../utils/utils-functions');
+
+/**
+ * Ads an object to the users wishlist and sends an object with success/failure message as json
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise&lt;void>}
+ */
+exports.add = async function(req, res) {
+    wishListAPI.add('wishlist',req.body.productID, req.body.variantID,req.body.quantity,req.cookies.token)
+        .then((response)=>{
+            res.status(200);
+            res.json(response);
+        })
+        .catch((err)=>{
+            res.status(400);
+            res.json({message: err.error});
+        });
+};
+
+/**
+ * Renders the wishlist page
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise&lt;void>}
+ */
+exports.getWishList= async function(req, res) {
+    try{
+        let breadcrumbs=breadcrumb.getBreadcrumbs('wish list');
+        let allCategories = await category.getAllCategories();
+        let cartItems = await wishListAPI.get('wishlist',req.cookies.token);
+        let products=[];
+        for (const item of cartItems) {
+            let product= await productsAPI.getProductByID(item.productId,0);
+            let cartProduct=new ProductCartModel(product,item);
+            products.push(cartProduct);
+        }
+        res.render(config.indexPage,{
+            page:config.wishListPage,
+            categories: allCategories,
+            breadcrumbs:breadcrumbs,
+            products:products,
+            pressed:'none',
+            pageType:'wishlist'
+        });
+    }
+    catch (e) {
+        res.status(e.status || 500);
+        res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));
+    }
+}
+
+/**
+ * Deletes the product with the id from body.productID and variant from body.variantID from the users wishlist and sends an object with success/failure message as json
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise&lt;void>}
+ */
+exports.delete = async function(req, res) {
+    wishListAPI.delete('wishlist',req.body.productID, req.body.variantID,req.cookies.token)
+        .then((response)=>{
+            res.status(200);
+            res.json(response);
+        })
+        .catch((err)=>{
+            res.status(400);
+            res.json({message: err.error});
+        })
+
+};</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="ProductModel.html">ProductModel</a></li><li><a href="UserModel.html">UserModel</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#buy">buy</a></li><li><a href="global.html#cancelPay">cancelPay</a></li><li><a href="global.html#category">category</a></li><li><a href="global.html#codeVerifyPage">codeVerifyPage</a></li><li><a href="global.html#delete">delete</a></li><li><a href="global.html#finishPay">finishPay</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getAllCategories">getAllCategories</a></li><li><a href="global.html#getBreadCrumbsCategories">getBreadCrumbsCategories</a></li><li><a href="global.html#getCart">getCart</a></li><li><a href="global.html#getCurrentCategory">getCurrentCategory</a></li><li><a href="global.html#getCurrentCategoryParent">getCurrentCategoryParent</a></li><li><a href="global.html#getInfo">getInfo</a></li><li><a href="global.html#getMoreOfSubcategory">getMoreOfSubcategory</a></li><li><a href="global.html#getProductByID">getProductByID</a></li><li><a href="global.html#getProductsForSubcategory">getProductsForSubcategory</a></li><li><a href="global.html#getProductsSearch">getProductsSearch</a></li><li><a href="global.html#getSubcategories">getSubcategories</a></li><li><a href="global.html#getWishList">getWishList</a></li><li><a href="global.html#home">home</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#loginPage">loginPage</a></li><li><a href="global.html#loginValidation">loginValidation</a></li><li><a href="global.html#logOut">logOut</a></li><li><a href="global.html#productDetailsPage">productDetailsPage</a></li><li><a href="global.html#search">search</a></li><li><a href="global.html#signUp">signUp</a></li><li><a href="global.html#signUpPage">signUpPage</a></li><li><a href="global.html#signUpSendMail">signUpSendMail</a></li><li><a href="global.html#subcategoryProductsInfo">subcategoryProductsInfo</a></li><li><a href="global.html#subcategoryProductsPage">subcategoryProductsPage</a></li><li><a href="global.html#verifyCode">verifyCode</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Tue Jul 28 2020 16:56:10 GMT+0300 (Eastern European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -85,7 +85,7 @@ module.exports={
                 "images": [
                     {
                         "alt": "Modern Striped Dress Shirt, , large",
-                        "link": "products/large/B0174514_GY9_0.jpg",
+                        "link": "products.js/large/B0174514_GY9_0.jpg",
                         "title": "Modern Striped Dress Shirt, "
                     }
                 ],
@@ -95,7 +95,7 @@ module.exports={
                 "images": [
                     {
                         "alt": "Modern Striped Dress Shirt, Blue, large",
-                        "link": "products/large/B0174514_GY9_0.jpg",
+                        "link": "products.js/large/B0174514_GY9_0.jpg",
                         "title": "Modern Striped Dress Shirt, Blue"
                     }
                 ],
@@ -106,7 +106,7 @@ module.exports={
                 "images": [
                     {
                         "alt": "Modern Striped Dress Shirt, , medium",
-                        "link": "products/medium/B0174514_GY9_0.jpg",
+                        "link": "products.js/medium/B0174514_GY9_0.jpg",
                         "title": "Modern Striped Dress Shirt, "
                     }
                 ],
@@ -116,7 +116,7 @@ module.exports={
                 "images": [
                     {
                         "alt": "Modern Striped Dress Shirt, Blue, medium",
-                        "link": "products/medium/B0174514_GY9_0.jpg",
+                        "link": "products.js/medium/B0174514_GY9_0.jpg",
                         "title": "Modern Striped Dress Shirt, Blue"
                     }
                 ],
@@ -127,7 +127,7 @@ module.exports={
                 "images": [
                     {
                         "alt": "Modern Striped Dress Shirt, , small",
-                        "link": "products/small/B0174514_GY9_0.jpg",
+                        "link": "products.js/small/B0174514_GY9_0.jpg",
                         "title": "Modern Striped Dress Shirt, "
                     }
                 ],
@@ -137,7 +137,7 @@ module.exports={
                 "images": [
                     {
                         "alt": "Modern Striped Dress Shirt, Blue, small",
-                        "link": "products/small/B0174514_GY9_0.jpg",
+                        "link": "products.js/small/B0174514_GY9_0.jpg",
                         "title": "Modern Striped Dress Shirt, Blue"
                     }
                 ],
@@ -148,7 +148,7 @@ module.exports={
                 "images": [
                     {
                         "alt": "Modern Striped Dress Shirt, , swatch",
-                        "link": "products/swatch/B0174514_GY9_sw.jpg",
+                        "link": "products.js/swatch/B0174514_GY9_sw.jpg",
                         "title": "Modern Striped Dress Shirt, "
                     }
                 ],
@@ -158,7 +158,7 @@ module.exports={
                 "images": [
                     {
                         "alt": "Modern Striped Dress Shirt, Blue, swatch",
-                        "link": "products/swatch/B0174514_GY9_sw.jpg",
+                        "link": "products.js/swatch/B0174514_GY9_sw.jpg",
                         "title": "Modern Striped Dress Shirt, Blue"
                     }
                 ],

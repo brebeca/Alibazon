@@ -9,13 +9,9 @@ const breadcrumb=require('../utils/breadcrumbs_functions'),
 
 
 /**
- * calls the breadcrumbsHome function to get tge breadcrumbs object for the home page
- * calls the category.getAllCategories to get all categories for the navbar
- * calls product.getProductsForSubcategory to get the products from that subcategory
- * calls the render function to send to the client the requested page
- * in case of error it sends an error page
- * @param req
- * @param res
+ * Renders the subcategory products page
+ * @param {Object}req the request object
+ * @param {Object}res the response object
  * @returns {Promise<void>}
  */
 exports.subcategoryProductsPage =  async function(req, res) {
@@ -42,7 +38,12 @@ exports.subcategoryProductsPage =  async function(req, res) {
     }
 };
 
-
+/**
+ * Sends to client the products for the subcategory req.params.subcategory  as  json
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.subcategoryProductsInfo=  async function(req, res) {
     try{
         let products= await product.getProductsForSubcategory(req.params.subcategory,1);
@@ -55,13 +56,19 @@ exports.subcategoryProductsInfo=  async function(req, res) {
     }
 };
 
+/**
+ * Sends to client the products for the subcategory req.params.subcategory  as  json
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @returns {Promise<void>}
+ */
 exports.getMoreOfSubcategory =  async function(req, res) {
     try{
         let products= await product.getProductsForSubcategory(req.params.subcategory,req.params.page);
         if(products.length===0)
         {
             res.status(400);
-            res.json({message:'no more products'});
+            res.json({message:'no more products.js'});
         }
         else{
             res.status(200);
@@ -75,12 +82,9 @@ exports.getMoreOfSubcategory =  async function(req, res) {
 };
 
 /**
- * calls the breadcrumbsHome function to get tge breadcrumbs object for the home page
- * calls the category.getAllCategories to get all categories for the navbar
- * calls the render function to send to the client the requested page
- * in case of error it sends an error page
- * @param req
- * @param res
+ *Renders the product details page for the product with the id in the params
+ * @param {Object}req the request object
+ * @param {Object}res the response object
  * @returns {Promise<void>}
  */
 exports.productDetailsPage= async function(req, res) {
