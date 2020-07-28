@@ -65,7 +65,7 @@ const config = {
     dev,
     test
 };
-if(env!==test)
-    module.exports=config[dev];
+if(env===undefined)
+    module.exports=dev;
 else
     module.exports=config[env];
