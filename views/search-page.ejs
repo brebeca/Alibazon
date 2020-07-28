@@ -21,7 +21,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <% item.variants.forEach((item2, index)=>{%>
                 <div class="dropdown-item">
-                    <%= item.title %>
+                   <h6><%= item2.title %></h6>
                     <button  class="btn btn-warning" type="button" onclick="addTo('cart','<%=item2.id%>', '<%=item.id%>')"<%if(item2.inStock!==true){%><%='disabled'%><%}%>>To Cart</button>
                     <button class="btn btn-info" type="button" onclick="addTo('wishlist','<%=item2.id%>', '<%=item.id%>')"<%if(item2.inStock!==true){%><%='disabled'%><%}%>>To Wish List</button>
                 </div>
