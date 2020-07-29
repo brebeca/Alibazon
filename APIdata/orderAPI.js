@@ -1,3 +1,8 @@
+/**
+ * orderAPI module.
+ * @module APIdata/orderAPI
+ */
+
 const request = require('request');
 const config = require('../config');
 

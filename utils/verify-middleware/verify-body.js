@@ -1,4 +1,14 @@
+/**
+ * Body verify module.
+ * @module Verify-middleware/verify-body
+ */
 
+/**
+ *  Checks if the login information exists in the body of the request
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @param {function}next
+ */
 exports.loginBodyVerify = (req, res, next)=> {
     try {
         if(req.body.email===undefined)
@@ -15,6 +25,12 @@ exports.loginBodyVerify = (req, res, next)=> {
 
 }
 
+/**
+ *  Checks if for the signup information exists in the body of the request
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @param {function}next
+ */
 exports.signUpBodyVerify = (req, res, next)=> {
     try {
         if(req.body.email===undefined)
@@ -33,6 +49,12 @@ exports.signUpBodyVerify = (req, res, next)=> {
     }
 }
 
+/**
+ *  Checks if for the code validation information exists in the body of the request
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @param {function}next
+ */
 exports.codeBodyVerify = (req, res, next)=> {
     try {
         if(req.body.email===undefined)
@@ -48,6 +70,12 @@ exports.codeBodyVerify = (req, res, next)=> {
     }
 }
 
+/**
+ *  Checks if the  add to cart information exists in the body of the request
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @param {function}next
+ */
 exports.addToCartBodyVerify = (req, res, next)=> {
     try {
         if(req.body.productID===undefined)

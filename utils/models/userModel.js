@@ -9,7 +9,7 @@ class UserModel {
     registerData;
 
     /**
-     *
+     * Constructs the class
      * @param {string} name User name
      * @param {string}email  User email
      * @param {string}token  User JTW

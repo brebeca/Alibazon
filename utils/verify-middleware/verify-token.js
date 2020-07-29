@@ -1,6 +1,16 @@
+/**
+ * Request token verify module.
+ * @module Verify-middleware/verify-token
+ */
 const utils=require('../utils-functions');
 const config=require('../../config')
 
+/**
+ * Sets the res.locals.logged variable
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @param {function}next
+ */
 exports.tokenVerify = function(req, res, next){
         if(req.cookies.token===undefined){
             res.locals.logged=false;
@@ -11,6 +21,14 @@ exports.tokenVerify = function(req, res, next){
         next();
 }
 
+/**
+ * Checks if the request has the token cookie
+ * @async
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @param {function}next
+ * @returns {Promise<void>}
+ */
 exports.shouldHaveTokenVerify = async function(req, res, next){
     if(req.cookies.token!==undefined){
         res.locals.logged=true;
@@ -21,6 +39,14 @@ exports.shouldHaveTokenVerify = async function(req, res, next){
     }
 }
 
+/**
+ * Checks if the request has the token cookie
+ * @async
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @param {function}next
+ * @returns {Promise<void>}
+ */
 exports.shouldNotHaveTokenVerify = async function(req, res, next){
     if(req.cookies.token===undefined){
         res.locals.logged=false;

@@ -1,8 +1,14 @@
+/**
+ * subcategoriesAPI module.
+ * @module APIdata/subcategories
+ */
+
 const config= require('../config');
 const request   = require('request');
 
 /**
  * makes GET request to get the subcategories for the parent category parentID
+ *  @async
  * @param parentID           the parent Id of the subcategories
  * @returns {Promise<Array>} A promise to an array of subcategories
  */

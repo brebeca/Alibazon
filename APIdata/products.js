@@ -1,3 +1,9 @@
+
+/**
+ * productsAPI module.
+ * @module APIdata/products
+ */
+
 const request   = require('request');
 const config= require('../config');
 const utils=require('../utils/utils-functions');

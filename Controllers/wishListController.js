@@ -1,3 +1,12 @@
+/**
+ * Wishlist Controller module.
+ * @module Controllers/wishListController
+ * @see module:APIdata/get-categories
+ * @see module:APIdata/products
+ * @see module:APIdata/cartAPI
+ */
+
+
 const breadcrumb=require('../utils/breadcrumbs_functions'),
     category=require('../APIdata/get-categories'),
     config= require('../config'),
@@ -8,6 +17,7 @@ const breadcrumb=require('../utils/breadcrumbs_functions'),
 
 /**
  * Ads an object to the users wishlist and sends an object with success/failure message as json
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -26,6 +36,7 @@ exports.add = async function(req, res) {
 
 /**
  * Renders the wishlist page
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -58,6 +69,7 @@ exports.getWishList= async function(req, res) {
 
 /**
  * Deletes the product with the id from body.productID and variant from body.variantID from the users wishlist and sends an object with success/failure message as json
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}

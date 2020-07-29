@@ -1,3 +1,8 @@
+/**
+ * signUpAPI module.
+ * @module APIdata/authAPI/signup
+ */
+
 const request = require('request');
 const config = require('../../config');
 const {UserModel} = require('../../utils/models/userModel');

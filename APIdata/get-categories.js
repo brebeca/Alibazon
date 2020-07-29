@@ -1,3 +1,7 @@
+/**
+ * categoriesAPI module.
+ * @module APIdata/get-categories
+ */
 
 const request   = require('request');
 const config= require('../config');
@@ -44,6 +48,7 @@ exports.getCurrentCategory= (all, id)=>{
 
 /**
  * Gets the parent category of the currentCategorie
+ *  @async
  * @param currentCategorie - the current category
  * @returns {Promise<String>} A promise to the name of the parent category
  */

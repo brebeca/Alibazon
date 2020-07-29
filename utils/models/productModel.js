@@ -15,7 +15,7 @@ class ProductModel {
 
     /**
      * Constructs the class
-     * @param product the object with the attributes to construct the class
+     * @param {Object}product the object with the attributes to construct the class
      */
     constructor(product) {
         this.id=product.id;
@@ -65,6 +65,9 @@ function getVariants(product) {
     return variants;
 }
 
+/**
+ * Class for describing a product for the cart
+ */
 class ProductCartModel {
 
     name;
@@ -78,17 +81,22 @@ class ProductCartModel {
     quantity;
 
 
-    constructor(product, pvariant) {
+    /**
+     * constructs the class
+     * @param {Object}product the original base product object
+     * @param {Object}poroductVariant the specific varinat object  of the product
+     */
+    constructor(product, poroductVariant) {
         this.productID=product.id;
-        this.variantID=pvariant.variant.product_id;
+        this.variantID=poroductVariant.variant.product_id;
         this.name = product.name;
         this.description= product.page_description;
-        this.price=parseFloat(pvariant.variant.price)*parseFloat(pvariant.quantity);
-        this.quantity=pvariant.quantity;
+        this.price=parseFloat(poroductVariant.variant.price)*parseFloat(poroductVariant.quantity);
+        this.quantity=poroductVariant.quantity;
 
         this.imagePath=utils.getImgPath(product, 0,'medium');
         this.parentCategory=product.primary_category_id;
-        this.atributes=getAtributesList(product,pvariant);
+        this.atributes=getAtributesList(product,poroductVariant);
     }
 
 }

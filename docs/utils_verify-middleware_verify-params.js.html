@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utils/verify-middleware/verify-params.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: utils/verify-middleware/verify-params.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Request parameters verify module.
+ * @module Verify-middleware/verify-params
+ * @see module:APIdata/get-categories
+ * @see module:APIdata/subcategories
+ * @see module:APIdata/products
+ */
+
+const categoryAPI=require('../../APIdata/get-categories');
+const subcategoryAPI=require('../../APIdata/subcategories');
+const productAPI=require('../../APIdata/products');
+const config =require('../../config');
+const utils=require('../utils-functions');
+
+/**
+ * checks if the specific params exist and calls the verify fuction
+ * @param {Object}req the request object
+ * @param {Object}res the response object
+ * @param {function}next
+ * @returns {Promise&lt;void>}
+ */
+exports.checkParams= async function(req, res, next) {
+    try {
+        if(req.params.category!==undefined &amp;&amp;  false === await verifyCategory(req.params.category,res) ){
+            throw 'Invalid category name';
+        }
+        if(req.params.subcategory!==undefined &amp;&amp;  false === await verifySubcategory(req.params.subcategory,res) ){
+           throw 'Invalid subcategory name';
+        }
+        if(req.params.id!==undefined &amp;&amp;  false === await verifyProductID(req.params.id,res,req.params.subcategory) ){
+            throw 'Invalid product ';
+        }
+        next();
+    } catch (e) {
+       // console.log(e);
+        res.status(404);
+        res.render(config.indexPage, await utils.getThePageVars('Page not found','page not found'));
+    }
+};
+
+/**
+ * calls subcategoryAPI.getCurrentCategoryParent
+ * if no error, it adds the value resolved by the promise ,id, to the object res.locals.pressed, returns true
+ * in case of error sets returnVal to false
+ * @param subcategory           the category to be chacked
+ * @param {Object}res                    the response object
+ * @returns {Promise&lt;boolean>}   true if no error ; flase, else
+ */
+async function verifySubcategory(subcategory,res) {
+    let returnVal=true;
+    await subcategoryAPI.getCurrentCategoryParent(subcategory).then((id)=>{
+        res.locals.pressed={ id: id};
+    }).catch((err)=>{
+       // console.log(err);
+        returnVal= false ;
+    });
+    return returnVal;
+ }
+
+/**
+ * checks if the category in the params exists
+ * if it dose not exist, it returns false
+ * @param {string}category      the category id to be checked
+ * @param {Object}res                    the response object
+ * @returns {Promise&lt;boolean>}   true if the category in the params exists, false else
+ */
+async function verifyCategory(category, res) {
+    let categories = await  categoryAPI.getAllCategories(url,key);
+    let wantedCategory = categories.filter(function (item) {
+        return item.id === category;
+    });
+    if(wantedCategory.length!==0)
+    {
+        res.locals.categories=categories;
+        res.locals.active= wantedCategory[0];
+        res.locals.pressed=wantedCategory[0];
+        return true;
+    }
+    return false;
+}
+
+
+/**
+ * checks if the product id exists for the parentCaregory in the params
+ * @param {string}id                   the product id to be checked
+ * @param {Object}res                    the response object
+ * @param {string}parentCaregory   the category
+ * @returns {Promise&lt;boolean>}  returns true if no error, else returns false
+ */
+async function verifyProductID(id,res,parentCaregory) {
+    let returnVal=true;
+    await productAPI.getProductByID(id,1).then((product)=>{
+       if(product.parentCategory!==parentCaregory)
+            returnVal= false ;
+        else
+            res.locals.product=product;
+    }).catch((err)=>{
+        returnVal= false ;
+    });
+    return returnVal;
+}
+exports.checksubcategory=verifySubcategory;
+exports.checkcategory=verifyCategory;
+exports.checkproductID=verifyProductID;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-APIdata_authAPI_login.html">APIdata/authAPI/login</a></li><li><a href="module-APIdata_authAPI_signup.html">APIdata/authAPI/signup</a></li><li><a href="module-APIdata_cartAPI.html">APIdata/cartAPI</a></li><li><a href="module-APIdata_get-categories.html">APIdata/get-categories</a></li><li><a href="module-APIdata_orderAPI.html">APIdata/orderAPI</a></li><li><a href="module-APIdata_products.html">APIdata/products</a></li><li><a href="module-APIdata_subcategories.html">APIdata/subcategories</a></li><li><a href="module-Controllers_authControllers_loginController.html">Controllers/authControllers/loginController</a></li><li><a href="module-Controllers_authControllers_logoutController.html">Controllers/authControllers/logoutController</a></li><li><a href="module-Controllers_authControllers_signUpController.html">Controllers/authControllers/signUpController</a></li><li><a href="module-Controllers_cartController.html">Controllers/cartController</a></li><li><a href="module-Controllers_index.html">Controllers/index</a></li><li><a href="module-Controllers_subcategoryController.html">Controllers/subcategoryController</a></li><li><a href="module-Controllers_wishListController.html">Controllers/wishListController</a></li><li><a href="module-database-utils_db-connection.html">database-utils/db-connection</a></li><li><a href="module-database-utils_db-functions.html">database-utils/db-functions</a></li><li><a href="module-Verify-middleware_verify-body.html">Verify-middleware/verify-body</a></li><li><a href="module-Verify-middleware_verify-params.html">Verify-middleware/verify-params</a></li><li><a href="module-Verify-middleware_verify-token.html">Verify-middleware/verify-token</a></li></ul><h3>Classes</h3><ul><li><a href="AccountModel.html">AccountModel</a></li><li><a href="ProductCartModel.html">ProductCartModel</a></li><li><a href="ProductModel.html">ProductModel</a></li><li><a href="UserModel.html">UserModel</a></li><li><a href="VariantsModel.html">VariantsModel</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.5</a> on Wed Jul 29 2020 14:56:26 GMT+0300 (Eastern European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,8 +1,16 @@
+/**
+ * Class to describe a varinat model
+ */
 class VariantsModel {
     id;
    name;
    variantsMap= new Map();
 
+    /**
+     * constructs the varinat model
+     * @param {Object}variationAtribute the variant of the product  object
+     * @param {Object}products the product of the variant
+     */
     constructor(variationAtribute,products) {
        this.id=variationAtribute.id;
        this.name=variationAtribute.name;

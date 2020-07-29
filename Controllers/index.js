@@ -1,3 +1,10 @@
+/**
+ * Index Controller module.
+ * @module Controllers/index
+ * @see module:APIdata/get-categories
+ * @see module:APIdata/subcategories
+ * @see module:APIdata/products
+ */
 const breadcrumb=require('../utils/breadcrumbs_functions'),
     category=require('../APIdata/get-categories'),
     subcategory=require('../APIdata/subcategories'),
@@ -7,6 +14,7 @@ const breadcrumb=require('../utils/breadcrumbs_functions'),
 
 /**
  * Renders the search page with the products for the keyword
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -34,6 +42,7 @@ exports.search =  async function(req, res) {
 
 /**
  * Renders the home page with the default category set in the server
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -61,6 +70,7 @@ exports.home = async function(req, res) {
 
 /**
  *Renders the category page for the category in req.params.category
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}

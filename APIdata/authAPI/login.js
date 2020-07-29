@@ -1,4 +1,8 @@
-// @ts-check
+/**
+ * loginAPI module.
+ * @module APIdata/authAPI/login
+ */
+
 const request = require('request');
 const config = require('../../config');
 const userModel = require('../../utils/models/userModel').UserModel;

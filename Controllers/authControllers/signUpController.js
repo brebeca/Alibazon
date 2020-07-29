@@ -1,3 +1,12 @@
+
+/**
+ * SignUp Controller module.
+ * @module Controllers/authControllers/signUpController
+ * @see module:APIdata/get-categories
+ * @see module:APIdata/authAPI/signup
+ */
+
+
 const breadcrumb=require('../../utils/breadcrumbs_functions'),
     config =require('../../config'),
     categoryAPI=require('../../APIdata/get-categories'),
@@ -9,6 +18,7 @@ const breadcrumb=require('../../utils/breadcrumbs_functions'),
 
 /**
  * Renders the signUp page
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -30,6 +40,7 @@ exports.signUpPage = async function(req, res) {
 
 /**
  * Renders the codeverifing page
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -51,6 +62,7 @@ exports.codeVerifyPage = async function(req, res) {
 
 /**
  * Registers the user to the database and sends the confirmation email
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -80,6 +92,7 @@ exports.signUpSendMail= async function(req, res){
 
 /**
  * Verifies if the code sent corresponds with the one in the database
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}

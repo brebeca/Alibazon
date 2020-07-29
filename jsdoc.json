@@ -1,6 +1,6 @@
 {
   "source": {
-    "include": ["./APIdata","./utils/models","./Controllers"],
+    "include": ["./APIdata","./utils/models","./Controllers","./utils"],
     "includePattern": ".js$",
     "excludePattern": "(node_modules/|docs)"
   },

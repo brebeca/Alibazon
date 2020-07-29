@@ -1,3 +1,10 @@
+/**
+ * Subcategory Controller module.
+ * @module Controllers/subcategoryController
+ * @see module:APIdata/get-categories
+ * @see module:APIdata/products
+ */
+
 const breadcrumb=require('../utils/breadcrumbs_functions'),
     category=require('../APIdata/get-categories'),
     subcategory=require('../APIdata/subcategories'),
@@ -10,6 +17,7 @@ const breadcrumb=require('../utils/breadcrumbs_functions'),
 
 /**
  * Renders the subcategory products page
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -40,6 +48,7 @@ exports.subcategoryProductsPage =  async function(req, res) {
 
 /**
  * Sends to client the products for the subcategory req.params.subcategory  as  json
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -58,6 +67,7 @@ exports.subcategoryProductsInfo=  async function(req, res) {
 
 /**
  * Sends to client the products for the subcategory req.params.subcategory  as  json
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -83,6 +93,7 @@ exports.getMoreOfSubcategory =  async function(req, res) {
 
 /**
  *Renders the product details page for the product with the id in the params
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}

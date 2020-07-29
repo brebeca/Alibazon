@@ -1,3 +1,10 @@
+/**
+ * Login Controller module.
+ * @module Controllers/authControllers/loginController
+ * @see module:APIdata/get-categories
+ * @see module:APIdata/authAPI/login
+ */
+
 const breadcrumb=require('../../utils/breadcrumbs_functions'),
     config =require('../../config'),
     categoryAPI=require('../../APIdata/get-categories'),
@@ -6,6 +13,7 @@ const breadcrumb=require('../../utils/breadcrumbs_functions'),
 
 /**
  * Renders the login page
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>} a promise of the login page
@@ -26,6 +34,8 @@ exports.loginPage = async function(req, res) {
 
 /**
  * Performs login setting a cookie
+ *  @async
+ * @function loginValidation
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<JSON>} An json object with an success or failure message

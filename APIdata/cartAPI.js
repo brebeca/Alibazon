@@ -1,3 +1,9 @@
+/**
+ * cartAPI module.
+ * @module APIdata/cartAPI
+ */
+
+
 const request = require('request');
 const config = require('../config');
 
@@ -52,6 +58,7 @@ exports.add = (type,productID, variantID, quantity='1',token) => {
 
 /**
  * Gets the list of items in users cart/ wishlist
+ *  @async
  * @param {string}type - can be 'cart' or 'wishlist'
  * @param {string}token  the JWT of the user
  * @returns {Promise<Array>} A promise to an array of products.js
@@ -87,6 +94,7 @@ exports.get=async function(type,token) {
 
 /**
  * Deletes an item form users cart/ wishlist
+
  * @param {string}type - can be 'cart' or 'wishlist'
  * @param {string}productID  the id of the product to be deleted
  * @param {string}variantID the id of the variant to be deleted

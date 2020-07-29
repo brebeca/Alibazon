@@ -1,3 +1,12 @@
+/**
+ * Cart Controller module.
+ * @module Controllers/cartController
+ * @see module:APIdata/get-categories
+ * @see module:APIdata/cartAPI
+ * @see module:APIdata/orderAPI
+ * @see module:APIdata/products
+ */
+
 const breadcrumb=require('../utils/breadcrumbs_functions'),
     category=require('../APIdata/get-categories'),
     config= require('../config'),
@@ -13,6 +22,7 @@ const breadcrumb=require('../utils/breadcrumbs_functions'),
 
 /**
  * Renders a cancel payment message page
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -24,6 +34,7 @@ exports.cancelPay= async function(req, res){
 
 /**
  * Finishes the payment with paypal, places the order and sends to client a message page
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -50,6 +61,7 @@ exports.finishPay= async  function(req, res){
 
 /**
  * Creates payment with the objects from the users cart and redirects the user to the paypal page
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -91,6 +103,7 @@ exports.buy= async function(req, res){
 
 /**
  * Ads an item in the users cart and sends an json with success or error message
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -111,6 +124,7 @@ exports.add = async function(req, res) {
 
 /**
  * Deletes an item from the users cart and sends an json with success or error message
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -130,6 +144,7 @@ exports.delete = async function(req, res) {
 
 /**
  * Renders the cart page for the users cart
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}
@@ -166,6 +181,7 @@ exports.getCart= async function(req, res) {
 
 /**
  * Sends to the client a json with the number of items in the user cart and wishlist and whether the email is confirmed or not
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<void>}

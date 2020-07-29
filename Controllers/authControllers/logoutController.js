@@ -1,5 +1,11 @@
 /**
+ * LogOut Controller module.
+ * @module Controllers/authControllers/logoutController
+ */
+
+/**
  * Performs logout setting the cooke to expire
+ *  @async
  * @param {Object}req the request object
  * @param {Object}res the response object
  * @returns {Promise<JSON>}
