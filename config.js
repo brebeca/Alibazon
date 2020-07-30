@@ -15,6 +15,7 @@ const test = {
     app:{
         port: parseInt(process.env.PORT) || 3000
     },
+    dns:process.env.SENTRY_DNS,
     baseURL:process.env.BASE_URL,
     secretKEY:process.env.SECRET_KEY,
     homePage:'category-menu-option',
@@ -44,6 +45,7 @@ const dev= {
     app:{
         port: parseInt(process.env.PORT) || 3000
     },
+    dns:process.env.SENTRY_DNS,
     baseURL:process.env.BASE_URL,
     secretKEY:process.env.SECRET_KEY,
     homePage:'category-menu-option',

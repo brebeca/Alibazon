@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-Sentry.init({ dsn: 'https://69b6cc8e72114f328ff4026ce528ad7d@o426095.ingest.sentry.io/5367518' });
+Sentry.init({ dsn: config.dns });
 Sentry.configureScope(function(scope) {
   scope.setTag("page.locale", "de-at");
 });
