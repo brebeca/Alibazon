@@ -1,3 +1,4 @@
+require('dotenv').config();
 module.exports = {
     email: {
         user:process.env.EMAIL_ACC,

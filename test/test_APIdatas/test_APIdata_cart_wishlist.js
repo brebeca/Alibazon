@@ -8,8 +8,7 @@ chai.use(chaiHttp);
 
 describe("API data CART/Wishlist tests",()=>{
     it(" POST cart, add a product to a cart  ",  (done ) => {
-        dataForTests.cartAPI.add('cart',dataForTests.productID,dataForTests.variantID,1,secretData.aToken,
-            secretData.baseURL,secretData.secretKEY)
+        dataForTests.cartAPI.add('cart',dataForTests.productID,dataForTests.variantID,'1',secretData.aToken)
             .then((response)=>{
                 chai.expect(response).to.have.property('message');
                 chai.expect(response.message).to.eql('Product added');
@@ -22,7 +21,7 @@ describe("API data CART/Wishlist tests",()=>{
     });
 
     it(" GET cart for a user", (done)=>{
-        dataForTests.cartAPI.get('cart',secretData.aToken,secretData.baseURL,secretData.secretKEY)
+        dataForTests.cartAPI.get('cart',secretData.aToken)
             .then((response)=>{
                 chai.expect(response).to.be.an('array');
                 done();
@@ -34,7 +33,7 @@ describe("API data CART/Wishlist tests",()=>{
     });
 
     it(" GET cart for a user with wrong token", (done)=>{
-        dataForTests.cartAPI.get('cart',dataForTests.notAid,secretData.baseURL,secretData.secretKEY)
+        dataForTests.cartAPI.get('cart',dataForTests.notAid)
             .then((response)=>{
                 done(new Error('Expected to fail.'))
             })
@@ -45,8 +44,7 @@ describe("API data CART/Wishlist tests",()=>{
     });
 
     it("POST cart, add product to NONexisting cart ", (done)=>{
-        dataForTests.cartAPI.add('cart',dataForTests.productID,dataForTests.variantID,1,dataForTests.notAid,
-            secretData.baseURL,secretData.secretKEY)
+        dataForTests.cartAPI.add('cart',dataForTests.productID,dataForTests.variantID,1,dataForTests.notAid)
             .then((response)=>{
                 done(new Error('Method  rejected.'));
             })
@@ -59,16 +57,15 @@ describe("API data CART/Wishlist tests",()=>{
     });
 
     it(" DELETE cart ,remove a product   ",  (done ) => {
-        dataForTests.cartAPI.delete('cart',dataForTests.productID,dataForTests.variantID,secretData.aToken,
-            secretData.baseURL,secretData.secretKEY)
+        dataForTests.cartAPI.delete('cart',dataForTests.productID,dataForTests.variantID,secretData.aToken)
             .then((response)=>{
                 chai.expect(response).to.have.property('message');
-                console.log(response);
+                //console.log(response);
                 chai.expect(response.message).to.eql('Product deleted');
                 done();
             })
             .catch((err)=>{
-                console.log(err);
+                //console.log(err);
                 done(new Error('Method  rejected.'))
             })
     });

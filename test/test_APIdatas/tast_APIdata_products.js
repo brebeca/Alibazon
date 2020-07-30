@@ -31,14 +31,15 @@ describe("API data categories and products.js tests", ()=>{
             }).catch(err => done(new Error(err.error)));
     });
 
-    it(" products.js for a subcategory -  NONexisting subcategory- in an array of objects with property img_path", (done)=> {
+    it(" products.js for a subcategory -  NONexisting subcategory", (done)=> {
         dataForTests.productsAPIfunctions.getProductsForSubcategory(dataForTests.notAsubcategory,
             secretData.baseURL,secretData.secretKEY)
-            .then(()=>{
-                done(new Error('Expected method to reject.'))
+            .then((response)=>{
+               chai.expect(response).to.be.an('array');
+               chai.expect(response).to.be.empty;
+               done();
             }).catch(err =>{
-            chai.expect(err).to.have.property('error');
-            done();
+            done(err);
         });
     });
 

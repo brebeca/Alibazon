@@ -9,15 +9,14 @@ chai.use(chaiHttp);
 describe('Cart populate ',  function () {
     var cartItems=[];
     before(async ()=>{
-        await dataForTests.cartAPI.add('cart', dataForTests.productID, dataForTests.variantID, 1, secretData.aToken,
-            secretData.baseURL, secretData.secretKEY);
-        cartItems = await dataForTests.cartAPI.get('cart', secretData.aToken, secretData.baseURL, secretData.secretKEY);
+        await dataForTests.cartAPI.add('cart', dataForTests.productID, dataForTests.variantID, '1', secretData.aToken);
+        cartItems = await dataForTests.cartAPI.get('cart', secretData.aToken);
     })
 
     describe("API data CART/Wishlist tests",  () => {
 
         it(" POST order ", (done) => {
-            dataForTests.orderAPIfunctions.add(1, cartItems, secretData.aToken, secretData.baseURL, secretData.secretKEY)
+            dataForTests.orderAPIfunctions.add('1', cartItems, secretData.aToken)
                 .then((response) => {
                     chai.expect(response).to.have.property('message');
                     chai.expect(response.message).to.eql("Order added");

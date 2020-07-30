@@ -32,6 +32,27 @@ exports.getAllCategories =  ( ) =>{
     });
 }
 
+exports.getCategories =  ( ) =>{
+    return new Promise((resolve, reject)=> {
+        request({
+                url: config.baseURL+'categories?secretKey='+config.secretKEY,
+                method: 'GET'
+            },
+            function (error, response) {
+                if (error) {
+                    reject({error:error});
+                } else {
+                    let categories = JSON.parse(response.body);
+                    if(categories.error!==undefined)
+                        reject({ error:categories.error });
+                    else {
+                        resolve(categories);
+                    }
+                }
+            });
+    });
+}
+
 
 
 /**

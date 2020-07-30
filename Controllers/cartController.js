@@ -48,10 +48,10 @@ exports.finishPay= async  function(req, res){
                 throw err;
             } else {
                 res.render(config.indexPage, await utils.getThePageVars('Payment succeeded !','payment'));
+                let cartItems= await cartAPI.get('cart',req.cookies.token);
+                await orderAPI.add(req.query.paymentId, cartItems, req.cookies.token);
             }
         });
-        let cartItems= await cartAPI.get('cart',req.cookies.token);
-        await orderAPI.add(req.query.paymentId, cartItems, req.cookies.token);
     }catch (e) {
         console.log(e);
         res.render(config.indexPage, await utils.getThePageVars('Something went wrong!','error'));

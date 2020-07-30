@@ -32,7 +32,7 @@ exports.checkParams= async function(req, res, next) {
         }
         next();
     } catch (e) {
-       // console.log(e);
+       console.log(e);
         res.status(404);
         res.render(config.indexPage, await utils.getThePageVars('Page not found','page not found'));
     }
@@ -48,10 +48,12 @@ exports.checkParams= async function(req, res, next) {
  */
 async function verifySubcategory(subcategory,res) {
     let returnVal=true;
-    await subcategoryAPI.getCurrentCategoryParent(subcategory).then((id)=>{
+    await subcategoryAPI.getCurrentCategoryParent(subcategory)
+        .then((id)=>{
         res.locals.pressed={ id: id};
-    }).catch((err)=>{
-       // console.log(err);
+        })
+        .catch((err)=>{
+        //console.log(err);
         returnVal= false ;
     });
     return returnVal;
@@ -65,7 +67,7 @@ async function verifySubcategory(subcategory,res) {
  * @returns {Promise<boolean>}   true if the category in the params exists, false else
  */
 async function verifyCategory(category, res) {
-    let categories = await  categoryAPI.getAllCategories(url,key);
+    let categories = await  categoryAPI.getCategories();
     let wantedCategory = categories.filter(function (item) {
         return item.id === category;
     });
@@ -76,7 +78,8 @@ async function verifyCategory(category, res) {
         res.locals.pressed=wantedCategory[0];
         return true;
     }
-    return false;
+    else
+        return false;
 }
 
 
