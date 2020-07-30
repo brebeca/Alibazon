@@ -19,7 +19,7 @@ exports.loginBodyVerify = (req, res, next)=> {
         next();
     }catch (e) {
       //console.log(e);
-        res.status(400);
+        res.status(500);
         res.json({ message: e});
     }
 
