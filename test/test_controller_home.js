@@ -1,8 +1,8 @@
 const chai= require('chai'),
     chaiHttp= require('chai-http'),
-    server = require('../../app'),
-    dataForTests=require('../test-data'),
-    secretData=require('../SECRET'),
+    server = require('../app'),
+    dataForTests=require('./test-data'),
+    secretData=require('./SECRET'),
     id='69309284';
 
 
@@ -10,17 +10,6 @@ chai.should();
 chai.use(chaiHttp);
 
 describe("Endpoints index tests", ()=> {
-
-    it(" GET / ",  (done) => {
-        chai.request(server)
-            .get('/')
-            .end((err, response)=>{
-                if(err)
-                    done(err);
-                response.should.have.status(200);
-                done();
-            })
-    });
 
     it(" GET /home  -> status 200",  (done) => {
         chai.request(server)
@@ -37,10 +26,9 @@ describe("Endpoints index tests", ()=> {
         chai.request(server)
             .get('/home/'+ dataForTests.category)
             .end((err, response)=>{
-                if(err)
-                    done(err);
-                response.should.have.status(200);
-                done();
+                  response.should.have.status(200);
+                    done();
+
             })
     });
 

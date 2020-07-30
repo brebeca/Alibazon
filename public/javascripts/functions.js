@@ -130,7 +130,7 @@ function displayMore(products) {
 function writeModal() {
     document.getElementById("userNameProfile").innerHTML=localStorage.getItem('name');
     document.getElementById("userEmailProfile").innerHTML=localStorage.getItem('email');
-    let mydate = new Date(Date.parse(localStorage.getItem('data')));
+   let mydate = new Date(Date.parse(localStorage.getItem('data')));
     document.getElementById("userDataProfile").innerHTML=mydate.toDateString();
 
 

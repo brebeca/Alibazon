@@ -32,15 +32,17 @@ module.exports = {
                             transporter.sendMail(mail,
                                 function (err, info) {
                                     if ( err ){
-                                       console.log( `Could not connect to the mailing service!, ${ err }`);
+                                        reject(err);
+
                                     }
-                                   else  resolve(true);
+                                   else {
+                                        resolve(true);
+                                    }
                                 });
                         }
                     });
             } catch (e) {
-                console.log( e);
-                reject(false);
+                reject(e);
             }
         });
     }

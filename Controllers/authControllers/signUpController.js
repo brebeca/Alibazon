@@ -70,13 +70,13 @@ exports.codeVerifyPage = async function(req, res) {
 exports.signUpSendMail= async function(req, res){
     try {
         let ok=true;
-        let user=false;
-        let code = utils.getARandomCode;
+        let user=true;
+        let code = utils.getARandomCode();
         let account= new AccountModel(req.body.name,req.body.email, code ,req.body.password,);
 
         user=await singUpAPI.signUp(account.email, account.password, account.name);
         if(user!==false){
-            await database.insertAccount(account);
+            database.insertAccount(account).then((response)=>console.log(response)).catch(err=>console.log(err));
              ok = await mail.send(req.body.email, req.body.name,code );
         }
         if ( !ok ) throw `The mailing server did not respond properly !`;
@@ -85,6 +85,7 @@ exports.signUpSendMail= async function(req, res){
         res.json({message:'SignUp succeeded! '});
 
     } catch (err) {
+        console.log(err);
         res.status(400);
         res.json({message: err.error});
     }
