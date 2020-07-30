@@ -40,9 +40,7 @@ app.use('/subcategory',tokenVerify, subcategoryRouter);
 app.use('/auth', authRouter);
 app.use('/cart',cartRouter);
 app.use('/wishlist',wishListRouter);
-/*app.get('/sentry', function mainHandler(req, res) {
-  throw new Error('My first Sentry error!');
-});*/
+
 
 
 app.use(Sentry.Handlers.errorHandler());

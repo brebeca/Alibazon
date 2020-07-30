@@ -48,7 +48,7 @@ exports.loginValidation = async function(req, res) {
                 res.json(user);
             })
             .catch((err)=>{
-                res.status(400);
+                res.status(500);
                 res.json({message: err.error});
             });
 };
